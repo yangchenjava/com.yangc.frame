@@ -66,14 +66,6 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.sun</groupId>
-			<artifactId>tools</artifactId>
-			<version>1.5.0</version>
-			<scope>system</scope>
-			<!-- 此处根据实际配置 -->
-			<systemPath>E:\Program Files\Java\jdk1.6.0_30\lib\tools.jar</systemPath>
-		</dependency>
-		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc14</artifactId>
 			<version>10.2.0.4.0</version>
