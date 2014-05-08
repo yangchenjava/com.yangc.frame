@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!-- service -->
+	<!-- 登录 -->
+	<bean id="userService" class="com.yangc.system.service.impl.UserServiceImpl">
+		<property name="baseDao" ref="baseDao" />
+		<property name="usersrolesService" ref="usersrolesService" />
+	</bean>
+	<!-- 菜单 -->
+	<bean id="menuService" class="com.yangc.system.service.impl.MenuServiceImpl">
+		<property name="baseDao" ref="baseDao" />
+		<property name="jdbcDao" ref="jdbcDao" />
+		<property name="aclService" ref="aclService" />
+	</bean>
+	<!-- 部门 -->
+	<bean id="deptService" class="com.yangc.system.service.impl.DeptServiceImpl">
+		<property name="baseDao" ref="baseDao" />
+		<property name="personService" ref="personService" />
+	</bean>
+	<!-- 用户 -->
+	<bean id="personService" class="com.yangc.system.service.impl.PersonServiceImpl">
+		<property name="baseDao" ref="baseDao" />
+		<property name="userService" ref="userService" />
+	</bean>
+	<!-- 角色 -->
+	<bean id="roleService" class="com.yangc.system.service.impl.RoleServiceImpl">
+		<property name="baseDao" ref="baseDao" />
+		<property name="usersrolesService" ref="usersrolesService" />
+		<property name="aclService" ref="aclService" />
+	</bean>
+	<!-- 用户角色 -->
+	<bean id="usersrolesService" class="com.yangc.system.service.impl.UsersrolesServiceImpl">
+		<property name="baseDao" ref="baseDao" />
+	</bean>
+	<!-- 控制权限 -->
+	<bean id="aclService" class="com.yangc.system.service.impl.AclServiceImpl">
+		<property name="baseDao" ref="baseDao" />
+		<property name="jdbcDao" ref="jdbcDao" />
+	</bean>
+
+	<!-- action -->
+	<bean id="userAction" class="com.yangc.system.action.UserAction" scope="prototype">
+		<property name="userService" ref="userService" />
+	</bean>
+	<bean id="menuAction" class="com.yangc.system.action.MenuAction" scope="prototype">
+		<property name="menuService" ref="menuService" />
+	</bean>
+	<bean id="deptAction" class="com.yangc.system.action.DeptAction" scope="prototype">
+		<property name="deptService" ref="deptService" />
+	</bean>
+	<bean id="personAction" class="com.yangc.system.action.PersonAction" scope="prototype">
+		<property name="personService" ref="personService" />
+		<property name="usersrolesService" ref="usersrolesService" />
+	</bean>
+	<bean id="roleAction" class="com.yangc.system.action.RoleAction" scope="prototype">
+		<property name="roleService" ref="roleService" />
+	</bean>
+	<bean id="aclAction" class="com.yangc.system.action.AclAction" scope="prototype">
+		<property name="aclService" ref="aclService" />
+	</bean>
+</beans>

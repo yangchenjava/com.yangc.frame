@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
+    "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+    <package name="system-default" extends="frame-default">
+    	<action name="userAction" class="com.yangc.system.action.UserAction">
+			<result name="loginPage">jsp/login.jsp</result>
+		</action>
+    	<action name="menuAction" class="com.yangc.system.action.MenuAction"></action>
+    	<action name="deptAction" class="com.yangc.system.action.DeptAction"></action>
+    	<action name="personAction" class="com.yangc.system.action.PersonAction"></action>
+    	<action name="roleAction" class="com.yangc.system.action.RoleAction"></action>
+    	<action name="aclAction" class="com.yangc.system.action.AclAction"></action>
+    </package>
+</struts>
