@@ -7,7 +7,8 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 资源文件扫描器
@@ -15,7 +16,7 @@ import org.apache.log4j.Logger;
  */
 public final class PropertiesFileScanUtils {
 
-	private static Logger logger = Logger.getLogger(PropertiesFileScanUtils.class);
+	public static final Logger logger = LoggerFactory.getLogger(PropertiesFileScanUtils.class);
 
 	private static final Properties properties = new Properties();
 
