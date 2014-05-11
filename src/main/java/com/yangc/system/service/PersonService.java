@@ -6,7 +6,7 @@ import com.yangc.system.bean.oracle.TSysPerson;
 
 public interface PersonService {
 
-	public void addOrUpdatePerson(Long personId, String name, Long sex, String phone, Long deptId, Long userId, String username, String password, String roleIds);
+	public void addOrUpdatePerson(Long personId, String name, Long sex, String phone, Long deptId, Long userId, String username, String password, String roleIds) throws IllegalStateException;
 
 	public void delPerson(Long personId);
 

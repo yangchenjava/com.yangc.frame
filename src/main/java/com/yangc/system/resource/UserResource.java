@@ -1,11 +1,12 @@
 package com.yangc.system.resource;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.ws.rs.GET;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -13,6 +14,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -25,7 +27,7 @@ import com.yangc.system.service.UserService;
 import com.yangc.utils.LoginUserUtils;
 import com.yangc.utils.ParamUtils;
 
-@Path("user")
+@Path("/user")
 public class UserResource {
 
 	public static final Logger logger = LoggerFactory.getLogger(UserResource.class);
@@ -43,8 +45,8 @@ public class UserResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response login(@QueryParam("username") String username, @QueryParam("password") String password, @Context HttpServletRequest request) {
 		logger.info("login - username=" + username + ", password=" + password);
+		ResultBean resultBean = new ResultBean();
 		try {
-			ResultBean resultBean = new ResultBean();
 			if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
 				resultBean.setSuccess(false);
 				resultBean.setMessage("用户名或密码不能为空");
@@ -77,13 +79,19 @@ public class UserResource {
 	 * @创建日期: 2012-9-10 上午12:04:33
 	 * @return
 	 */
-	@GET
+	@POST
 	@Path("logout")
-	public void logout(@Context HttpServletRequest request) {
+	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
+	public Response logout(@Context HttpServletRequest request, @Context UriInfo uriInfo) {
 		logger.info("logout");
 		HttpSession session = request.getSession();
 		session.removeAttribute(ParamUtils.LOGIN_USER);
 		session.invalidate();
+		URI uri = uriInfo.getBaseUriBuilder().path("/jsp/login.jsp").build();
+		// 这种方式下的跳转采用的是GET方法
+		// return Response.seeOther(uri).build();
+		// 这个方法的跳转方式GET,POST等会延用进入该方法时的方法,如果是POST方法进入的那么跳转后的方法还是post
+		return Response.temporaryRedirect(uri).build();
 	}
 
 	/**
@@ -97,10 +105,10 @@ public class UserResource {
 	@Path("changePassword")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response changePassword(@QueryParam("password") String password, @QueryParam("newPassword") String newPassword, @Context HttpServletRequest request) {
-		TSysUser user = LoginUserUtils.getLoginUser(request);
-		logger.info("changePassword - userId=" + user.getId() + ", password=" + password + ", newPassword=" + newPassword);
+		ResultBean resultBean = new ResultBean();
 		try {
-			ResultBean resultBean = new ResultBean();
+			TSysUser user = LoginUserUtils.getLoginUser(request);
+			logger.info("changePassword - userId=" + user.getId() + ", password=" + password + ", newPassword=" + newPassword);
 			if (StringUtils.isBlank(password) || StringUtils.isBlank(newPassword)) {
 				resultBean.setSuccess(false);
 				resultBean.setMessage("原密码或新密码不能为空");
@@ -119,6 +127,10 @@ public class UserResource {
 			logger.error(e.getMessage());
 			return WebApplicationException.build();
 		}
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
 	}
 
 }

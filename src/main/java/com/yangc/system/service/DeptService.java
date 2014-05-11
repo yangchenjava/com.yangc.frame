@@ -8,7 +8,7 @@ public interface DeptService {
 
 	public void addOrUpdateDept(Long deptId, String deptName, Long serialNum);
 
-	public void delDept(Long deptId);
+	public void delDept(Long deptId) throws IllegalStateException;
 
 	public List<TSysDepartment> getDeptList();
 

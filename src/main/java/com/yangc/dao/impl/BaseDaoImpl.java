@@ -81,7 +81,7 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
 			public Object doInHibernate(Session session) throws HibernateException, SQLException {
 				/* 获取分页情况 */
 				Pagination pagination = DaoThreadUtil.pagination.get();
-				if (null == pagination) {
+				if (pagination == null) {
 					pagination = new Pagination();
 					DaoThreadUtil.pagination.set(pagination);
 					pagination.setPageNow(1);
@@ -137,7 +137,7 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
 			public Object doInHibernate(Session session) throws HibernateException, SQLException {
 				/* 获取分页情况 */
 				Pagination pagination = DaoThreadUtil.pagination.get();
-				if (null == pagination) {
+				if (pagination == null) {
 					pagination = new Pagination();
 					DaoThreadUtil.pagination.set(pagination);
 					pagination.setPageNow(1);

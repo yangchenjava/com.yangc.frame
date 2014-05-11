@@ -41,24 +41,24 @@
 		<property name="jdbcDao" ref="jdbcDao" />
 	</bean>
 
-	<!-- action -->
-	<bean id="userAction" class="com.yangc.system.action.UserAction" scope="prototype">
+	<!-- resource -->
+	<bean id="userResource" class="com.yangc.system.resource.UserResource">
 		<property name="userService" ref="userService" />
 	</bean>
-	<bean id="menuAction" class="com.yangc.system.action.MenuAction" scope="prototype">
+	<bean id="menuResource" class="com.yangc.system.resource.MenuResource">
 		<property name="menuService" ref="menuService" />
 	</bean>
-	<bean id="deptAction" class="com.yangc.system.action.DeptAction" scope="prototype">
+	<bean id="deptResource" class="com.yangc.system.resource.DeptResource">
 		<property name="deptService" ref="deptService" />
 	</bean>
-	<bean id="personAction" class="com.yangc.system.action.PersonAction" scope="prototype">
+	<bean id="personResource" class="com.yangc.system.resource.PersonResource">
 		<property name="personService" ref="personService" />
 		<property name="usersrolesService" ref="usersrolesService" />
 	</bean>
-	<bean id="roleAction" class="com.yangc.system.action.RoleAction" scope="prototype">
+	<bean id="roleResource" class="com.yangc.system.resource.RoleResource">
 		<property name="roleService" ref="roleService" />
 	</bean>
-	<bean id="aclAction" class="com.yangc.system.action.AclAction" scope="prototype">
+	<bean id="aclResource" class="com.yangc.system.resource.AclResource">
 		<property name="aclService" ref="aclService" />
 	</bean>
 </beans>

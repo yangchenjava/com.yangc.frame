@@ -11,7 +11,7 @@ public interface MenuService {
 
 	public void updParentMenuId(Long menuId, Long parentMenuId);
 
-	public void delMenu(Long menuId);
+	public void delMenu(Long menuId) throws IllegalStateException;
 
 	public int getNodePosition(Long menuId);
 
