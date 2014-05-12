@@ -18,6 +18,9 @@ Ext.onReady(function() {
 		model: "MainFrame",
 		proxy: {
 			type: "ajax",
+			actionMethods: {
+				create: "POST", read: "POST", update: "POST", destroy: "POST"
+			},
 			url: basePath + "resource/menu/showMainFrame",
 			extraParams: {"parentMenuId": parentMenuId}
 		},

@@ -25,7 +25,10 @@ Ext.onReady(function() {
         nodeParam: "parentMenuId",
         proxy: {
             type: "ajax",
-            url: basePath + "menuAction!getMenuTreeList.html"
+            actionMethods: {
+				create: "POST", read: "POST", update: "POST", destroy: "POST"
+			},
+            url: basePath + "resource/menu/getMenuTreeList"
         },
         root: {
         	id: "0",
@@ -62,7 +65,7 @@ Ext.onReady(function() {
         			var srcModel = data.records[0];
         			if (srcModel.get("leaf")) {
         				var parentMenuId = dropPosition == "append" ? overModel.get("id") : overModel.get("parentMenuId");
-        				$.post(basePath + "menuAction!updParentMenuId.html", {
+        				$.post(basePath + "resource/menu/updParentMenuId", {
         					id: srcModel.get("id"),
         					parentMenuId: parentMenuId
         				}, function(data){
@@ -180,7 +183,7 @@ Ext.onReady(function() {
 		var record = tree_menu.getSelectionModel().getSelection()[0];
 		if (record.get("leaf")) {
 			message.confirm("是否删除记录？", function(){
-				$.post(basePath + "menuAction!delMenu.html", {
+				$.post(basePath + "resource/menu/delMenu", {
 					id: record.get("id"),
 				}, function(data){
 					if (data.success) {
@@ -206,7 +209,7 @@ Ext.onReady(function() {
 			message.error("请输入顺序！");
 		} else {
 			tree_menu.up("form").getForm().submit({
-				url: basePath + "menuAction!addOrUpdateMenu.html",
+				url: basePath + "resource/menu/addOrUpdateMenu",
 				method: "POST",
 				success: function(form, action){
 					fieldSetRW(true);

@@ -34,7 +34,7 @@ public class SessionFilter implements Filter {
 		String uri = req.getRequestURI();
 		HttpSession session = req.getSession();
 		TSysUser user = (TSysUser) session.getAttribute(ParamUtils.LOGIN_USER);
-		if (user == null && !uri.contains("user/login")) {
+		if (user == null && !uri.contains("/user/login") && !uri.contains("/jsp/login.jsp")) {
 			String header = req.getHeader("X-Requested-With");
 			if (StringUtils.isNotBlank(header) && header.equals("X-Requested-With")) {
 				resp.setContentType("application/json;charset=UTF-8");

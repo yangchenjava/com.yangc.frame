@@ -21,6 +21,9 @@ Ext.onReady(function() {
 		model: "TopFrame",
 		proxy: {
 			type: "ajax",
+			actionMethods: {
+				create: "POST", read: "POST", update: "POST", destroy: "POST"
+			},
 			url: basePath + "resource/menu/showTopFrame"
 		},
 		autoLoad: true,

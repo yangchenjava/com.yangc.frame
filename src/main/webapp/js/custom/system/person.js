@@ -45,7 +45,10 @@ Ext.onReady(function() {
 		pageSize: 20,
 		proxy: {
 			type: "ajax",
-			url: basePath + "personAction!getPersonListByPersonNameAndDeptId_page.html",
+			actionMethods: {
+				create: "POST", read: "POST", update: "POST", destroy: "POST"
+			},
+			url: basePath + "resource/person/getPersonListByPersonNameAndDeptId_page",
 			reader: {
             	root: "dataGrid",
                 totalProperty: "totalCount"
@@ -58,7 +61,10 @@ Ext.onReady(function() {
 		model: "Dept",
 		proxy: {
 			type: "ajax",
-			url: basePath + "deptAction!getDeptList.html"
+			actionMethods: {
+				create: "POST", read: "POST", update: "POST", destroy: "POST"
+			},
+			url: basePath + "resource/dept/getDeptList"
 		},
 		autoLoad: true
 	});
@@ -67,7 +73,10 @@ Ext.onReady(function() {
 		model: "Role",
 		proxy: {
 			type: "ajax",
-			url: basePath + "roleAction!getRoleList.html"
+			actionMethods: {
+				create: "POST", read: "POST", update: "POST", destroy: "POST"
+			},
+			url: basePath + "resource/role/getRoleList"
 		},
 		autoLoad: false
 	});
@@ -76,7 +85,10 @@ Ext.onReady(function() {
 		model: "Person",
 		proxy: {
 			type: "ajax",
-			url: basePath + "personAction!getRoleIdsByUserId.html"
+			actionMethods: {
+				create: "POST", read: "POST", update: "POST", destroy: "POST"
+			},
+			url: basePath + "resource/person/getRoleIdsByUserId"
 		},
 		autoLoad: false
 	});
@@ -85,7 +97,10 @@ Ext.onReady(function() {
 		model: "Person",
 		proxy: {
 			type: "ajax",
-			url: basePath + "personAction!getPersonList.html"
+			actionMethods: {
+				create: "POST", read: "POST", update: "POST", destroy: "POST"
+			},
+			url: basePath + "resource/person/getPersonList"
 		},
 		autoLoad: true
 	});
@@ -273,7 +288,7 @@ Ext.onReady(function() {
 		if (grid_person.getSelectionModel().hasSelection()) {
 			message.confirm("是否删除记录？", function(){
 				var record = grid_person.getSelectionModel().getSelection()[0];
-				$.post(basePath + "personAction!delPerson.html", {
+				$.post(basePath + "resource/person/delPerson", {
 					id: record.get("id"),
 				}, function(data){
 					if (data.success) {
@@ -317,7 +332,7 @@ Ext.onReady(function() {
 			message.error(role.invalidText);
 		} else {
 			panel_addOrUpdate_person.getForm().submit({
-				url: basePath + "personAction!addOrUpdatePerson.html",
+				url: basePath + "resource/person/addOrUpdatePerson",
 				method: "POST",
 				success: function(form, action){
 					window_addOrUpdate_person.hide();

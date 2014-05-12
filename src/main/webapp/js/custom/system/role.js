@@ -34,7 +34,10 @@ Ext.onReady(function() {
 		pageSize: 20,
 		proxy: {
 			type: "ajax",
-			url: basePath + "roleAction!getRoleList_page.html",
+			actionMethods: {
+				create: "POST", read: "POST", update: "POST", destroy: "POST"
+			},
+			url: basePath + "resource/role/getRoleList_page",
 			reader: {
             	root: "dataGrid",
                 totalProperty: "totalCount"
@@ -48,7 +51,10 @@ Ext.onReady(function() {
         nodeParam: "parentMenuId",
         proxy: {
             type: "ajax",
-            url: basePath + "aclAction!getAuthTreeList.html"
+            actionMethods: {
+				create: "POST", read: "POST", update: "POST", destroy: "POST"
+			},
+            url: basePath + "resource/acl/getAuthTreeList"
         },
         root: {
         	id: "0",
@@ -198,7 +204,7 @@ Ext.onReady(function() {
 		if (grid_role.getSelectionModel().hasSelection()) {
 			message.confirm("是否删除记录？", function(){
 				var record = grid_role.getSelectionModel().getSelection()[0];
-				$.post(basePath + "roleAction!delRole.html", {
+				$.post(basePath + "resource/role/delRole", {
 					id: record.get("id"),
 				}, function(data){
 					if (data.success) {
@@ -237,7 +243,7 @@ Ext.onReady(function() {
 			message.error(roleName.invalidText);
 		} else {
 			panel_addOrUpdate_role.getForm().submit({
-				url: basePath + "roleAction!addOrUpdateRole.html",
+				url: basePath + "resource/role/addOrUpdateRole",
 				method: "POST",
 				success: function(form, action){
 					window_addOrUpdate_role.hide();
@@ -309,7 +315,7 @@ Ext.onReady(function() {
 		}
 		
 		if (permission != -1 && allow != -1) {
-			$.post(basePath + "aclAction!addOrUpdateAcl.html", {
+			$.post(basePath + "resource/acl/addOrUpdateAcl", {
 				roleId: grid_role.getSelectionModel().getSelection()[0].get("id"),
 				menuId: record.get("menuId"),
 				permission: permission,

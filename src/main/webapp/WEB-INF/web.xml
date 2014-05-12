@@ -25,6 +25,14 @@
 		<filter-name>SessionFilter</filter-name>
 		<url-pattern>/resource/*</url-pattern>
 	</filter-mapping>
+	<filter-mapping>
+		<filter-name>SessionFilter</filter-name>
+		<url-pattern>*.jsp</url-pattern>
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>SessionFilter</filter-name>
+		<url-pattern>*.html</url-pattern>
+	</filter-mapping>
 
 	<!-- 分页过滤 -->
 	<filter>

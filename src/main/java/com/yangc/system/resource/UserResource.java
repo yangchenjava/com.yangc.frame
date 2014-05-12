@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -77,7 +78,7 @@ public class UserResource {
 	 * @创建日期: 2012-9-10 上午12:04:33
 	 * @return
 	 */
-	@POST
+	@GET
 	@Path("logout")
 	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
 	public Response logout(@Context HttpServletRequest request, @Context UriInfo uriInfo) {
@@ -85,7 +86,7 @@ public class UserResource {
 		HttpSession session = request.getSession();
 		session.removeAttribute(ParamUtils.LOGIN_USER);
 		session.invalidate();
-		URI uri = uriInfo.getBaseUriBuilder().path("/jsp/login.jsp").build();
+		URI uri = uriInfo.getBaseUriBuilder().path("../jsp/login.jsp").build();
 		// 这种方式下的跳转采用的是GET方法
 		// return Response.seeOther(uri).build();
 		// 这个方法的跳转方式GET,POST等会延用进入该方法时的方法,如果是POST方法进入的那么跳转后的方法还是post

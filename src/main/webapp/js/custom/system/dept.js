@@ -19,7 +19,10 @@ Ext.onReady(function() {
 		pageSize: 20,
 		proxy: {
 			type: "ajax",
-			url: basePath + "deptAction!getDeptList_page.html",
+			actionMethods: {
+				create: "POST", read: "POST", update: "POST", destroy: "POST"
+			},
+			url: basePath + "resource/dept/getDeptList_page",
 			reader: {
             	root: "dataGrid",
                 totalProperty: "totalCount"
@@ -130,7 +133,7 @@ Ext.onReady(function() {
 		if (grid_dept.getSelectionModel().hasSelection()) {
 			message.confirm("是否删除记录？", function(){
 				var record = grid_dept.getSelectionModel().getSelection()[0];
-				$.post(basePath + "deptAction!delDept.html", {
+				$.post(basePath + "resource/dept/delDept", {
 					id: record.get("id"),
 				}, function(data){
 					if (data.success) {
@@ -156,7 +159,7 @@ Ext.onReady(function() {
 			message.error(serialNum.invalidText);
 		} else {
 			panel_addOrUpdate_dept.getForm().submit({
-				url: basePath + "deptAction!addOrUpdateDept.html",
+				url: basePath + "resource/dept/addOrUpdateDept",
 				method: "POST",
 				success: function(form, action){
 					window_addOrUpdate_dept.hide();

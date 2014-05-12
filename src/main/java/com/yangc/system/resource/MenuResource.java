@@ -34,11 +34,11 @@ public class MenuResource {
 	@POST
 	@Path("showTopFrame")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response showTopFrame(@FormParam("parentMenuId") Long parentMenuId) {
+	public Response showTopFrame() {
 		try {
 			Long userId = UserThreadUtils.get().getId();
-			logger.info("showTopFrame - parentMenuId=" + parentMenuId + ", userId=" + userId);
-			List<TSysMenu> menus = this.menuService.getTopFrame(parentMenuId, userId);
+			logger.info("showTopFrame - userId=" + userId);
+			List<TSysMenu> menus = this.menuService.getTopFrame(0L, userId);
 			return Response.ok(menus).build();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
