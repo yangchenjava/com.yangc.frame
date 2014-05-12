@@ -12,8 +12,8 @@ import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
 import com.yangc.bean.BaseBean;
-import com.yangc.common.DaoThreadUtil;
 import com.yangc.common.Pagination;
+import com.yangc.common.PaginationThreadUtils;
 import com.yangc.dao.BaseDao;
 
 @SuppressWarnings("rawtypes")
@@ -80,10 +80,10 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
 			@Override
 			public Object doInHibernate(Session session) throws HibernateException, SQLException {
 				/* 获取分页情况 */
-				Pagination pagination = DaoThreadUtil.pagination.get();
+				Pagination pagination = PaginationThreadUtils.get();
 				if (pagination == null) {
 					pagination = new Pagination();
-					DaoThreadUtil.pagination.set(pagination);
+					PaginationThreadUtils.set(pagination);
 					pagination.setPageNow(1);
 				}
 				if (pagination.getTotalCount() == 0) {
@@ -136,10 +136,10 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
 			@Override
 			public Object doInHibernate(Session session) throws HibernateException, SQLException {
 				/* 获取分页情况 */
-				Pagination pagination = DaoThreadUtil.pagination.get();
+				Pagination pagination = PaginationThreadUtils.get();
 				if (pagination == null) {
 					pagination = new Pagination();
-					DaoThreadUtil.pagination.set(pagination);
+					PaginationThreadUtils.set(pagination);
 					pagination.setPageNow(1);
 				}
 				if (pagination.getTotalCount() == 0) {

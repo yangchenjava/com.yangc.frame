@@ -1,17 +1,15 @@
 package com.yangc.system.resource;
 
-import java.io.IOException;
 import java.util.List;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import com.yangc.bean.DataGridBean;
 import com.yangc.bean.ResultBean;
@@ -22,7 +20,7 @@ import com.yangc.system.service.DeptService;
 @Path("/dept")
 public class DeptResource {
 
-	public static final Logger logger = LoggerFactory.getLogger(DeptResource.class);
+	public static final Logger logger = Logger.getLogger(DeptResource.class);
 
 	private DeptService deptService;
 
@@ -31,7 +29,6 @@ public class DeptResource {
 	 * @作者: yangc
 	 * @创建日期: 2013年12月23日 下午2:13:04
 	 * @return
-	 * @throws IOException
 	 */
 	@POST
 	@Path("getDeptList")
@@ -52,7 +49,6 @@ public class DeptResource {
 	 * @作者: yangc
 	 * @创建日期: 2013年12月23日 下午2:13:04
 	 * @return
-	 * @throws IOException
 	 */
 	@POST
 	@Path("getDeptList_page")
@@ -75,12 +71,11 @@ public class DeptResource {
 	 * @作者: yangc
 	 * @创建日期: 2013年12月23日 下午2:59:26
 	 * @return
-	 * @throws IOException
 	 */
 	@POST
 	@Path("addOrUpdateDept")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addOrUpdateDept(@QueryParam("id") Long id, @QueryParam("deptName") String deptName, @QueryParam("serialNum") Long serialNum) {
+	public Response addOrUpdateDept(@FormParam("id") Long id, @FormParam("deptName") String deptName, @FormParam("serialNum") Long serialNum) {
 		logger.info("addOrUpdateDept - id=" + id + ", deptName=" + deptName + ", serialNum=" + serialNum);
 		ResultBean resultBean = new ResultBean();
 		try {
@@ -103,12 +98,11 @@ public class DeptResource {
 	 * @作者: yangc
 	 * @创建日期: 2013年12月23日 下午3:02:44
 	 * @return
-	 * @throws IOException
 	 */
 	@POST
 	@Path("delDept")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response delDept(@QueryParam("id") Long id) {
+	public Response delDept(@FormParam("id") Long id) {
 		logger.info("delDept - id=" + id);
 		ResultBean resultBean = new ResultBean();
 		try {

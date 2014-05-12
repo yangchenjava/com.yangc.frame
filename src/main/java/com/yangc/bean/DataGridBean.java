@@ -2,8 +2,8 @@ package com.yangc.bean;
 
 import java.util.List;
 
-import com.yangc.common.DaoThreadUtil;
 import com.yangc.common.Pagination;
+import com.yangc.common.PaginationThreadUtils;
 
 public class DataGridBean {
 
@@ -11,7 +11,7 @@ public class DataGridBean {
 	private int totalCount;
 
 	public DataGridBean() {
-		Pagination pagination = DaoThreadUtil.pagination.get();
+		Pagination pagination = PaginationThreadUtils.get();
 		this.totalCount = pagination.getTotalCount();
 	}
 

@@ -15,8 +15,8 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.yangc.common.DaoThreadUtil;
 import com.yangc.common.Pagination;
+import com.yangc.common.PaginationThreadUtils;
 
 @SuppressWarnings("unchecked")
 public class PaginationFilter implements Filter {
@@ -36,10 +36,10 @@ public class PaginationFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest) request;
 		String uri = req.getRequestURI();
 		if (uri.endsWith("_page")) {
-			Pagination pagination = DaoThreadUtil.pagination.get();
+			Pagination pagination = PaginationThreadUtils.get();
 			if (pagination == null) {
 				pagination = new Pagination();
-				DaoThreadUtil.pagination.set(pagination);
+				PaginationThreadUtils.set(pagination);
 			}
 			Map<String, Object> params = req.getParameterMap();
 			// 设置要跳转到的页数
@@ -63,7 +63,7 @@ public class PaginationFilter implements Filter {
 			logger.info("PaginationInterceptor - pageNow=" + pagination.getPageNow() + ", pageSize=" + pagination.getPageSize());
 		}
 		chain.doFilter(request, response);
-		DaoThreadUtil.clear();
+		PaginationThreadUtils.clear();
 	}
 
 	@Override

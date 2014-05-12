@@ -3,16 +3,15 @@ package com.yangc.system.resource;
 import java.net.URLDecoder;
 import java.util.List;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import com.yangc.bean.DataGridBean;
 import com.yangc.bean.ResultBean;
@@ -25,7 +24,7 @@ import com.yangc.system.service.UsersrolesService;
 @Path("/person")
 public class PersonResource {
 
-	public static final Logger logger = LoggerFactory.getLogger(PersonResource.class);
+	public static final Logger logger = Logger.getLogger(PersonResource.class);
 
 	private PersonService personService;
 	private UsersrolesService usersrolesService;
@@ -59,7 +58,7 @@ public class PersonResource {
 	@POST
 	@Path("getPersonListByPersonNameAndDeptId_page")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getPersonListByPersonNameAndDeptId_page(@QueryParam("name") String name, @QueryParam("deptId") Long deptId) {
+	public Response getPersonListByPersonNameAndDeptId_page(@FormParam("name") String name, @FormParam("deptId") Long deptId) {
 		try {
 			if (StringUtils.isNotBlank(name)) {
 				name = URLDecoder.decode(name, "UTF-8");
@@ -84,7 +83,7 @@ public class PersonResource {
 	@POST
 	@Path("getRoleIdsByUserId")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getRoleIdsByUserId(@QueryParam("userId") Long userId) {
+	public Response getRoleIdsByUserId(@FormParam("userId") Long userId) {
 		logger.info("getRoleIdsByUserId - userId=" + userId);
 		try {
 			TSysPerson person = new TSysPerson();
@@ -114,8 +113,8 @@ public class PersonResource {
 	@POST
 	@Path("addOrUpdatePerson")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addOrUpdatePerson(@QueryParam("id") Long id, @QueryParam("name") String name, @QueryParam("sex") Long sex, @QueryParam("phone") String phone, @QueryParam("deptId") Long deptId,
-			@QueryParam("userId") Long userId, @QueryParam("username") String username, @QueryParam("password") String password, @QueryParam("roleIds") String roleIds) {
+	public Response addOrUpdatePerson(@FormParam("id") Long id, @FormParam("name") String name, @FormParam("sex") Long sex, @FormParam("phone") String phone, @FormParam("deptId") Long deptId,
+			@FormParam("userId") Long userId, @FormParam("username") String username, @FormParam("password") String password, @FormParam("roleIds") String roleIds) {
 		logger.info("addOrUpdatePerson - id=" + id + ", name=" + name + ", sex=" + sex + ", phone=" + phone + ", deptId=" + deptId + ", userId=" + userId + ", username=" + username + ", password="
 				+ password + ", roleIds=" + roleIds);
 		ResultBean resultBean = new ResultBean();
@@ -147,7 +146,7 @@ public class PersonResource {
 	@POST
 	@Path("delPerson")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response delPerson(@QueryParam("id") Long id) {
+	public Response delPerson(@FormParam("id") Long id) {
 		try {
 			logger.info("delPerson - id=" + id);
 			this.personService.delPerson(id);

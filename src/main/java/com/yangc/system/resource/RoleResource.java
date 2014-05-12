@@ -1,17 +1,15 @@
 package com.yangc.system.resource;
 
-import java.io.IOException;
 import java.util.List;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import com.yangc.bean.DataGridBean;
 import com.yangc.bean.ResultBean;
@@ -22,7 +20,7 @@ import com.yangc.system.service.RoleService;
 @Path("/role")
 public class RoleResource {
 
-	public static final Logger logger = LoggerFactory.getLogger(RoleResource.class);
+	public static final Logger logger = Logger.getLogger(RoleResource.class);
 
 	private RoleService roleService;
 
@@ -45,7 +43,6 @@ public class RoleResource {
 	 * @作者: yangc
 	 * @创建日期: 2013年12月23日 下午7:16:59
 	 * @return
-	 * @throws IOException
 	 */
 	@POST
 	@Path("getRoleList_page")
@@ -66,7 +63,7 @@ public class RoleResource {
 	@POST
 	@Path("addOrUpdateRole")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addOrUpdateRole(@QueryParam("id") Long id, @QueryParam("roleName") String roleName) {
+	public Response addOrUpdateRole(@FormParam("id") Long id, @FormParam("roleName") String roleName) {
 		logger.info("addOrUpdateRole - id=" + id + ", roleName=" + roleName);
 		ResultBean resultBean = new ResultBean();
 		try {
@@ -87,7 +84,7 @@ public class RoleResource {
 	@POST
 	@Path("delRole")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response delRole(@QueryParam("id") Long id) {
+	public Response delRole(@FormParam("id") Long id) {
 		logger.info("delRole - id=" + id);
 		try {
 			this.roleService.delRole(id);

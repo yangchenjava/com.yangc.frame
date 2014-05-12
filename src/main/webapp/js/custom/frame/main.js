@@ -18,7 +18,7 @@ Ext.onReady(function() {
 		model: "MainFrame",
 		proxy: {
 			type: "ajax",
-			url: basePath + "menuAction!showMainFrame.html",
+			url: basePath + "resource/menu/showMainFrame",
 			extraParams: {"parentMenuId": parentMenuId}
 		},
 		autoLoad: true,

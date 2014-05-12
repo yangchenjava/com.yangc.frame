@@ -24,8 +24,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
-import com.yangc.common.DaoThreadUtil;
 import com.yangc.common.Pagination;
+import com.yangc.common.PaginationThreadUtils;
 import com.yangc.dao.JdbcDao;
 
 @SuppressWarnings("unchecked")
@@ -160,10 +160,10 @@ public class JdbcDaoImpl implements JdbcDao {
 	@Override
 	public List<Map<String, Object>> find(String sql, Map<String, Object> paramMap) {
 		/* 获取分页情况 */
-		Pagination pagination = DaoThreadUtil.pagination.get();
+		Pagination pagination = PaginationThreadUtils.get();
 		if (pagination == null) {
 			pagination = new Pagination();
-			DaoThreadUtil.pagination.set(pagination);
+			PaginationThreadUtils.set(pagination);
 			pagination.setPageNow(1);
 		}
 		if (pagination.getTotalCount() == 0) {
@@ -189,7 +189,7 @@ public class JdbcDaoImpl implements JdbcDao {
 	}
 
 	private List<Map<String, Object>> queryForOracle(String sql, Map<String, Object> paramMap) {
-		Pagination pagination = DaoThreadUtil.pagination.get();
+		Pagination pagination = PaginationThreadUtils.get();
 		int firstResult = (pagination.getPageNow() - 1) * pagination.getPageSize();
 		int maxResults = pagination.getPageSize();
 		StringBuilder sb = new StringBuilder();
@@ -201,7 +201,7 @@ public class JdbcDaoImpl implements JdbcDao {
 	}
 
 	private List<Map<String, Object>> queryForMysql(String sql, Map<String, Object> paramMap) {
-		Pagination pagination = DaoThreadUtil.pagination.get();
+		Pagination pagination = PaginationThreadUtils.get();
 		int firstResult = (pagination.getPageNow() - 1) * pagination.getPageSize();
 		int maxResults = pagination.getPageSize();
 		StringBuilder sb = new StringBuilder();

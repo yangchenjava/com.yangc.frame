@@ -70,7 +70,7 @@ Ext.onReady(function() {
 			var username = Ext.getCmp("username").getValue();
 			var password = Ext.getCmp("password").getValue();
 			// 登录
-			$.post(basePath + "userAction!login.html", {
+			$.post(basePath + "resource/user/login", {
 				username: username,
 				password: password
 			}, function(data){

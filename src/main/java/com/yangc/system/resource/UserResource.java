@@ -1,36 +1,34 @@
 package com.yangc.system.resource;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import com.yangc.bean.ResultBean;
 import com.yangc.exception.WebApplicationException;
 import com.yangc.system.bean.oracle.TSysUser;
 import com.yangc.system.service.UserService;
-import com.yangc.utils.LoginUserUtils;
 import com.yangc.utils.ParamUtils;
+import com.yangc.utils.UserThreadUtils;
 
 @Path("/user")
 public class UserResource {
 
-	public static final Logger logger = LoggerFactory.getLogger(UserResource.class);
+	public static final Logger logger = Logger.getLogger(UserResource.class);
 
 	private UserService userService;
 
@@ -43,7 +41,7 @@ public class UserResource {
 	@POST
 	@Path("login")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response login(@QueryParam("username") String username, @QueryParam("password") String password, @Context HttpServletRequest request) {
+	public Response login(@FormParam("username") String username, @FormParam("password") String password, @Context HttpServletRequest request) {
 		logger.info("login - username=" + username + ", password=" + password);
 		ResultBean resultBean = new ResultBean();
 		try {
@@ -99,15 +97,14 @@ public class UserResource {
 	 * @作者: yangc
 	 * @创建日期: 2013年12月21日 下午4:24:12
 	 * @return
-	 * @throws IOException
 	 */
 	@POST
 	@Path("changePassword")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response changePassword(@QueryParam("password") String password, @QueryParam("newPassword") String newPassword, @Context HttpServletRequest request) {
+	public Response changePassword(@FormParam("password") String password, @FormParam("newPassword") String newPassword) {
 		ResultBean resultBean = new ResultBean();
 		try {
-			TSysUser user = LoginUserUtils.getLoginUser(request);
+			TSysUser user = UserThreadUtils.get();
 			logger.info("changePassword - userId=" + user.getId() + ", password=" + password + ", newPassword=" + newPassword);
 			if (StringUtils.isBlank(password) || StringUtils.isBlank(newPassword)) {
 				resultBean.setSuccess(false);

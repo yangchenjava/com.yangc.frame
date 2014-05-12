@@ -21,7 +21,7 @@ Ext.onReady(function() {
 		model: "TopFrame",
 		proxy: {
 			type: "ajax",
-			url: basePath + "menuAction!showTopFrame.html"
+			url: basePath + "resource/menu/showTopFrame"
 		},
 		autoLoad: true,
 		listeners: {
@@ -142,7 +142,7 @@ Ext.onReady(function() {
 	
 	function logout(){
 		message.confirm("是否确定注销用户？", function(){
-			window.location.href = basePath + "userAction!logout.html";
+			window.location.href = basePath + "resource/user/logout";
 		});
 	}
 	
@@ -161,14 +161,14 @@ Ext.onReady(function() {
 				message.error("两次密码输入不同！");
 				return;
 			}
-			$.post(basePath + "userAction!changePassword.html", {
+			$.post(basePath + "resource/user/changePassword", {
 				password: password,
 				newPassword: newPassword_1
 			}, function(data){
 				if (data.success) {
 					window_changePassword.hide();
 					message.info(data.message, function(){
-						window.location.href = basePath + "userAction!logout.html";
+						window.location.href = basePath + "resource/user/logout";
 					});
 				} else {
 					message.error(data.message);
