@@ -2,6 +2,10 @@
 	padding-top: 1px;
 }
 
+.x-tab-inner {
+	line-height: 16px !important;
+}
+
 .ui-tab-bar .x-tab-bar {
 	/* background:#FFF !important; */
 	border: 0 !important;
