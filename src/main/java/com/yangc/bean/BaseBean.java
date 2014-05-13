@@ -15,8 +15,10 @@ public class BaseBean implements Serializable {
 	private Long id;
 	private Long createUser;
 	private Date createTime;
+	private String createTimeStr;
 	private Long updateUser;
 	private Date updateTime;
+	private String updateTimeStr;
 
 	public Long getId() {
 		return id;
@@ -42,6 +44,14 @@ public class BaseBean implements Serializable {
 		this.createTime = createTime;
 	}
 
+	public String getCreateTimeStr() {
+		return createTimeStr;
+	}
+
+	public void setCreateTimeStr(String createTimeStr) {
+		this.createTimeStr = createTimeStr;
+	}
+
 	public Long getUpdateUser() {
 		return updateUser;
 	}
@@ -56,6 +66,14 @@ public class BaseBean implements Serializable {
 
 	public void setUpdateTime(Date updateTime) {
 		this.updateTime = updateTime;
+	}
+
+	public String getUpdateTimeStr() {
+		return updateTimeStr;
+	}
+
+	public void setUpdateTimeStr(String updateTimeStr) {
+		this.updateTimeStr = updateTimeStr;
 	}
 
 }

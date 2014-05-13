@@ -7,6 +7,7 @@ import com.yangc.system.bean.oracle.TSysRole;
 import com.yangc.system.service.AclService;
 import com.yangc.system.service.RoleService;
 import com.yangc.system.service.UsersrolesService;
+import com.yangc.utils.BeanUtils;
 
 @SuppressWarnings("unchecked")
 public class RoleServiceImpl implements RoleService {
@@ -36,7 +37,8 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	public List<TSysRole> getRoleList_page() {
-		return this.baseDao.find("from TSysRole order by id", null);
+		List<TSysRole> roles = this.baseDao.find("from TSysRole order by id", null);
+		return BeanUtils.fillingTime(roles);
 	}
 
 	public void setBaseDao(BaseDao baseDao) {

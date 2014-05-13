@@ -8,7 +8,7 @@ Ext.define("Dept", {
 		{name: "id",   	     type: "int"},
 		{name: "deptName",   type: "string"},
 		{name: "serialNum",  type: "int"},
-		{name: "createTime", type: "date"}
+		{name: "createTimeStr", type: "string"}
     ]
 });
 
@@ -49,9 +49,7 @@ Ext.onReady(function() {
             {text: "序号",    width: 50, align: "center", xtype: "rownumberer"},
             {text: "部门名称", flex: 2,   align: "center", dataIndex: "deptName"},
             {text: "排序",    flex: 1,   align: "center", dataIndex: "serialNum"},
-            {text: "创建时间", flex: 2,   align: "center", dataIndex: "createTime", renderer: function(value){
-            	return Ext.Date.format(value, "Y-m-d H:i:s");
-            }}
+            {text: "创建时间", flex: 2,   align: "center", dataIndex: "createTimeStr"}
         ],
         tbar: new Ext.Toolbar({
         	height: 30,

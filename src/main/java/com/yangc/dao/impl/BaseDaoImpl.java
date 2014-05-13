@@ -68,7 +68,7 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
 	@Override
 	public BaseBean get(String hql, Object[] values) {
 		List<?> list = this.getHibernateTemplate().find(hql, values);
-		if (null != list && !list.isEmpty()) {
+		if (list != null && !list.isEmpty()) {
 			return (BaseBean) list.get(0);
 		}
 		return null;

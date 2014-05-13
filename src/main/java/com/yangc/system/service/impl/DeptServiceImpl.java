@@ -6,6 +6,7 @@ import com.yangc.dao.BaseDao;
 import com.yangc.system.bean.oracle.TSysDepartment;
 import com.yangc.system.service.DeptService;
 import com.yangc.system.service.PersonService;
+import com.yangc.utils.BeanUtils;
 
 @SuppressWarnings("unchecked")
 public class DeptServiceImpl implements DeptService {
@@ -37,7 +38,8 @@ public class DeptServiceImpl implements DeptService {
 
 	@Override
 	public List<TSysDepartment> getDeptList_page() {
-		return this.baseDao.find("from TSysDepartment order by serialNum", null);
+		List<TSysDepartment> departments = this.baseDao.find("from TSysDepartment order by serialNum", null);
+		return BeanUtils.fillingTime(departments);
 	}
 
 	public void setBaseDao(BaseDao baseDao) {

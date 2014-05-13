@@ -48,6 +48,8 @@ Ext.onReady(function() {
 			Ext.getCmp("password").setValue(password);
 			Ext.getCmp("remember").setValue(true);
 		}
+		
+		Ext.getCmp("username").focus();
 	}
 	init();
 	
@@ -77,8 +79,8 @@ Ext.onReady(function() {
 				if (data.success) {
 					// 保存cookie
 					if (Ext.getCmp("remember").getValue()) {
-						$.cookie(COOKIE_USERNAME, username, { expires: 5, path: "/" });
-						$.cookie(COOKIE_PASSWORD, password, { expires: 5, path: "/" });
+						$.cookie(COOKIE_USERNAME, username, {expires: 5, path: "/"});
+						$.cookie(COOKIE_PASSWORD, password, {expires: 5, path: "/"});
 					}
 					window.location.href = basePath + data.message;
 				} else {

@@ -7,7 +7,7 @@ Ext.define("Role", {
     fields: [
 		{name: "id",   	     type: "int"},
 		{name: "roleName",   type: "string"},
-		{name: "createTime", type: "date"}
+		{name: "createTimeStr", type: "string"}
     ]
 });
 
@@ -82,9 +82,7 @@ Ext.onReady(function() {
         columns: [
             {text: "序号",    width: 50, align: "center", xtype: "rownumberer"},
             {text: "角色名称", flex: 1,   align: "center", dataIndex: "roleName"},
-            {text: "创建时间", flex: 1,   align: "center", dataIndex: "createTime", renderer: function(value){
-            	return Ext.Date.format(value, "Y-m-d H:i:s");
-            }}
+            {text: "创建时间", flex: 1,   align: "center", dataIndex: "createTimeStr"}
         ],
         tbar: new Ext.Toolbar({
         	height: 30,
