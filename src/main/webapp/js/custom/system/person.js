@@ -173,7 +173,7 @@ Ext.onReady(function() {
         })
     });
 	
-	var panel_addOrUpdate_person = window.top.Ext.create("Ext.form.Panel", {
+	var panel_addOrUpdate_person = Ext.create("Ext.form.Panel", {
         bodyPadding: 20,
         bodyBorder: false,
         frame: false,
@@ -219,7 +219,7 @@ Ext.onReady(function() {
         	}
 		]
 	});
-    var window_addOrUpdate_person = window.top.Ext.create("Ext.window.Window", {
+    var window_addOrUpdate_person = Ext.create("Ext.window.Window", {
 		layout: "fit",
 		width: 500,
 		bodyMargin: 10,
@@ -250,10 +250,10 @@ Ext.onReady(function() {
     
 	function createPerson(){
 		panel_addOrUpdate_person.getForm().reset();
-		window.top.Ext.getCmp("addOrUpdate_role").fromField.store.removeAll();
+		Ext.getCmp("addOrUpdate_role").fromField.store.removeAll();
 		store_roleList.load();
-		window.top.Ext.getCmp("addOrUpdate_password_1").show();
-		window.top.Ext.getCmp("addOrUpdate_password_2").show();
+		Ext.getCmp("addOrUpdate_password_1").show();
+		Ext.getCmp("addOrUpdate_password_2").show();
 		window_addOrUpdate_person.setTitle("创建");
 		window_addOrUpdate_person.show();
 	}
@@ -261,20 +261,20 @@ Ext.onReady(function() {
 	function updatePerson(){
 		if (grid_person.getSelectionModel().hasSelection()) {
 			panel_addOrUpdate_person.getForm().reset();
-			window.top.Ext.getCmp("addOrUpdate_role").fromField.store.removeAll();
+			Ext.getCmp("addOrUpdate_role").fromField.store.removeAll();
 			store_roleList.load();
 			
 			var record = grid_person.getSelectionModel().getSelection()[0];
 			panel_addOrUpdate_person.getForm().loadRecord(record);
-			window.top.Ext.getCmp("addOrUpdate_password_1").hide();
-			window.top.Ext.getCmp("addOrUpdate_password_2").setValue(record.get("password"));
-			window.top.Ext.getCmp("addOrUpdate_password_2").hide();
+			Ext.getCmp("addOrUpdate_password_1").hide();
+			Ext.getCmp("addOrUpdate_password_2").setValue(record.get("password"));
+			Ext.getCmp("addOrUpdate_password_2").hide();
 
 			store_roleIdsList.load({
 				params: {"userId": record.get("userId")},
 		   	 	scope: this,
 		   	    callback: function(records, operation, success){
-		   	    	window.top.Ext.getCmp("addOrUpdate_role").setValue(records[0].get("roleIds"));
+		   	    	Ext.getCmp("addOrUpdate_role").setValue(records[0].get("roleIds"));
 		   	    }
 	   	 	});
 			window_addOrUpdate_person.setTitle("修改");
@@ -306,14 +306,14 @@ Ext.onReady(function() {
 	}
 	
 	function addOrUpdatePersonHandler(){
-		var username = window.top.Ext.getCmp("addOrUpdate_username");
-		var name = window.top.Ext.getCmp("addOrUpdate_name");
-		var password_1 = window.top.Ext.getCmp("addOrUpdate_password_1");
-		var password_2 = window.top.Ext.getCmp("addOrUpdate_password_2");
-		var sex = window.top.Ext.getCmp("addOrUpdate_sex");
-		var phone = window.top.Ext.getCmp("addOrUpdate_phone");
-		var dept = window.top.Ext.getCmp("addOrUpdate_dept");
-		var role = window.top.Ext.getCmp("addOrUpdate_role");
+		var username = Ext.getCmp("addOrUpdate_username");
+		var name = Ext.getCmp("addOrUpdate_name");
+		var password_1 = Ext.getCmp("addOrUpdate_password_1");
+		var password_2 = Ext.getCmp("addOrUpdate_password_2");
+		var sex = Ext.getCmp("addOrUpdate_sex");
+		var phone = Ext.getCmp("addOrUpdate_phone");
+		var dept = Ext.getCmp("addOrUpdate_dept");
+		var role = Ext.getCmp("addOrUpdate_role");
 		if (!username.isValid()) {
 			message.error(username.invalidText);
 		} else if (!name.isValid()) {
@@ -347,16 +347,12 @@ Ext.onReady(function() {
 	}
 	
 	function validatorPasswordRepeatHandler(){
-		var password_1 = window.top.Ext.getCmp("addOrUpdate_password_1");
-		var password_2 = window.top.Ext.getCmp("addOrUpdate_password_2");
+		var password_1 = Ext.getCmp("addOrUpdate_password_1");
+		var password_2 = Ext.getCmp("addOrUpdate_password_2");
     	if (password_2.getValue().length > 0 && password_1.getValue() != password_2.getValue()) {
     		password_2.invalidText = "两次输入的密码不相同！";
 			return password_2.invalidText;
 		}
     	return true;
     }
-	
-	top_window_destroy = function(){
-		window_addOrUpdate_person.destroy();
-	};
 });

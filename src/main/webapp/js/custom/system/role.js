@@ -5,8 +5,8 @@ Ext.require(["*"]);
 Ext.define("Role", {
     extend: "Ext.data.Model",
     fields: [
-		{name: "id",   	     type: "int"},
-		{name: "roleName",   type: "string"},
+		{name: "id",   	        type: "int"},
+		{name: "roleName",   	type: "string"},
 		{name: "createTimeStr", type: "string"}
     ]
 });
@@ -102,7 +102,7 @@ Ext.onReady(function() {
         })
     });
 	
-	var panel_addOrUpdate_role = window.top.Ext.create("Ext.form.Panel", {
+	var panel_addOrUpdate_role = Ext.create("Ext.form.Panel", {
         bodyPadding: 20,
         bodyBorder: false,
         frame: false,
@@ -117,7 +117,7 @@ Ext.onReady(function() {
 			{id: "addOrUpdate_roleName", name: "roleName", xtype: "textfield", fieldLabel: "角色名称", allowBlank: false, invalidText: "请输入角色名称！"}
 		]
 	});
-    var window_addOrUpdate_role = window.top.Ext.create("Ext.window.Window", {
+    var window_addOrUpdate_role = Ext.create("Ext.window.Window", {
 		layout: "fit",
 		width: 500,
 		bodyMargin: 10,
@@ -135,7 +135,7 @@ Ext.onReady(function() {
         ]
 	});
     
-    var panel_addOrUpdate_acl = window.top.Ext.create("Ext.tree.Panel", {
+    var panel_addOrUpdate_acl = Ext.create("Ext.tree.Panel", {
         bodyBorder: false,
         frame: false,
 		header: false,
@@ -154,7 +154,7 @@ Ext.onReady(function() {
 			itemmouseup: addOrUpdateAclHandler
 		}
 	});
-    var window_addOrUpdate_acl = window.top.Ext.create("Ext.window.Window", {
+    var window_addOrUpdate_acl = Ext.create("Ext.window.Window", {
 		layout: "fit",
 		title: "授权",
 		width: 750,
@@ -236,7 +236,7 @@ Ext.onReady(function() {
 	}
 	
 	function addOrUpdateRoleHandler(){
-		var roleName = window.top.Ext.getCmp("addOrUpdate_roleName");
+		var roleName = Ext.getCmp("addOrUpdate_roleName");
 		if (!roleName.isValid()) {
 			message.error(roleName.invalidText);
 		} else {
@@ -325,9 +325,4 @@ Ext.onReady(function() {
 			});
 		}
 	}
-	
-	top_window_destroy = function(){
-		window_addOrUpdate_role.destroy();
-		window_addOrUpdate_acl.destroy();
-	};
 });
