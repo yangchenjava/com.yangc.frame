@@ -26,11 +26,11 @@ Ext.onReady(function() {
 		},
 		autoLoad: true,
 		listeners: {
-    		"load": function(thiz, records, successful, eOpts){
-				for (var i = 0, recordsLength = records.length; i < recordsLength; i++) {
+    		load: function(thiz, records, successful, eOpts){
+				for (var i = 0, recordsLen = records.length; i < recordsLen; i++) {
 					var html = "";
 					var childRenMenu = records[i].get("childRenMenu");
-					for (var j = 0, childRenMenuLength = childRenMenu.length; j < childRenMenuLength; j++) {
+					for (var j = 0, childRenMenuLen = childRenMenu.length; j < childRenMenuLen; j++) {
 						var id = childRenMenu[j].id;
 						var title = childRenMenu[j].menuName;
 						var url = basePath + childRenMenu[j].menuUrl;
@@ -72,19 +72,14 @@ Ext.onReady(function() {
 				closeAllTabsText: "关闭所有"
 			})
 		],
-		items: [],
-		listeners: {
-			beforeremove: function(thiz, component, eOpts){
-				var iframe = window.frames["iframe_" + component.getId()];
-				if (typeof(iframe.top_window_destroy) == "function") {
-					iframe.top_window_destroy();
-				}
-			}
-		}
+		items: []
 	});
 
-    Ext.create("Ext.Viewport", {
+    Ext.create("Ext.panel.Panel", {
+    	renderTo: "main_" + parentMenuId,
 		layout: "border",
+		width: "100%",
+		height: document.documentElement.clientHeight - 92,
         items: [left, right]
     });
     
@@ -98,7 +93,12 @@ Ext.onReady(function() {
 				id: id,
 				title: title,
 				closable: true,
-				html: "<iframe id='iframe_" + id + "' src='" + url + "' width='100%' height='100%' frameborder='0' border='0' scrolling='auto'></iframe>"
+				loader: {
+					url: url,
+					loadMask: "加载中...",
+					autoLoad: true,
+					scripts: true
+				}
 			});
 		}
 		right.setActiveTab(id);

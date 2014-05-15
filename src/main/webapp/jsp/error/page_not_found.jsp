@@ -1,11 +1,6 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ page import="com.yangc.utils.ParamUtils"%>
 <jsp:directive.include file="/jsp/frame/head.jspf" />
-<script type="text/javascript">
-if (window.self != window.top) {
-	window.top.location.href = "<%=basePath%>jsp/error/page_not_found.jsp";
-}
-</script>
 <link rel="stylesheet" type="text/css" href="<%=css_lib%>404/pageNotFound.css" />
 <script type="text/javascript" src="<%=js_lib%>404/pageNotFound.js"></script>
 </head>

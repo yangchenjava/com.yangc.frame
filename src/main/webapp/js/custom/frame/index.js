@@ -28,14 +28,19 @@ Ext.onReady(function() {
 		},
 		autoLoad: true,
 		listeners: {
-    		"load": function(thiz, records, successful, eOpts){
-				for (var i = 0, length = records.length; i < length; i++) {
-					var url = basePath + records[i].get("menuUrl") + "?parentMenuId=" + records[i].get("id");
+    		load: function(thiz, records, successful, eOpts){
+				for (var i = 0, len = records.length; i < len; i++) {
 					body.add({
+						id: records[i].get("id"),
 						title: records[i].get("menuName"),
 						border: 0,
 						margin: "-1 0 0 0",
-						html: "<iframe src='" + url + "' width='100%' height='100%' frameborder='0' border='0' scrolling='auto'></iframe>"
+						loader: {
+							url: basePath + records[i].get("menuUrl"),
+							loadMask: "加载中...",
+							autoLoad: false,
+							scripts: true
+						}
 					});
 				}
 				body.setActiveTab(0);
@@ -75,7 +80,13 @@ Ext.onReady(function() {
 		style: {
 			"background": "#B3DFDA"
 		},
-		items: []
+		items: [],
+		listeners: {
+    		tabchange: function(tabPanel, newCard, oldCard, eOpts){
+				parentMenuId = newCard.id;
+				newCard.loader.load();
+			}
+		}
 	});
 	
 	var foot = Ext.create("Ext.panel.Panel", {

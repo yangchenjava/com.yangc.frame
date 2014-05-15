@@ -134,9 +134,9 @@ Ext.onReady(function() {
 	});
 	
 	Ext.create("Ext.form.Panel", {
-		renderTo: Ext.getBody(),
+		renderTo: "menu",
 		width: "100%",
-		height: document.documentElement.clientHeight,
+		height: document.documentElement.clientHeight - 127,
         border: false,
 		header: false,
 		layout: "column",

@@ -33,10 +33,10 @@ Ext.onReady(function() {
 	
 	/** ------------------------------------- view ------------------------------------- */
 	var grid_dept = Ext.create("Ext.grid.Panel", {
-        renderTo: Ext.getBody(),
+        renderTo: "dept",
 		store: store_deptGrid,
 		width: "100%",
-		height: document.documentElement.clientHeight,
+		height: document.documentElement.clientHeight - 127,
 		border: false,
         collapsible: false,
         multiSelect: false,

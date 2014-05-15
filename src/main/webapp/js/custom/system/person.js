@@ -107,10 +107,10 @@ Ext.onReady(function() {
 	
 	/** ------------------------------------- view ------------------------------------- */
 	var grid_person = Ext.create("Ext.grid.Panel", {
-        renderTo: Ext.getBody(),
+        renderTo: "person",
 		store: store_personGrid,
 		width: "100%",
-		height: document.documentElement.clientHeight,
+		height: document.documentElement.clientHeight - 127,
 		border: 0,
         collapsible: false,
         multiSelect: false,

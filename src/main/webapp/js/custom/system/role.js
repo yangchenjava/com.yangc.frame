@@ -67,10 +67,10 @@ Ext.onReady(function() {
 	
 	/** ------------------------------------- view ------------------------------------- */
 	var grid_role = Ext.create("Ext.grid.Panel", {
-        renderTo: Ext.getBody(),
+        renderTo: "role",
 		store: store_roleGrid,
 		width: "100%",
-		height: document.documentElement.clientHeight,
+		height: document.documentElement.clientHeight - 127,
 		border: false,
         collapsible: false,
         multiSelect: false,
