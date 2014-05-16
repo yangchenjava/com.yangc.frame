@@ -197,7 +197,7 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
 
 	@Override
 	public int getCount(String hql, Object[] values) {
-		return ((Integer) this.getHibernateTemplate().iterate(hql, values).next()).intValue();
+		return ((Number) this.getHibernateTemplate().iterate(hql, values).next()).intValue();
 	}
 
 }

@@ -74,7 +74,7 @@ public class PersonServiceImpl implements PersonService {
 			paramMap.put("personName", personName);
 		}
 		if (deptId != null && deptId.longValue() != 0) {
-			sb.append(" and d.id = :deptId");
+			sb.append(" and p.deptId = :deptId");
 			paramMap.put("deptId", deptId);
 		}
 		sb.append(" order by p.id");
@@ -92,7 +92,7 @@ public class PersonServiceImpl implements PersonService {
 			paramMap.put("personName", personName);
 		}
 		if (deptId != null && deptId.longValue() != 0) {
-			sb.append(" and d.id = :deptId");
+			sb.append(" and p.deptId = :deptId");
 			paramMap.put("deptId", deptId);
 		}
 

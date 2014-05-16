@@ -1,7 +1,3 @@
-Ext.Loader.setConfig({enabled: true});
-Ext.Loader.setPath("Ext.ux", basePath + "js/lib/ext4.2/ux");
-Ext.require(["*"]);
-
 Ext.define("Dept", {
     extend: "Ext.data.Model",
     fields: [
@@ -48,7 +44,7 @@ Ext.onReady(function() {
         columns: [
             {text: "序号", width: 50, align: "center", xtype: "rownumberer"},
             {text: "部门名称", flex: 2, align: "center", dataIndex: "deptName"},
-            {text: "排序",     flex: 1, align: "center", dataIndex: "serialNum"},
+            {text: "排序", flex: 1, align: "center", dataIndex: "serialNum"},
             {text: "创建时间", flex: 2, align: "center", dataIndex: "createTimeStr"}
         ],
         tbar: new Ext.Toolbar({

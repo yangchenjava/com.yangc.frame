@@ -1,7 +1,3 @@
-Ext.Loader.setConfig({enabled: true});
-Ext.Loader.setPath("Ext.ux", basePath + "js/lib/ext4.2/ux");
-Ext.require(["*"]);
-
 Ext.define("Role", {
     extend: "Ext.data.Model",
     fields: [
