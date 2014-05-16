@@ -50,7 +50,18 @@ Ext.onReady(function() {
 		minWidth: 200,
 		collapsible: true,
 		split: true,
-		items: []
+		items: [],
+		listeners: {
+			resize: function(thiz, width, height, oldWidth, oldHeight, eOpts){
+				doRefresh();
+			},
+			collapse: function(p, eOpts){
+				doRefresh();
+			},
+			expand: function(p, eOpts){
+				doRefresh();
+			}
+		}
 	});
 	
 	var right = Ext.create("Ext.tab.Panel", {
@@ -80,6 +91,13 @@ Ext.onReady(function() {
     });
     
     /** ------------------------------------- handler ------------------------------------- */
+    function doRefresh(){
+    	var tabs = right.items.items;
+		Ext.Array.each(tabs, function(tab){
+			tab.loader.load();
+		});
+    }
+    
     addTab = function(id, title, url){
 		if (!right.queryById(id)) {
 			if (right.items.length == 5) {
@@ -91,7 +109,6 @@ Ext.onReady(function() {
 				closable: true,
 				loader: {
 					url: url,
-					loadMask: "加载中...",
 					autoLoad: true,
 					scripts: true
 				}

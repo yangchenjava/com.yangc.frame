@@ -37,7 +37,6 @@ Ext.onReady(function() {
 						margin: "-1 0 0 0",
 						loader: {
 							url: basePath + records[i].get("menuUrl"),
-							loadMask: "加载中...",
 							autoLoad: false,
 							scripts: true
 						}
