@@ -12,10 +12,10 @@
 		<property name="userService" ref="userService" />
 	</bean>
 
-	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager"></bean>
-	
-	<bean id="myAuthc" class="com.yangc.shiro.auth.MyAuthc"></bean>
-	
+	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager" />
+
+	<bean id="myAuthc" class="com.yangc.shiro.auth.MyAuthc" />
+
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
 		<property name="loginUrl" value="/jsp/login.jsp" />
@@ -28,10 +28,10 @@
         </property>
         <property name="filterChainDefinitions">
         	<value>
-        		/** = myAuthc
+        		/resource/** = myAuthc
         	</value>
         </property>
 	</bean>
-	
-	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"></bean>
+
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
 </beans>
