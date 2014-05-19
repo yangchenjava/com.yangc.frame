@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="myRealm" />
+		<property name="cacheManager" ref="cacheManager" />
+	</bean>
+
+	<bean id="myRealm" class="com.yangc.shiro.auth.MyRealm">
+		<property name="userService" ref="userService" />
+	</bean>
+
+	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager"></bean>
+	
+	<bean id="myAuthc" class="com.yangc.shiro.auth.MyAuthc"></bean>
+	
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/jsp/login.jsp" />
+        <property name="successUrl" value="/jsp/frame/index.jsp" />
+        <property name="unauthorizedUrl" value="/jsp/error/exception.jsp" />
+        <property name="filters">
+        	<map>
+        		<entry key="myAuthc" value-ref="myAuthc" />
+        	</map>
+        </property>
+        <property name="filterChainDefinitions">
+        	<value>
+        		/** = myAuthc
+        	</value>
+        </property>
+	</bean>
+	
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"></bean>
+</beans>
