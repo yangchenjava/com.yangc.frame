@@ -46,6 +46,14 @@
 		<property name="proxyTargetClass" value="true" />
 	</bean>
 
+	<!-- 
+	<aop:config proxy-target-class="true">
+		<aop:pointcut id="shiroPointcut" expression="execution(* com.*.*.resource.*(..))" />
+		<aop:advisor advice-ref="shiroAdvisor" pointcut-ref="shiroPointcut" />
+	</aop:config>
+	<bean name="shiroAdvisor" class="org.apache.shiro.spring.security.interceptor.AopAllianceAnnotationsAuthorizingMethodInterceptor" depends-on="lifecycleBeanPostProcessor" />
+	 -->
+
 	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
 		<property name="securityManager" ref="securityManager" />
 	</bean>

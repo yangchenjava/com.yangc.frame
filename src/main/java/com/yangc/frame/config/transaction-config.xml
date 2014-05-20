@@ -32,7 +32,7 @@
 		</tx:attributes>
 	</tx:advice>
 
-	<aop:config>
+	<aop:config proxy-target-class="true">
 		<aop:pointcut id="transactionPointcut" expression="execution(* com.*.*.service.*.*(..))" />
 		<aop:advisor advice-ref="transactionAdvisor" pointcut-ref="transactionPointcut" />
 	</aop:config>
