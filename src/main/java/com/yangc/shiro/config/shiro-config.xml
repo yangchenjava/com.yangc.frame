@@ -3,16 +3,16 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 						http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-		<property name="realm" ref="myRealm" />
-		<property name="cacheManager" ref="cacheManager" />
-	</bean>
-
 	<bean id="myRealm" class="com.yangc.shiro.auth.MyRealm">
 		<property name="userService" ref="userService" />
 	</bean>
 
 	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager" />
+
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager" depends-on="baseDao">
+		<property name="realm" ref="myRealm" />
+		<property name="cacheManager" ref="cacheManager" />
+	</bean>
 
 	<bean id="myAuthc" class="com.yangc.shiro.auth.MyAuthc" />
 
@@ -33,5 +33,20 @@
         </property>
 	</bean>
 
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod" value="org.apache.shiro.SecurityUtils.setSecurityManager" />
+	    <property name="arguments" ref="securityManager" />
+	</bean>
+
+	<!-- shiro生命周期处理器 -->
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+
+	<!-- shiro注解 -->
+	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">
+		<property name="proxyTargetClass" value="true" />
+	</bean>
+
+	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
 </beans>

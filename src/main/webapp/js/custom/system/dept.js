@@ -75,8 +75,8 @@ Ext.onReady(function() {
             anchor: "100%"
         },
         items: [
-			{xtype: "hidden", name: "id"},
-			{id: "addOrUpdate_deptName",  name: "deptName",  xtype: "textfield", fieldLabel: "部门名称", allowBlank: false, invalidText: "请输入部门名称！"},
+			{id: "addOrUpdate_deptId", name: "id", xtype: "hidden"},
+			{id: "addOrUpdate_deptName", name: "deptName", xtype: "textfield", fieldLabel: "部门名称", allowBlank: false, invalidText: "请输入部门名称！"},
 			{id: "addOrUpdate_serialNum", name: "serialNum", xtype: "numberfield", fieldLabel: "顺序", allowBlank: false, invalidText: "请输入顺序！", minValue: 1}
 		]
 	});
@@ -152,8 +152,14 @@ Ext.onReady(function() {
 		} else if (!serialNum.isValid()) {
 			message.error(serialNum.invalidText);
 		} else {
+			var url;
+			if (Ext.getCmp("addOrUpdate_deptId").getValue()) {
+				url = basePath + "resource/dept/updateDept";
+			} else {
+				url = basePath + "resource/dept/addDept";
+			}
 			panel_addOrUpdate_dept.getForm().submit({
-				url: basePath + "resource/dept/addOrUpdateDept",
+				url: url,
 				method: "POST",
 				success: function(form, action){
 					window_addOrUpdate_dept.hide();

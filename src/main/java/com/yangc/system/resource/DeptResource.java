@@ -10,10 +10,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 import com.yangc.bean.DataGridBean;
 import com.yangc.bean.ResultBean;
 import com.yangc.exception.WebApplicationException;
+import com.yangc.system.bean.oracle.Permission;
 import com.yangc.system.bean.oracle.TSysDepartment;
 import com.yangc.system.service.DeptService;
 
@@ -33,6 +35,7 @@ public class DeptResource {
 	@POST
 	@Path("getDeptList")
 	@Produces(MediaType.APPLICATION_JSON)
+	@RequiresPermissions("dept:" + Permission.SEL)
 	public Response getDeptList() {
 		logger.info("getDeptList");
 		try {
@@ -53,6 +56,7 @@ public class DeptResource {
 	@POST
 	@Path("getDeptList_page")
 	@Produces(MediaType.APPLICATION_JSON)
+	@RequiresPermissions("dept:" + Permission.SEL)
 	public Response getDeptList_page() {
 		logger.info("getDeptList_page");
 		try {
@@ -67,26 +71,41 @@ public class DeptResource {
 	}
 
 	/**
-	 * @功能: 添加或修改部门
+	 * @功能: 添加部门
 	 * @作者: yangc
 	 * @创建日期: 2013年12月23日 下午2:59:26
 	 * @return
 	 */
 	@POST
-	@Path("addOrUpdateDept")
+	@Path("addDept")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addOrUpdateDept(@FormParam("id") Long id, @FormParam("deptName") String deptName, @FormParam("serialNum") Long serialNum) {
-		logger.info("addOrUpdateDept - id=" + id + ", deptName=" + deptName + ", serialNum=" + serialNum);
-		ResultBean resultBean = new ResultBean();
+	@RequiresPermissions("dept:" + Permission.ADD)
+	public Response addDept(@FormParam("deptName") String deptName, @FormParam("serialNum") Long serialNum) {
+		logger.info("addDept - deptName=" + deptName + ", serialNum=" + serialNum);
 		try {
-			resultBean.setSuccess(true);
-			if (id == null) {
-				resultBean.setMessage("添加成功");
-			} else {
-				resultBean.setMessage("修改成功");
-			}
+			this.deptService.addOrUpdateDept(null, deptName, serialNum);
+			return Response.ok(new ResultBean(true, "添加成功")).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			return WebApplicationException.build();
+		}
+	}
+
+	/**
+	 * @功能: 修改部门
+	 * @作者: yangc
+	 * @创建日期: 2013年12月23日 下午2:59:26
+	 * @return
+	 */
+	@POST
+	@Path("updateDept")
+	@Produces(MediaType.APPLICATION_JSON)
+	@RequiresPermissions("dept:" + Permission.UPD)
+	public Response updateDept(@FormParam("id") Long id, @FormParam("deptName") String deptName, @FormParam("serialNum") Long serialNum) {
+		logger.info("updateDept - id=" + id + ", deptName=" + deptName + ", serialNum=" + serialNum);
+		try {
 			this.deptService.addOrUpdateDept(id, deptName, serialNum);
-			return Response.ok(resultBean).build();
+			return Response.ok(new ResultBean(true, "修改成功")).build();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			return WebApplicationException.build();
@@ -102,6 +121,7 @@ public class DeptResource {
 	@POST
 	@Path("delDept")
 	@Produces(MediaType.APPLICATION_JSON)
+	@RequiresPermissions("dept:" + Permission.DEL)
 	public Response delDept(@FormParam("id") Long id) {
 		logger.info("delDept - id=" + id);
 		ResultBean resultBean = new ResultBean();

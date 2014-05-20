@@ -115,10 +115,10 @@ Ext.onReady(function() {
             anchor: "100%"
 		},
 		items: [
-		    {xtype: "hidden", name: "id"},
+		    {id: "addOrUpdate_menuId", name: "id", xtype: "hidden"},
 		    {id: "addOrUpdate_parentMenuId", name: "parentMenuId", xtype: "hidden"},
-			{id: "addOrUpdate_menuName",  name: "menuName",  xtype: "textfield",   fieldLabel: "菜单名称"},
-			{id: "addOrUpdate_menuUrl",   name: "menuUrl",   xtype: "textfield",   fieldLabel: "菜单地址"},
+			{id: "addOrUpdate_menuName", name: "menuName", xtype: "textfield", fieldLabel: "菜单名称"},
+			{id: "addOrUpdate_menuUrl", name: "menuUrl", xtype: "textfield", fieldLabel: "菜单地址"},
 			{id: "addOrUpdate_serialNum", name: "serialNum", xtype: "numberfield", fieldLabel: "顺序", minValue: 1},
 			{xtype: "radiogroup", fieldLabel: "是否显示", items: [
                 {id: "addOrUpdate_isshow_yes", boxLabel: "是", name: "isshow", inputValue: 1, checked: true},
@@ -204,8 +204,14 @@ Ext.onReady(function() {
 		} else if (!serialNum.getValue()) {
 			message.error("请输入顺序！");
 		} else {
+			var url;
+			if (Ext.getCmp("addOrUpdate_menuId").getValue()) {
+				url = basePath + "resource/menu/updateMenu";
+			} else {
+				url = basePath + "resource/menu/addMenu";
+			}
 			tree_menu.up("form").getForm().submit({
-				url: basePath + "resource/menu/addOrUpdateMenu",
+				url: url,
 				method: "POST",
 				success: function(form, action){
 					fieldSetRW(true);

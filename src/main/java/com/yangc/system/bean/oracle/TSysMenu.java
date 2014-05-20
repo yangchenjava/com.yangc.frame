@@ -9,6 +9,7 @@ public class TSysMenu extends BaseBean {
 	private static final long serialVersionUID = -6612592275613733140L;
 
 	private String menuName;
+	private String menuAlias;
 	private String menuUrl;
 	private Long parentMenuId;
 	private Long serialNum;
@@ -19,8 +20,8 @@ public class TSysMenu extends BaseBean {
 
 	@Override
 	public String toString() {
-		return "TSysMenu [menuName=" + menuName + ", menuUrl=" + menuUrl + ", parentMenuId=" + parentMenuId + ", serialNum=" + serialNum + ", isshow=" + isshow + ", description=" + description
-				+ ", childRenMenu=" + childRenMenu + "]";
+		return "TSysMenu [menuName=" + menuName + ", menuAlias=" + menuAlias + ", menuUrl=" + menuUrl + ", parentMenuId=" + parentMenuId + ", serialNum=" + serialNum + ", isshow=" + isshow
+				+ ", description=" + description + ", childRenMenu=" + childRenMenu + "]";
 	}
 
 	public String getMenuName() {
@@ -29,6 +30,14 @@ public class TSysMenu extends BaseBean {
 
 	public void setMenuName(String menuName) {
 		this.menuName = menuName;
+	}
+
+	public String getMenuAlias() {
+		return menuAlias;
+	}
+
+	public void setMenuAlias(String menuAlias) {
+		this.menuAlias = menuAlias;
 	}
 
 	public String getMenuUrl() {

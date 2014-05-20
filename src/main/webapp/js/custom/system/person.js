@@ -180,8 +180,8 @@ Ext.onReady(function() {
             anchor: "100%"
         },
         items: [
-			{xtype: "hidden", name: "id"},
-			{xtype: "hidden", name: "userId"},
+			{id: "addOrUpdate_personId", name: "id", xtype: "hidden"},
+			{id: "addOrUpdate_userId", name: "userId", xtype: "hidden"},
 			{xtype: "container", layout:"column", items: [
                 {xtype: "container", columnWidth:.5, layout: "anchor", items: [
                     {id: "addOrUpdate_username", name: "username", xtype: "textfield", fieldLabel: "用户名", allowBlank: false, invalidText: "请输入用户名！"}
@@ -327,8 +327,14 @@ Ext.onReady(function() {
 		} else if (!role.isValid()) {
 			message.error(role.invalidText);
 		} else {
+			var url;
+			if (Ext.getCmp("addOrUpdate_personId").getValue()) {
+				url = basePath + "resource/person/updatePerson";
+			} else {
+				url = basePath + "resource/person/addPerson";
+			}
 			panel_addOrUpdate_person.getForm().submit({
-				url: basePath + "resource/person/addOrUpdatePerson",
+				url: url,
 				method: "POST",
 				success: function(form, action){
 					window_addOrUpdate_person.hide();

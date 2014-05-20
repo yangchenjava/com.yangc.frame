@@ -9,6 +9,7 @@ public class MyAuthc extends AuthorizationFilter {
 
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) throws Exception {
+		System.out.println("isAccessAllowed");
 		return false;
 	}
 

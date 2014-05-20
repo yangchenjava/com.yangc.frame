@@ -109,7 +109,7 @@ Ext.onReady(function() {
             anchor: "100%"
         },
         items: [
-			{xtype: "hidden", name: "id"},
+			{id: "addOrUpdate_roleId", name: "id", xtype: "hidden"},
 			{id: "addOrUpdate_roleName", name: "roleName", xtype: "textfield", fieldLabel: "角色名称", allowBlank: false, invalidText: "请输入角色名称！"}
 		]
 	});
@@ -236,8 +236,14 @@ Ext.onReady(function() {
 		if (!roleName.isValid()) {
 			message.error(roleName.invalidText);
 		} else {
+			var url;
+			if (Ext.getCmp("addOrUpdate_roleId").getValue()) {
+				url = basePath + "resource/role/updateRole";
+			} else {
+				url = basePath + "resource/role/addRole";
+			}
 			panel_addOrUpdate_role.getForm().submit({
-				url: basePath + "resource/role/addOrUpdateRole",
+				url: url,
 				method: "POST",
 				success: function(form, action){
 					window_addOrUpdate_role.hide();
