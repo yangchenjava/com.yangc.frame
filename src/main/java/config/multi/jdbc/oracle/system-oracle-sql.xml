@@ -90,11 +90,21 @@
 	]]>
 	</sql>
 	
-	<sql name="system.acl.getOperateStatus" desc="根据用户id和菜单id,查看操作权限">
+	<sql name="system.acl.getOperateStatus" desc="根据用户id和菜单id查看操作权限">
 	<![CDATA[
 		SELECT a.operate_status
 		  FROM t_sys_acl a JOIN t_sys_usersroles b ON b.role_id = a.role_id
 		 WHERE a.menu_id = :menuId AND b.user_id = :userId
+	]]>
+	</sql>
+	
+	<sql name="system.acl.getAclListByUserId" desc="根据用户id查看拥有的权限">
+	<![CDATA[
+		SELECT c.menu_alias, a.operate_status
+		  FROM t_sys_acl a
+		       JOIN t_sys_usersroles b ON b.role_id = a.role_id
+		       JOIN t_sys_menu c ON c.ID = a.menu_id
+		 WHERE b.user_id = :userId AND c.menu_alias IS NOT NULL
 	]]>
 	</sql>
 </sqlroot>

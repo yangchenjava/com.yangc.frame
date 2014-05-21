@@ -17,4 +17,6 @@ public interface AclService {
 
 	public int getOperateStatus(Long userId, Long menuId, int permission);
 
+	public List<TSysAcl> getAclListByUserId(Long userId);
+
 }

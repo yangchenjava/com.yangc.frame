@@ -1,11 +1,7 @@
 package com.yangc.system.resource;
 
 import java.net.URI;
-import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -18,13 +14,16 @@ import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
 
 import com.yangc.bean.ResultBean;
 import com.yangc.exception.WebApplicationException;
+import com.yangc.shiro.utils.ShiroUtils;
 import com.yangc.system.bean.oracle.TSysUser;
 import com.yangc.system.service.UserService;
 import com.yangc.utils.ParamUtils;
-import com.yangc.utils.UserThreadUtils;
 
 @Path("/user")
 public class UserResource {
@@ -42,29 +41,18 @@ public class UserResource {
 	@POST
 	@Path("login")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response login(@FormParam("username") String username, @FormParam("password") String password, @Context HttpServletRequest request) {
+	public Response login(@FormParam("username") String username, @FormParam("password") String password) {
 		logger.info("login - username=" + username + ", password=" + password);
 		ResultBean resultBean = new ResultBean();
 		try {
-			if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
-				resultBean.setSuccess(false);
-				resultBean.setMessage("用户名或密码不能为空");
-			} else {
-				List<TSysUser> users = this.userService.getUserListByUsernameAndPassword(username, password);
-				if (users == null || users.isEmpty()) {
-					resultBean.setSuccess(false);
-					resultBean.setMessage("用户不存在");
-				} else if (users.size() > 1) {
-					resultBean.setSuccess(false);
-					resultBean.setMessage("用户重复");
-				} else {
-					TSysUser user = users.get(0);
-					HttpSession session = request.getSession();
-					session.setAttribute(ParamUtils.LOGIN_USER, user);
-					resultBean.setSuccess(true);
-					resultBean.setMessage(ParamUtils.INDEX_PAGE);
-				}
-			}
+			UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+			SecurityUtils.getSubject().login(token);
+			resultBean.setSuccess(true);
+			resultBean.setMessage(ParamUtils.INDEX_PAGE);
+			return Response.ok(resultBean).build();
+		} catch (AuthenticationException e) {
+			resultBean.setSuccess(false);
+			resultBean.setMessage(e.getMessage());
 			return Response.ok(resultBean).build();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -80,12 +68,11 @@ public class UserResource {
 	 */
 	@GET
 	@Path("logout")
-	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
-	public Response logout(@Context HttpServletRequest request, @Context UriInfo uriInfo) {
+	@Produces({ MediaType.APPLICATION_FORM_URLENCODED })
+	public Response logout(@Context UriInfo uriInfo) {
 		logger.info("logout");
-		HttpSession session = request.getSession();
-		session.removeAttribute(ParamUtils.LOGIN_USER);
-		session.invalidate();
+		// session会销毁,在SessionListener监听session销毁,清理权限缓存
+		SecurityUtils.getSubject().logout();
 		URI uri = uriInfo.getBaseUriBuilder().path("../jsp/login.jsp").build();
 		// 这种方式下的跳转采用的是GET方法
 		// return Response.seeOther(uri).build();
@@ -105,7 +92,7 @@ public class UserResource {
 	public Response changePassword(@FormParam("password") String password, @FormParam("newPassword") String newPassword) {
 		ResultBean resultBean = new ResultBean();
 		try {
-			TSysUser user = UserThreadUtils.get();
+			TSysUser user = ShiroUtils.getCurrentUser();
 			logger.info("changePassword - userId=" + user.getId() + ", password=" + password + ", newPassword=" + newPassword);
 			if (StringUtils.isBlank(password) || StringUtils.isBlank(newPassword)) {
 				resultBean.setSuccess(false);

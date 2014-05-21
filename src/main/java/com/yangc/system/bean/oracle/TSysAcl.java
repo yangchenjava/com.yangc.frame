@@ -10,9 +10,11 @@ public class TSysAcl extends BaseBean {
 	private Long menuId;
 	private Long operateStatus = 0L;
 
+	private String menuAlias;
+
 	@Override
 	public String toString() {
-		return "TSysAcl [roleId=" + roleId + ", menuId=" + menuId + ", operateStatus=" + operateStatus + "]";
+		return "TSysAcl [roleId=" + roleId + ", menuId=" + menuId + ", operateStatus=" + operateStatus + ", menuAlias=" + menuAlias + "]";
 	}
 
 	public Long getRoleId() {
@@ -37,6 +39,14 @@ public class TSysAcl extends BaseBean {
 
 	public void setOperateStatus(Long operateStatus) {
 		this.operateStatus = operateStatus;
+	}
+
+	public String getMenuAlias() {
+		return menuAlias;
+	}
+
+	public void setMenuAlias(String menuAlias) {
+		this.menuAlias = menuAlias;
 	}
 
 	public int getPermission(int permission) {

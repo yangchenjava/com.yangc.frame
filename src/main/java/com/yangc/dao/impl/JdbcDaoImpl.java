@@ -28,7 +28,6 @@ import com.yangc.common.Pagination;
 import com.yangc.common.PaginationThreadUtils;
 import com.yangc.dao.JdbcDao;
 
-@SuppressWarnings("unchecked")
 public class JdbcDaoImpl implements JdbcDao {
 
 	private static String DB_NAME = "DB_NAME";
@@ -109,6 +108,7 @@ public class JdbcDaoImpl implements JdbcDao {
 	/**
 	 * 加载结果文件内容
 	 */
+	@SuppressWarnings("unchecked")
 	private static void loadFileContents(File file) {
 		try {
 			SAXReader reader = new SAXReader();
@@ -212,9 +212,9 @@ public class JdbcDaoImpl implements JdbcDao {
 
 	@Override
 	public List<Map<String, Object>> findAll(String sql, Map<String, Object> paramMap) {
-		return this.npJdbcTemplate.query(sql, paramMap, new RowMapper() {
+		return this.npJdbcTemplate.query(sql, paramMap, new RowMapper<Map<String, Object>>() {
 			@Override
-			public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
+			public Map<String, Object> mapRow(ResultSet rs, int rowNum) throws SQLException {
 				Map<String, Object> map = new HashMap<String, Object>();
 				ResultSetMetaData meta = rs.getMetaData();
 				for (int i = 1, count = meta.getColumnCount(); i <= count; i++) {
@@ -237,7 +237,7 @@ public class JdbcDaoImpl implements JdbcDao {
 
 	@Override
 	public int getCount(String sql, Map<String, Object> paramMap) {
-		return this.npJdbcTemplate.queryForInt(sql, paramMap);
+		return this.npJdbcTemplate.queryForObject(sql, paramMap, Integer.class);
 	}
 
 	@Override

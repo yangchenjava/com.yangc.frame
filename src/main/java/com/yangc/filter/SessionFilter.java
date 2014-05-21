@@ -18,7 +18,6 @@ import org.apache.commons.lang.StringUtils;
 import com.yangc.bean.ResultBean;
 import com.yangc.system.bean.oracle.TSysUser;
 import com.yangc.utils.ParamUtils;
-import com.yangc.utils.UserThreadUtils;
 import com.yangc.utils.json.JsonUtils;
 
 public class SessionFilter implements Filter {
@@ -48,9 +47,7 @@ public class SessionFilter implements Filter {
 			}
 			return;
 		}
-		UserThreadUtils.set(user);
 		chain.doFilter(request, response);
-		UserThreadUtils.clear();
 	}
 
 	@Override

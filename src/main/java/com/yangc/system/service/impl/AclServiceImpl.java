@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.yangc.dao.BaseDao;
 import com.yangc.dao.JdbcDao;
@@ -73,10 +74,10 @@ public class AclServiceImpl implements AclService {
 			authTree.setMenuId(menuId);
 			authTree.setMenuName(menuName);
 			authTree.setAll(operateStatus == Permission.VALUE_ALL);
-			authTree.setSel(Permission.getPermission(operateStatus, Permission.SEL) == Permission.ACL_YES);
-			authTree.setAdd(Permission.getPermission(operateStatus, Permission.ADD) == Permission.ACL_YES);
-			authTree.setUpd(Permission.getPermission(operateStatus, Permission.UPD) == Permission.ACL_YES);
-			authTree.setDel(Permission.getPermission(operateStatus, Permission.DEL) == Permission.ACL_YES);
+			authTree.setSel(Permission.isPermission(operateStatus, Permission.SEL));
+			authTree.setAdd(Permission.isPermission(operateStatus, Permission.ADD));
+			authTree.setUpd(Permission.isPermission(operateStatus, Permission.UPD));
+			authTree.setDel(Permission.isPermission(operateStatus, Permission.DEL));
 			authTreeList.add(authTree);
 		}
 		return authTreeList;
@@ -93,12 +94,41 @@ public class AclServiceImpl implements AclService {
 
 		for (Map<String, Object> map : mapList) {
 			long operateStatus = ((Number) map.get("OPERATE_STATUS")).longValue();
-			int status = Permission.getPermission(operateStatus, permission);
-			if (status == Permission.ACL_YES) {
+			if (Permission.isPermission(operateStatus, permission)) {
 				return Permission.ACL_YES;
 			}
 		}
 		return Permission.ACL_NO;
+	}
+
+	@Override
+	public List<TSysAcl> getAclListByUserId(Long userId) {
+		String sql = JdbcDao.SQL_MAPPING.get("system.acl.getAclListByUserId");
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("userId", userId);
+		List<Map<String, Object>> mapList = this.jdbcDao.findAll(sql, paramMap);
+		if (mapList == null || mapList.isEmpty()) return null;
+
+		Map<String, Long> aclMap = new HashMap<String, Long>();
+		for (Map<String, Object> map : mapList) {
+			String menuAlias = (String) map.get("MENU_ALIAS");
+			Long operateStatus = ((Number) map.get("OPERATE_STATUS")).longValue();
+
+			if (aclMap.containsKey(menuAlias)) {
+				aclMap.put(menuAlias, operateStatus | aclMap.get(menuAlias));
+			} else {
+				aclMap.put(menuAlias, operateStatus);
+			}
+		}
+
+		List<TSysAcl> aclList = new ArrayList<TSysAcl>();
+		for (Entry<String, Long> entry : aclMap.entrySet()) {
+			TSysAcl acl = new TSysAcl();
+			acl.setOperateStatus(entry.getValue());
+			acl.setMenuAlias(entry.getKey());
+			aclList.add(acl);
+		}
+		return aclList;
 	}
 
 	public void setBaseDao(BaseDao baseDao) {

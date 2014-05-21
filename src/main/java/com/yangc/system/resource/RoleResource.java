@@ -10,10 +10,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 import com.yangc.bean.DataGridBean;
 import com.yangc.bean.ResultBean;
 import com.yangc.exception.WebApplicationException;
+import com.yangc.shiro.utils.ShiroUtils;
+import com.yangc.system.bean.oracle.Permission;
 import com.yangc.system.bean.oracle.TSysRole;
 import com.yangc.system.service.RoleService;
 
@@ -27,6 +30,7 @@ public class RoleResource {
 	@POST
 	@Path("getRoleList")
 	@Produces(MediaType.APPLICATION_JSON)
+	@RequiresPermissions("role:" + Permission.SEL)
 	public Response getRoleList() {
 		logger.info("getRoleList");
 		try {
@@ -47,6 +51,7 @@ public class RoleResource {
 	@POST
 	@Path("getRoleList_page")
 	@Produces(MediaType.APPLICATION_JSON)
+	@RequiresPermissions("role:" + Permission.SEL)
 	public Response getRoleList_page() {
 		logger.info("getRoleList_page");
 		try {
@@ -61,20 +66,29 @@ public class RoleResource {
 	}
 
 	@POST
-	@Path("addOrUpdateRole")
+	@Path("addRole")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addOrUpdateRole(@FormParam("id") Long id, @FormParam("roleName") String roleName) {
-		logger.info("addOrUpdateRole - id=" + id + ", roleName=" + roleName);
-		ResultBean resultBean = new ResultBean();
+	@RequiresPermissions("role:" + Permission.ADD)
+	public Response addRole(@FormParam("roleName") String roleName) {
+		logger.info("addRole - roleName=" + roleName);
 		try {
-			resultBean.setSuccess(true);
-			if (id == null) {
-				resultBean.setMessage("添加成功");
-			} else {
-				resultBean.setMessage("修改成功");
-			}
+			this.roleService.addOrUpdateRole(null, roleName);
+			return Response.ok(new ResultBean(true, "添加成功")).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			return WebApplicationException.build();
+		}
+	}
+
+	@POST
+	@Path("updateRole")
+	@Produces(MediaType.APPLICATION_JSON)
+	@RequiresPermissions("role:" + Permission.UPD)
+	public Response updateRole(@FormParam("id") Long id, @FormParam("roleName") String roleName) {
+		logger.info("updateRole - id=" + id + ", roleName=" + roleName);
+		try {
 			this.roleService.addOrUpdateRole(id, roleName);
-			return Response.ok(resultBean).build();
+			return Response.ok(new ResultBean(true, "修改成功")).build();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			return WebApplicationException.build();
@@ -84,10 +98,13 @@ public class RoleResource {
 	@POST
 	@Path("delRole")
 	@Produces(MediaType.APPLICATION_JSON)
+	@RequiresPermissions("role:" + Permission.DEL)
 	public Response delRole(@FormParam("id") Long id) {
 		logger.info("delRole - id=" + id);
 		try {
 			this.roleService.delRole(id);
+			// 清除所有权限缓存信息
+			ShiroUtils.clearAllCachedAuthorizationInfo();
 			return Response.ok(new ResultBean(true, "删除成功")).build();
 		} catch (Exception e) {
 			logger.error(e.getMessage());

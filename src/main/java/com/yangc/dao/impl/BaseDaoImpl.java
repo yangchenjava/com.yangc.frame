@@ -16,7 +16,6 @@ import com.yangc.common.Pagination;
 import com.yangc.common.PaginationThreadUtils;
 import com.yangc.dao.BaseDao;
 
-@SuppressWarnings("rawtypes")
 public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
 
 	@Override
@@ -75,10 +74,10 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
 	}
 
 	@Override
-	public List find(final String hql, final Object[] values) {
-		return this.getHibernateTemplate().executeFind(new HibernateCallback() {
+	public List<?> find(final String hql, final Object[] values) {
+		return this.getHibernateTemplate().execute(new HibernateCallback<List<?>>() {
 			@Override
-			public Object doInHibernate(Session session) throws HibernateException, SQLException {
+			public List<?> doInHibernate(Session session) throws HibernateException, SQLException {
 				/* 获取分页情况 */
 				Pagination pagination = PaginationThreadUtils.get();
 				if (pagination == null) {
@@ -131,10 +130,10 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
 	}
 
 	@Override
-	public List findByMap(final String hql, final Map<String, Object> paramMap) {
-		return this.getHibernateTemplate().executeFind(new HibernateCallback() {
+	public List<?> findByMap(final String hql, final Map<String, Object> paramMap) {
+		return this.getHibernateTemplate().execute(new HibernateCallback<List<?>>() {
 			@Override
-			public Object doInHibernate(Session session) throws HibernateException, SQLException {
+			public List<?> doInHibernate(Session session) throws HibernateException, SQLException {
 				/* 获取分页情况 */
 				Pagination pagination = PaginationThreadUtils.get();
 				if (pagination == null) {
@@ -179,15 +178,15 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
 	}
 
 	@Override
-	public List findAll(String hql, Object[] values) {
+	public List<?> findAll(String hql, Object[] values) {
 		return this.getHibernateTemplate().find(hql, values);
 	}
 
 	@Override
-	public List findAllByMap(final String hql, final Map<String, Object> paramMap) {
-		return this.getHibernateTemplate().executeFind(new HibernateCallback() {
+	public List<?> findAllByMap(final String hql, final Map<String, Object> paramMap) {
+		return this.getHibernateTemplate().execute(new HibernateCallback<List<?>>() {
 			@Override
-			public Object doInHibernate(Session session) throws HibernateException, SQLException {
+			public List<?> doInHibernate(Session session) throws HibernateException, SQLException {
 				Query query = session.createQuery(hql);
 				query.setProperties(paramMap);
 				return query.list();

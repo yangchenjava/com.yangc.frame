@@ -44,12 +44,15 @@ public class PersonServiceImpl implements PersonService {
 	}
 
 	@Override
-	public void delPerson(Long personId) {
+	public String delPerson(Long personId) {
+		String username = null;
 		TSysUser user = this.userService.getUserByPersonId(personId);
 		if (user != null) {
+			username = user.getUsername();
 			this.userService.delUser(user.getId());
 		}
 		this.baseDao.updateOrDelete("delete TSysPerson where id = ?", new Object[] { personId });
+		return username;
 	}
 
 	@Override

@@ -7,7 +7,7 @@ import org.hibernate.EmptyInterceptor;
 import org.hibernate.type.Type;
 
 import com.yangc.bean.BaseBean;
-import com.yangc.utils.UserThreadUtils;
+import com.yangc.shiro.utils.ShiroUtils;
 
 public class HibernateInterceptor extends EmptyInterceptor {
 
@@ -31,7 +31,7 @@ public class HibernateInterceptor extends EmptyInterceptor {
 					bean.setUpdateTime(updateTime);
 				} else if (propertyNames[i].equalsIgnoreCase("updateUser")) {
 					b = true;
-					Long userId = UserThreadUtils.get().getId();
+					Long userId = ShiroUtils.getCurrentUser().getId();
 					currentState[i] = userId;
 					bean.setUpdateUser(userId);
 				}
@@ -59,7 +59,7 @@ public class HibernateInterceptor extends EmptyInterceptor {
 					bean.setCreateTime(createTime);
 				} else if (propertyNames[i].equalsIgnoreCase("createUser")) {
 					b = true;
-					Long userId = UserThreadUtils.get().getId();
+					Long userId = ShiroUtils.getCurrentUser().getId();
 					state[i] = userId;
 					bean.setCreateUser(userId);
 				}

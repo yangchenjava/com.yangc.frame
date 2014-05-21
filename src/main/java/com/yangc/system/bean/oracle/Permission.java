@@ -32,4 +32,22 @@ public class Permission {
 		return ACL_YES;
 	}
 
+	/**
+	 * @功能: 判断操作是否有权限
+	 * @作者: yangc
+	 * @创建日期: 2012-9-23 上午01:16:54
+	 * @param operateStatus
+	 * @param permission
+	 * @return
+	 */
+	public static boolean isPermission(long operateStatus, int permission) {
+		int temp = 1;
+		temp = temp << permission;
+		temp &= operateStatus;
+		if (temp == 0) {
+			return false;
+		}
+		return true;
+	}
+
 }

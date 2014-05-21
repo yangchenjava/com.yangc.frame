@@ -12,10 +12,13 @@ import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 import com.yangc.bean.DataGridBean;
 import com.yangc.bean.ResultBean;
 import com.yangc.exception.WebApplicationException;
+import com.yangc.shiro.utils.ShiroUtils;
+import com.yangc.system.bean.oracle.Permission;
 import com.yangc.system.bean.oracle.TSysPerson;
 import com.yangc.system.bean.oracle.TSysUsersroles;
 import com.yangc.system.service.PersonService;
@@ -38,6 +41,7 @@ public class PersonResource {
 	@POST
 	@Path("getPersonList")
 	@Produces(MediaType.APPLICATION_JSON)
+	@RequiresPermissions("person:" + Permission.SEL)
 	public Response getPersonList() {
 		logger.info("getPersonList");
 		try {
@@ -58,6 +62,7 @@ public class PersonResource {
 	@POST
 	@Path("getPersonListByPersonNameAndDeptId_page")
 	@Produces(MediaType.APPLICATION_JSON)
+	@RequiresPermissions("person:" + Permission.SEL)
 	public Response getPersonListByPersonNameAndDeptId_page(@FormParam("name") String name, @FormParam("deptId") Long deptId) {
 		try {
 			if (StringUtils.isNotBlank(name)) {
@@ -83,6 +88,7 @@ public class PersonResource {
 	@POST
 	@Path("getRoleIdsByUserId")
 	@Produces(MediaType.APPLICATION_JSON)
+	@RequiresPermissions("person:" + Permission.SEL)
 	public Response getRoleIdsByUserId(@FormParam("userId") Long userId) {
 		logger.info("getRoleIdsByUserId - userId=" + userId);
 		try {
@@ -105,27 +111,55 @@ public class PersonResource {
 	}
 
 	/**
-	 * @功能: 添加或修改用户
+	 * @功能: 添加用户
 	 * @作者: yangc
 	 * @创建日期: 2013年12月23日 下午5:49:16
 	 * @return
 	 */
 	@POST
-	@Path("addOrUpdatePerson")
+	@Path("addPerson")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addOrUpdatePerson(@FormParam("id") Long id, @FormParam("name") String name, @FormParam("sex") Long sex, @FormParam("phone") String phone, @FormParam("deptId") Long deptId,
+	@RequiresPermissions("person:" + Permission.ADD)
+	public Response addPerson(@FormParam("name") String name, @FormParam("sex") Long sex, @FormParam("phone") String phone, @FormParam("deptId") Long deptId, @FormParam("username") String username,
+			@FormParam("password") String password, @FormParam("roleIds") String roleIds) {
+		logger.info("addPerson - name=" + name + ", sex=" + sex + ", phone=" + phone + ", deptId=" + deptId + ", username=" + username + ", password=" + password + ", roleIds=" + roleIds);
+		ResultBean resultBean = new ResultBean();
+		try {
+			this.personService.addOrUpdatePerson(null, name, sex, phone, deptId, null, username, password, roleIds);
+			resultBean.setSuccess(true);
+			resultBean.setMessage("添加成功");
+			return Response.ok(resultBean).build();
+		} catch (IllegalStateException e) {
+			resultBean.setSuccess(false);
+			resultBean.setMessage(e.getMessage());
+			return Response.ok(resultBean).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			return WebApplicationException.build();
+		}
+	}
+
+	/**
+	 * @功能: 修改用户
+	 * @作者: yangc
+	 * @创建日期: 2013年12月23日 下午5:49:16
+	 * @return
+	 */
+	@POST
+	@Path("updatePerson")
+	@Produces(MediaType.APPLICATION_JSON)
+	@RequiresPermissions("person:" + Permission.UPD)
+	public Response updatePerson(@FormParam("id") Long id, @FormParam("name") String name, @FormParam("sex") Long sex, @FormParam("phone") String phone, @FormParam("deptId") Long deptId,
 			@FormParam("userId") Long userId, @FormParam("username") String username, @FormParam("password") String password, @FormParam("roleIds") String roleIds) {
-		logger.info("addOrUpdatePerson - id=" + id + ", name=" + name + ", sex=" + sex + ", phone=" + phone + ", deptId=" + deptId + ", userId=" + userId + ", username=" + username + ", password="
+		logger.info("updatePerson - id=" + id + ", name=" + name + ", sex=" + sex + ", phone=" + phone + ", deptId=" + deptId + ", userId=" + userId + ", username=" + username + ", password="
 				+ password + ", roleIds=" + roleIds);
 		ResultBean resultBean = new ResultBean();
 		try {
-			resultBean.setSuccess(true);
-			if (id == null) {
-				resultBean.setMessage("添加成功");
-			} else {
-				resultBean.setMessage("修改成功");
-			}
 			this.personService.addOrUpdatePerson(id, name, sex, phone, deptId, userId, username, password, roleIds);
+			// 清除用户权限缓存信息
+			ShiroUtils.clearCachedAuthorizationInfo(username);
+			resultBean.setSuccess(true);
+			resultBean.setMessage("修改成功");
 			return Response.ok(resultBean).build();
 		} catch (IllegalStateException e) {
 			resultBean.setSuccess(false);
@@ -146,10 +180,13 @@ public class PersonResource {
 	@POST
 	@Path("delPerson")
 	@Produces(MediaType.APPLICATION_JSON)
+	@RequiresPermissions("person:" + Permission.DEL)
 	public Response delPerson(@FormParam("id") Long id) {
 		try {
 			logger.info("delPerson - id=" + id);
-			this.personService.delPerson(id);
+			String username = this.personService.delPerson(id);
+			// 清除用户权限缓存信息
+			ShiroUtils.clearCachedAuthorizationInfo(username);
 			return Response.ok(new ResultBean(true, "删除成功")).build();
 		} catch (Exception e) {
 			logger.error(e.getMessage());

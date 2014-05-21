@@ -10,13 +10,15 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 import com.yangc.bean.ResultBean;
 import com.yangc.exception.WebApplicationException;
+import com.yangc.shiro.utils.ShiroUtils;
 import com.yangc.system.bean.oracle.MenuTree;
+import com.yangc.system.bean.oracle.Permission;
 import com.yangc.system.bean.oracle.TSysMenu;
 import com.yangc.system.service.MenuService;
-import com.yangc.utils.UserThreadUtils;
 
 @Path("/menu")
 public class MenuResource {
@@ -36,7 +38,7 @@ public class MenuResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showTopFrame() {
 		try {
-			Long userId = UserThreadUtils.get().getId();
+			Long userId = ShiroUtils.getCurrentUser().getId();
 			logger.info("showTopFrame - userId=" + userId);
 			List<TSysMenu> menus = this.menuService.getTopFrame(0L, userId);
 			return Response.ok(menus).build();
@@ -57,7 +59,7 @@ public class MenuResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response showMainFrame(@FormParam("parentMenuId") Long parentMenuId) {
 		try {
-			Long userId = UserThreadUtils.get().getId();
+			Long userId = ShiroUtils.getCurrentUser().getId();
 			logger.info("showMainFrame - parentMenuId=" + parentMenuId + ", userId=" + userId);
 			List<TSysMenu> menus = this.menuService.getMainFrame(parentMenuId, userId);
 			return Response.ok(menus).build();
@@ -76,6 +78,7 @@ public class MenuResource {
 	@POST
 	@Path("getMenuTreeList")
 	@Produces(MediaType.APPLICATION_JSON)
+	@RequiresPermissions("menu:" + Permission.SEL)
 	public Response getMenuTreeList(@FormParam("parentMenuId") Long parentMenuId) {
 		logger.info("getMenuTreeList - parentMenuId=" + parentMenuId);
 		try {
@@ -94,22 +97,38 @@ public class MenuResource {
 	 * @return
 	 */
 	@POST
-	@Path("addOrUpdateMenu")
+	@Path("addMenu")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response addOrUpdateMenu(@FormParam("id") Long id, @FormParam("menuName") String menuName, @FormParam("menuUrl") String menuUrl, @FormParam("parentMenuId") Long parentMenuId,
-			@FormParam("serialNum") Long serialNum, @FormParam("isshow") Long isshow, @FormParam("description") String description) {
-		logger.info("addOrUpdateMenu - id=" + id + ", menuName=" + menuName + ", menuUrl=" + menuUrl + ", parentMenuId=" + parentMenuId + ", serialNum=" + serialNum + ", isshow=" + isshow
-				+ ", description=" + description);
-		ResultBean resultBean = new ResultBean();
+	@RequiresPermissions("menu:" + Permission.ADD)
+	public Response addMenu(@FormParam("menuName") String menuName, @FormParam("menuUrl") String menuUrl, @FormParam("parentMenuId") Long parentMenuId, @FormParam("serialNum") Long serialNum,
+			@FormParam("isshow") Long isshow, @FormParam("description") String description) {
+		logger.info("addMenu - menuName=" + menuName + ", menuUrl=" + menuUrl + ", parentMenuId=" + parentMenuId + ", serialNum=" + serialNum + ", isshow=" + isshow + ", description=" + description);
 		try {
-			resultBean.setSuccess(true);
-			if (id == null) {
-				resultBean.setMessage("添加成功，请授权进行查看");
-			} else {
-				resultBean.setMessage("修改成功，请刷新页面进行查看");
-			}
+			this.menuService.addOrUpdateMenu(null, menuName, menuUrl, parentMenuId, serialNum, isshow, description);
+			return Response.ok(new ResultBean(true, "添加成功，请授权进行查看")).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage());
+			return WebApplicationException.build();
+		}
+	}
+
+	/**
+	 * @功能: 修改菜单
+	 * @作者: yangc
+	 * @创建日期: 2014年1月2日 下午2:06:05
+	 * @return
+	 */
+	@POST
+	@Path("updateMenu")
+	@Produces(MediaType.APPLICATION_JSON)
+	@RequiresPermissions("menu:" + Permission.UPD)
+	public Response updateMenu(@FormParam("id") Long id, @FormParam("menuName") String menuName, @FormParam("menuUrl") String menuUrl, @FormParam("parentMenuId") Long parentMenuId,
+			@FormParam("serialNum") Long serialNum, @FormParam("isshow") Long isshow, @FormParam("description") String description) {
+		logger.info("updateMenu - id=" + id + ", menuName=" + menuName + ", menuUrl=" + menuUrl + ", parentMenuId=" + parentMenuId + ", serialNum=" + serialNum + ", isshow=" + isshow
+				+ ", description=" + description);
+		try {
 			this.menuService.addOrUpdateMenu(id, menuName, menuUrl, parentMenuId, serialNum, isshow, description);
-			return Response.ok(resultBean).build();
+			return Response.ok(new ResultBean(true, "修改成功，请刷新页面进行查看")).build();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			return WebApplicationException.build();
@@ -125,6 +144,7 @@ public class MenuResource {
 	@POST
 	@Path("updParentMenuId")
 	@Produces(MediaType.APPLICATION_JSON)
+	@RequiresPermissions("menu:" + Permission.UPD)
 	public Response updParentMenuId(@FormParam("id") Long id, @FormParam("parentMenuId") Long parentMenuId) {
 		logger.info("updParentMenuId - id=" + id + ", parentMenuId=" + parentMenuId);
 		try {
@@ -145,6 +165,7 @@ public class MenuResource {
 	@POST
 	@Path("delMenu")
 	@Produces(MediaType.APPLICATION_JSON)
+	@RequiresPermissions("menu:" + Permission.DEL)
 	public Response delMenu(@FormParam("id") Long id) {
 		logger.info("delMenu - id=" + id);
 		ResultBean resultBean = new ResultBean();
