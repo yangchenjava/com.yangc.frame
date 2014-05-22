@@ -79,7 +79,12 @@ Ext.onReady(function() {
 				closeAllTabsText: "关闭所有"
 			})
 		],
-		items: []
+		items: [],
+		listeners: {
+			beforeremove: function(thiz, component, eOpts){
+				
+			}
+		}
 	});
 
     Ext.create("Ext.panel.Panel", {

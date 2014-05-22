@@ -12,8 +12,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import com.yangc.common.Pagination;
 import com.yangc.common.PaginationThreadUtils;
@@ -21,7 +20,7 @@ import com.yangc.common.PaginationThreadUtils;
 @SuppressWarnings("unchecked")
 public class PaginationFilter implements Filter {
 
-	public static final Logger logger = LoggerFactory.getLogger(PaginationFilter.class);
+	public static final Logger logger = Logger.getLogger(PaginationFilter.class);
 
 	// 前端js对分页请求的名字
 	private static final String PAGE_SIZE = "limit";

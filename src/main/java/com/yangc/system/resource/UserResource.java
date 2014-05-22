@@ -23,7 +23,7 @@ import com.yangc.exception.WebApplicationException;
 import com.yangc.shiro.utils.ShiroUtils;
 import com.yangc.system.bean.oracle.TSysUser;
 import com.yangc.system.service.UserService;
-import com.yangc.utils.ParamUtils;
+import com.yangc.utils.Constants;
 
 @Path("/user")
 public class UserResource {
@@ -48,7 +48,7 @@ public class UserResource {
 			UsernamePasswordToken token = new UsernamePasswordToken(username, password);
 			SecurityUtils.getSubject().login(token);
 			resultBean.setSuccess(true);
-			resultBean.setMessage(ParamUtils.INDEX_PAGE);
+			resultBean.setMessage(Constants.INDEX_PAGE);
 			return Response.ok(resultBean).build();
 		} catch (AuthenticationException e) {
 			resultBean.setSuccess(false);
@@ -73,11 +73,11 @@ public class UserResource {
 		logger.info("logout");
 		// session会销毁,在SessionListener监听session销毁,清理权限缓存
 		SecurityUtils.getSubject().logout();
-		URI uri = uriInfo.getBaseUriBuilder().path("../jsp/login.jsp").build();
-		// 这种方式下的跳转采用的是GET方法
-		// return Response.seeOther(uri).build();
+		URI uri = uriInfo.getBaseUriBuilder().path(Constants.LOGIN_PAGE).build();
 		// 这个方法的跳转方式GET,POST等会延用进入该方法时的方法,如果是POST方法进入的那么跳转后的方法还是post
-		return Response.temporaryRedirect(uri).build();
+		// return Response.temporaryRedirect(uri).build();
+		// 这种方式下的跳转采用的是GET方法
+		return Response.seeOther(uri).build();
 	}
 
 	/**

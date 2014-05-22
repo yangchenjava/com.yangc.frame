@@ -11,22 +11,33 @@
 		<property name="aclService" ref="aclService" />
 	</bean>
 
-	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager" />
+	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManagerConfigFile" value="classpath:ehcache.xml"></property>
+	</bean>
 
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realm" ref="myRealm" />
 		<property name="cacheManager" ref="cacheManager" />
 	</bean>
 
+	<bean id="myAuthc" class="com.yangc.shiro.auth.MyAuthc" />
+
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
 		<property name="loginUrl" value="/jsp/login.jsp" />
         <property name="successUrl" value="/jsp/frame/index.jsp" />
         <property name="unauthorizedUrl" value="/jsp/error/exception.jsp" />
+        <property name="filters">
+        	<map>
+        		<entry key="myAuthc" value-ref="myAuthc" />
+        	</map>
+        </property>
         <property name="filterChainDefinitions">
         	<value>
         		/resource/user/login = anon
-        		/resource/** = authc
+        		/resource/** = myAuthc
+        		/jsp/** = myAuthc
+        		/ = myAuthc
         	</value>
         </property>
 	</bean>
@@ -49,4 +60,6 @@
 	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
 		<property name="securityManager" ref="securityManager" />
 	</bean>
+
+	<bean id="globalExceptionHandler" class="com.yangc.exception.GlobalExceptionHandler" scope="singleton" />
 </beans>

@@ -6,7 +6,7 @@ import org.apache.shiro.mgt.RealmSecurityManager;
 
 import com.yangc.shiro.auth.MyRealm;
 import com.yangc.system.bean.oracle.TSysUser;
-import com.yangc.utils.ParamUtils;
+import com.yangc.utils.Constants;
 
 public class ShiroUtils {
 
@@ -41,7 +41,7 @@ public class ShiroUtils {
 	 * @创建日期: 2014年5月21日 下午7:54:41
 	 */
 	public static TSysUser getCurrentUser() {
-		return (TSysUser) SecurityUtils.getSubject().getSession().getAttribute(ParamUtils.LOGIN_USER);
+		return (TSysUser) SecurityUtils.getSubject().getSession().getAttribute(Constants.CURRENT_USER);
 	}
 
 }

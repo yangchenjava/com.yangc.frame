@@ -16,12 +16,13 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 
+import com.yangc.shiro.utils.ShiroUtils;
 import com.yangc.system.bean.oracle.Permission;
 import com.yangc.system.bean.oracle.TSysAcl;
 import com.yangc.system.bean.oracle.TSysUser;
 import com.yangc.system.service.AclService;
 import com.yangc.system.service.UserService;
-import com.yangc.utils.ParamUtils;
+import com.yangc.utils.Constants;
 
 public class MyRealm extends AuthorizingRealm {
 
@@ -30,9 +31,8 @@ public class MyRealm extends AuthorizingRealm {
 
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		// String username=(String) principals.getPrimaryPrincipal();
-		TSysUser user = (TSysUser) SecurityUtils.getSubject().getSession().getAttribute(ParamUtils.LOGIN_USER);
-		List<TSysAcl> aclList = this.aclService.getAclListByUserId(user.getId());
+		// String username = (String) principals.getPrimaryPrincipal();
+		List<TSysAcl> aclList = this.aclService.getAclListByUserId(ShiroUtils.getCurrentUser().getId());
 
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 		if (aclList != null) {
@@ -62,7 +62,7 @@ public class MyRealm extends AuthorizingRealm {
 			} else if (users.size() > 1) {
 				throw new AuthenticationException("用户重复");
 			} else {
-				SecurityUtils.getSubject().getSession().setAttribute(ParamUtils.LOGIN_USER, users.get(0));
+				SecurityUtils.getSubject().getSession().setAttribute(Constants.CURRENT_USER, users.get(0));
 				return new SimpleAuthenticationInfo(username, password, this.getName());
 			}
 		}

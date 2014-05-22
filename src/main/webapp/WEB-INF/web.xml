@@ -31,24 +31,6 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 
-	<!-- session登录验证过滤 -->
-	<filter>
-		<filter-name>SessionFilter</filter-name>
-		<filter-class>com.yangc.filter.SessionFilter</filter-class>
-	</filter>
-	<filter-mapping>
-		<filter-name>SessionFilter</filter-name>
-		<url-pattern>/resource/*</url-pattern>
-	</filter-mapping>
-	<filter-mapping>
-		<filter-name>SessionFilter</filter-name>
-		<url-pattern>*.jsp</url-pattern>
-	</filter-mapping>
-	<filter-mapping>
-		<filter-name>SessionFilter</filter-name>
-		<url-pattern>*.html</url-pattern>
-	</filter-mapping>
-
 	<!-- 分页过滤 -->
 	<filter>
 		<filter-name>PaginationFilter</filter-name>
