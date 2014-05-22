@@ -64,7 +64,8 @@ Ext.onReady(function() {
         })
     });
 	
-	var panel_addOrUpdate_dept = Ext.create("Ext.form.Panel", {
+	Ext.define("panel_addOrUpdate_dept", {
+		extend: "Ext.form.Panel",
         bodyPadding: 20,
         bodyBorder: false,
         frame: false,
@@ -80,21 +81,21 @@ Ext.onReady(function() {
 			{id: "addOrUpdate_serialNum", name: "serialNum", xtype: "numberfield", fieldLabel: "顺序", allowBlank: false, invalidText: "请输入顺序！", minValue: 1}
 		]
 	});
-    var window_addOrUpdate_dept = Ext.create("Ext.window.Window", {
+    Ext.define("window_addOrUpdate_dept", {
+    	extend: "Ext.window.Window",
 		layout: "fit",
 		width: 500,
 		bodyMargin: 10,
 		border: false,
 		closable: true,
-		closeAction: "hide",
 		modal: true,
 		plain: true,
 		resizable: false,
-		items: [panel_addOrUpdate_dept],
+		items: [],
 		buttonAlign: "right",
         buttons: [
             {text: "确定", handler: addOrUpdateDeptHandler}, "-",
-			{text: "取消", handler: function(){window_addOrUpdate_dept.hide();}}
+			{text: "取消", handler: function(){this.up("window").close();}}
         ]
 	});
     
@@ -106,16 +107,22 @@ Ext.onReady(function() {
     }
     
 	function createDept(){
-		panel_addOrUpdate_dept.getForm().reset();
+		var panel_addOrUpdate_dept = Ext.create("panel_addOrUpdate_dept");
+		var window_addOrUpdate_dept = Ext.create("window_addOrUpdate_dept");
+		window_addOrUpdate_dept.add(panel_addOrUpdate_dept);
 		window_addOrUpdate_dept.setTitle("创建");
 		window_addOrUpdate_dept.show();
 	}
 	
 	function updateDept(){
 		if (grid_dept.getSelectionModel().hasSelection()) {
-			panel_addOrUpdate_dept.getForm().reset();
-			var record = grid_dept.getSelectionModel().getSelection()[0];
+			var record = grid.getSelectionModel().getSelection()[0];
+			
+			var panel_addOrUpdate_dept = Ext.create("panel_addOrUpdate_dept");
 			panel_addOrUpdate_dept.getForm().loadRecord(record);
+			
+			var window_addOrUpdate_dept = Ext.create("window_addOrUpdate_dept");
+			window_addOrUpdate_dept.add(panel_addOrUpdate_dept);
 			window_addOrUpdate_dept.setTitle("修改");
 			window_addOrUpdate_dept.show();
 		} else {
@@ -131,7 +138,6 @@ Ext.onReady(function() {
 					id: record.get("id"),
 				}, function(data){
 					if (data.success) {
-						window_addOrUpdate_dept.hide();
 						message.info(data.message);
 						refreshDeptGrid();
 					} else {
@@ -158,11 +164,11 @@ Ext.onReady(function() {
 			} else {
 				url = basePath + "resource/dept/addDept";
 			}
-			panel_addOrUpdate_dept.getForm().submit({
+			var window_addOrUpdate_dept = this.up("window");
+			window_addOrUpdate_dept.items.items[0].getForm().submit({
 				url: url,
 				method: "POST",
 				success: function(form, action){
-					window_addOrUpdate_dept.hide();
 					message.info(action.result.msg);
 					refreshDeptGrid();
 				},
@@ -170,6 +176,7 @@ Ext.onReady(function() {
 					message.error(action.result.msg);
 				}
 			});
+			window_addOrUpdate_dept.close();
 		}
 	}
 });
