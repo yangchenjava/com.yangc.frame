@@ -108,6 +108,7 @@ Ext.onReady(function() {
     
 	function createDept(){
 		var panel_addOrUpdate_dept = Ext.create("panel_addOrUpdate_dept");
+		
 		var window_addOrUpdate_dept = Ext.create("window_addOrUpdate_dept");
 		window_addOrUpdate_dept.add(panel_addOrUpdate_dept);
 		window_addOrUpdate_dept.setTitle("创建");
@@ -116,7 +117,7 @@ Ext.onReady(function() {
 	
 	function updateDept(){
 		if (grid_dept.getSelectionModel().hasSelection()) {
-			var record = grid.getSelectionModel().getSelection()[0];
+			var record = grid_dept.getSelectionModel().getSelection()[0];
 			
 			var panel_addOrUpdate_dept = Ext.create("panel_addOrUpdate_dept");
 			panel_addOrUpdate_dept.getForm().loadRecord(record);
@@ -169,6 +170,7 @@ Ext.onReady(function() {
 				url: url,
 				method: "POST",
 				success: function(form, action){
+					window_addOrUpdate_dept.close();
 					message.info(action.result.msg);
 					refreshDeptGrid();
 				},
@@ -176,7 +178,6 @@ Ext.onReady(function() {
 					message.error(action.result.msg);
 				}
 			});
-			window_addOrUpdate_dept.close();
 		}
 	}
 });

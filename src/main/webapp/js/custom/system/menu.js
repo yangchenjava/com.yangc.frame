@@ -145,7 +145,7 @@ Ext.onReady(function() {
 		store_menuTree.load();
     }
 	
-	function fieldSetRW(isReadOnly){
+	function fieldSetReadOnly(isReadOnly){
 		Ext.getCmp("addOrUpdate_menuName").setReadOnly(isReadOnly);
 		Ext.getCmp("addOrUpdate_menuUrl").setReadOnly(isReadOnly);
 		Ext.getCmp("addOrUpdate_serialNum").setReadOnly(isReadOnly);
@@ -154,10 +154,10 @@ Ext.onReady(function() {
 		Ext.getCmp("addOrUpdate_description").setReadOnly(isReadOnly);
 		Ext.getCmp("addOrUpdate_button").setDisabled(isReadOnly);
 	}
-	fieldSetRW(true);
+	fieldSetReadOnly(true);
 	
 	function showMenuHandler(thiz, record, item, index, e, eOpts){
-		fieldSetRW(true);
+		fieldSetReadOnly(true);
 		thiz.up("form").getForm().loadRecord(record);
 	}
 	
@@ -165,14 +165,14 @@ Ext.onReady(function() {
 		tree_menu.up("form").getForm().reset();
 		var record = tree_menu.getSelectionModel().getSelection()[0];
 		Ext.getCmp("addOrUpdate_parentMenuId").setValue(record.get("id"));
-		fieldSetRW(false);
+		fieldSetReadOnly(false);
 	}
 	
 	function updateMenu(){
 		tree_menu.up("form").getForm().reset();
 		var record = tree_menu.getSelectionModel().getSelection()[0];
 		tree_menu.up("form").getForm().loadRecord(record);
-		fieldSetRW(false);
+		fieldSetReadOnly(false);
 	}
 	
 	function deleteMenu(){
@@ -183,7 +183,7 @@ Ext.onReady(function() {
 					id: record.get("id"),
 				}, function(data){
 					if (data.success) {
-						fieldSetRW(true);
+						fieldSetReadOnly(true);
 						message.info(data.message);
 						refreshMenuTree();
 					} else {
@@ -214,7 +214,7 @@ Ext.onReady(function() {
 				url: url,
 				method: "POST",
 				success: function(form, action){
-					fieldSetRW(true);
+					fieldSetReadOnly(true);
 					message.info(action.result.msg);
 					refreshMenuTree();
 				},

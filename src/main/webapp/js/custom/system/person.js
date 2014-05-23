@@ -169,7 +169,8 @@ Ext.onReady(function() {
         })
     });
 	
-	var panel_addOrUpdate_person = Ext.create("Ext.form.Panel", {
+	Ext.define("panel_addOrUpdate_person", {
+		extend: "Ext.form.Panel",
         bodyPadding: 20,
         bodyBorder: false,
         frame: false,
@@ -215,21 +216,21 @@ Ext.onReady(function() {
         	}
 		]
 	});
-    var window_addOrUpdate_person = Ext.create("Ext.window.Window", {
+    Ext.define("window_addOrUpdate_person", {
+    	extend: "Ext.window.Window",
 		layout: "fit",
 		width: 500,
 		bodyMargin: 10,
 		border: false,
 		closable: true,
-		closeAction: "hide",
 		modal: true,
 		plain: true,
 		resizable: false,
-		items: [panel_addOrUpdate_person],
+		items: [],
 		buttonAlign: "right",
         buttons: [
             {text: "确定", handler: addOrUpdatePersonHandler}, "-",
-			{text: "取消", handler: function(){window_addOrUpdate_person.hide();}}
+			{text: "取消", handler: function(){this.up("window").close();}}
         ]
 	});
     
@@ -245,27 +246,27 @@ Ext.onReady(function() {
     }
     
 	function createPerson(){
-		panel_addOrUpdate_person.getForm().reset();
-		Ext.getCmp("addOrUpdate_role").fromField.store.removeAll();
+		var panel_addOrUpdate_person = Ext.create("panel_addOrUpdate_person");
 		store_roleList.load();
 		Ext.getCmp("addOrUpdate_password_1").show();
 		Ext.getCmp("addOrUpdate_password_2").show();
+		
+		var window_addOrUpdate_person = Ext.create("window_addOrUpdate_person");
+		window_addOrUpdate_person.add(panel_addOrUpdate_person);
 		window_addOrUpdate_person.setTitle("创建");
 		window_addOrUpdate_person.show();
 	}
 	
 	function updatePerson(){
 		if (grid_person.getSelectionModel().hasSelection()) {
-			panel_addOrUpdate_person.getForm().reset();
-			Ext.getCmp("addOrUpdate_role").fromField.store.removeAll();
-			store_roleList.load();
-			
 			var record = grid_person.getSelectionModel().getSelection()[0];
+			
+			var panel_addOrUpdate_person = Ext.create("panel_addOrUpdate_person");
+			store_roleList.load();
 			panel_addOrUpdate_person.getForm().loadRecord(record);
 			Ext.getCmp("addOrUpdate_password_1").hide();
 			Ext.getCmp("addOrUpdate_password_2").setValue(record.get("password"));
 			Ext.getCmp("addOrUpdate_password_2").hide();
-
 			store_roleIdsList.load({
 				params: {"userId": record.get("userId")},
 		   	 	scope: this,
@@ -273,6 +274,9 @@ Ext.onReady(function() {
 		   	    	Ext.getCmp("addOrUpdate_role").setValue(records[0].get("roleIds"));
 		   	    }
 	   	 	});
+			
+			var window_addOrUpdate_person = Ext.create("window_addOrUpdate_person");
+			window_addOrUpdate_person.add(panel_addOrUpdate_person);
 			window_addOrUpdate_person.setTitle("修改");
 			window_addOrUpdate_person.show();
 		} else {
@@ -288,7 +292,6 @@ Ext.onReady(function() {
 					id: record.get("id"),
 				}, function(data){
 					if (data.success) {
-						window_addOrUpdate_person.hide();
 						message.info(data.message);
 						refreshPersonGrid();
 					} else {
@@ -333,11 +336,12 @@ Ext.onReady(function() {
 			} else {
 				url = basePath + "resource/person/addPerson";
 			}
-			panel_addOrUpdate_person.getForm().submit({
+			var window_addOrUpdate_person = this.up("window");
+			window_addOrUpdate_person.items.items[0].getForm().submit({
 				url: url,
 				method: "POST",
 				success: function(form, action){
-					window_addOrUpdate_person.hide();
+					window_addOrUpdate_person.close();
 					message.info(action.result.msg);
 					refreshPersonGrid();
 				},

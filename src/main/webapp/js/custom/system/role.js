@@ -98,7 +98,8 @@ Ext.onReady(function() {
         })
     });
 	
-	var panel_addOrUpdate_role = Ext.create("Ext.form.Panel", {
+	Ext.define("panel_addOrUpdate_role", {
+		extend: "Ext.form.Panel",
         bodyPadding: 20,
         bodyBorder: false,
         frame: false,
@@ -113,25 +114,26 @@ Ext.onReady(function() {
 			{id: "addOrUpdate_roleName", name: "roleName", xtype: "textfield", fieldLabel: "角色名称", allowBlank: false, invalidText: "请输入角色名称！"}
 		]
 	});
-    var window_addOrUpdate_role = Ext.create("Ext.window.Window", {
-		layout: "fit",
+    Ext.define("window_addOrUpdate_role", {
+		extend: "Ext.window.Window",
+    	layout: "fit",
 		width: 500,
 		bodyMargin: 10,
 		border: false,
 		closable: true,
-		closeAction: "hide",
 		modal: true,
 		plain: true,
 		resizable: false,
-		items: [panel_addOrUpdate_role],
+		items: [],
 		buttonAlign: "right",
         buttons: [
             {text: "确定", handler: addOrUpdateRoleHandler}, "-",
-			{text: "取消", handler: function(){window_addOrUpdate_role.hide();}}
+			{text: "取消", handler: function(){this.up("window").close();}}
         ]
 	});
     
-    var panel_addOrUpdate_acl = Ext.create("Ext.tree.Panel", {
+    Ext.define("panel_addOrUpdate_acl", {
+    	extend: "Ext.tree.Panel",
         bodyBorder: false,
         frame: false,
 		header: false,
@@ -150,7 +152,8 @@ Ext.onReady(function() {
 			itemmouseup: addOrUpdateAclHandler
 		}
 	});
-    var window_addOrUpdate_acl = Ext.create("Ext.window.Window", {
+    Ext.define("window_addOrUpdate_acl", {
+    	extend: "Ext.window.Window",
 		layout: "fit",
 		title: "授权",
 		width: 750,
@@ -158,14 +161,13 @@ Ext.onReady(function() {
 		bodyMargin: 10,
 		border: false,
 		closable: true,
-		closeAction: "hide",
 		modal: true,
 		plain: true,
 		resizable: false,
-		items: [panel_addOrUpdate_acl],
+		items: [],
 		buttonAlign: "right",
         buttons: [
-			{text: "确定", handler: function(){window_addOrUpdate_acl.hide();}}
+			{text: "关闭", handler: function(){this.up("window").close();}}
         ]
 	});
     
@@ -177,16 +179,23 @@ Ext.onReady(function() {
     }
     
 	function createRole(){
-		panel_addOrUpdate_role.getForm().reset();
+		var panel_addOrUpdate_role = Ext.create("panel_addOrUpdate_role");
+		
+		var window_addOrUpdate_role = Ext.create("window_addOrUpdate_role");
+		window_addOrUpdate_role.add(panel_addOrUpdate_role);
 		window_addOrUpdate_role.setTitle("创建");
 		window_addOrUpdate_role.show();
 	}
 	
 	function updateRole(){
 		if (grid_role.getSelectionModel().hasSelection()) {
-			panel_addOrUpdate_role.getForm().reset();
 			var record = grid_role.getSelectionModel().getSelection()[0];
+			
+			var panel_addOrUpdate_role = Ext.create("panel_addOrUpdate_role");
 			panel_addOrUpdate_role.getForm().loadRecord(record);
+			
+			var window_addOrUpdate_role = Ext.create("window_addOrUpdate_role");
+			window_addOrUpdate_role.add(panel_addOrUpdate_role);
 			window_addOrUpdate_role.setTitle("修改");
 			window_addOrUpdate_role.show();
 		} else {
@@ -202,7 +211,6 @@ Ext.onReady(function() {
 					id: record.get("id"),
 				}, function(data){
 					if (data.success) {
-						window_addOrUpdate_role.hide();
 						message.info(data.message);
 						refreshRoleGrid();
 					} else {
@@ -218,6 +226,8 @@ Ext.onReady(function() {
 	function authorizeRole(){
 		if (grid_role.getSelectionModel().hasSelection()) {
 			var record = grid_role.getSelectionModel().getSelection()[0];
+			
+			var panel_addOrUpdate_acl = Ext.create("panel_addOrUpdate_acl");
 			store_authTree.proxy.extraParams = {"roleId": record.get("id")};
 			store_authTree.load({
 				scope: this,
@@ -225,6 +235,9 @@ Ext.onReady(function() {
 		   	    	store_authTree.getRootNode().expand();
 		   	    }
 			});
+			
+			var window_addOrUpdate_acl = Ext.create("window_addOrUpdate_acl");
+			window_addOrUpdate_acl.add(panel_addOrUpdate_acl);
 			window_addOrUpdate_acl.show();
 		} else {
 			message.info("请先选择数据再操作！");
@@ -242,11 +255,12 @@ Ext.onReady(function() {
 			} else {
 				url = basePath + "resource/role/addRole";
 			}
-			panel_addOrUpdate_role.getForm().submit({
+			var window_addOrUpdate_role = this.up("window");
+			window_addOrUpdate_role.items.items[0].getForm().submit({
 				url: url,
 				method: "POST",
 				success: function(form, action){
-					window_addOrUpdate_role.hide();
+					window_addOrUpdate_role.close();
 					message.info(action.result.msg);
 					refreshRoleGrid();
 				},
