@@ -42,7 +42,7 @@ public class DeptResource {
 			List<TSysDepartment> deptList = this.deptService.getDeptList();
 			return Response.ok(deptList).build();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return WebApplicationException.build();
 		}
 	}
@@ -65,7 +65,7 @@ public class DeptResource {
 			dataGridBean.setDataGrid(deptList);
 			return Response.ok(dataGridBean).build();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return WebApplicationException.build();
 		}
 	}
@@ -86,7 +86,7 @@ public class DeptResource {
 			this.deptService.addOrUpdateDept(null, deptName, serialNum);
 			return Response.ok(new ResultBean(true, "添加成功")).build();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return WebApplicationException.build();
 		}
 	}
@@ -107,7 +107,7 @@ public class DeptResource {
 			this.deptService.addOrUpdateDept(id, deptName, serialNum);
 			return Response.ok(new ResultBean(true, "修改成功")).build();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return WebApplicationException.build();
 		}
 	}
@@ -135,7 +135,7 @@ public class DeptResource {
 			resultBean.setMessage(e.getMessage());
 			return Response.ok(resultBean).build();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return WebApplicationException.build();
 		}
 	}

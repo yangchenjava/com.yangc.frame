@@ -11,8 +11,9 @@ import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
-import org.apache.shiro.cache.Cache;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 
@@ -28,6 +29,8 @@ public class MyRealm extends AuthorizingRealm {
 
 	private UserService userService;
 	private AclService aclService;
+
+	private SessionDAO sessionDAO;
 
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
@@ -62,9 +65,40 @@ public class MyRealm extends AuthorizingRealm {
 			} else if (users.size() > 1) {
 				throw new AuthenticationException("用户重复");
 			} else {
-				SecurityUtils.getSubject().getSession().setAttribute(Constants.CURRENT_USER, users.get(0));
+				Session currentSession = SecurityUtils.getSubject().getSession();
+				// Session existSession = null;
+				// Collection<Session> sessions = this.sessionDAO.getActiveSessions();
+				// for (Session session : sessions) {
+				// if (session != null && StringUtils.equals((String) session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY), username)) {
+				// existSession = session;
+				// break;
+				// }
+				// }
+				// if (existSession != null && !StringUtils.equals(existSession.getId().toString(), currentSession.getId().toString())) {
+				// existSession.stop();
+				// this.sessionDAO.delete(existSession);
+				// }
+				// this.clearCachedAuthenticationInfo(username);
+				// if (existSession != null) {
+				// System.out.println(existSession.getId().toString() + "   =========    " + currentSession.getId().toString());
+				// }
+
+				currentSession.setAttribute(Constants.CURRENT_USER, users.get(0));
 				return new SimpleAuthenticationInfo(username, password, this.getName());
 			}
+		}
+	}
+
+	/**
+	 * @功能: 清除用户认证缓存信息
+	 * @作者: yangc
+	 * @创建日期: 2014年5月21日 上午10:24:18
+	 * @param principal username
+	 */
+	public void clearCachedAuthenticationInfo(Object principal) {
+		if (principal != null) {
+			SimplePrincipalCollection principals = new SimplePrincipalCollection(principal, this.getName());
+			this.clearCachedAuthenticationInfo(principals);
 		}
 	}
 
@@ -82,17 +116,31 @@ public class MyRealm extends AuthorizingRealm {
 	}
 
 	/**
+	 * @功能: 清除所有认证缓存信息
+	 * @作者: yangc
+	 * @创建日期: 2014年5月21日 下午7:54:41
+	 */
+	public void clearAllCachedAuthenticationInfo() {
+		this.getAuthenticationCache().clear();
+	}
+
+	/**
 	 * @功能: 清除所有权限缓存信息
 	 * @作者: yangc
 	 * @创建日期: 2014年5月21日 下午7:54:41
 	 */
 	public void clearAllCachedAuthorizationInfo() {
-		Cache<Object, AuthorizationInfo> cache = this.getAuthorizationCache();
-		if (cache != null) {
-			for (Object key : cache.keys()) {
-				cache.remove(key);
-			}
-		}
+		this.getAuthorizationCache().clear();
+	}
+
+	/**
+	 * @功能: 清除所有认证和权限缓存信息
+	 * @作者: yangc
+	 * @创建日期: 2014年5月21日 下午7:54:41
+	 */
+	public void clearAllCached() {
+		this.clearAllCachedAuthenticationInfo();
+		this.clearAllCachedAuthorizationInfo();
 	}
 
 	public void setUserService(UserService userService) {
@@ -101,6 +149,10 @@ public class MyRealm extends AuthorizingRealm {
 
 	public void setAclService(AclService aclService) {
 		this.aclService = aclService;
+	}
+
+	public void setSessionDAO(SessionDAO sessionDAO) {
+		this.sessionDAO = sessionDAO;
 	}
 
 }

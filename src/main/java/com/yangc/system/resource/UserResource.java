@@ -55,7 +55,7 @@ public class UserResource {
 			resultBean.setMessage(e.getMessage());
 			return Response.ok(resultBean).build();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return WebApplicationException.build();
 		}
 	}
@@ -109,7 +109,7 @@ public class UserResource {
 			}
 			return Response.ok(resultBean).build();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return WebApplicationException.build();
 		}
 	}

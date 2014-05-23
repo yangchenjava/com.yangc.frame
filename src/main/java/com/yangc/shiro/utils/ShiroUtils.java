@@ -11,6 +11,20 @@ import com.yangc.utils.Constants;
 public class ShiroUtils {
 
 	/**
+	 * @功能: 清除用户认证缓存信息
+	 * @作者: yangc
+	 * @创建日期: 2014年5月21日 上午10:24:18
+	 * @param username
+	 */
+	public static void clearCachedAuthenticationInfo(String username) {
+		if (StringUtils.isNotBlank(username)) {
+			RealmSecurityManager realmSecurityManager = (RealmSecurityManager) SecurityUtils.getSecurityManager();
+			MyRealm myRealm = (MyRealm) realmSecurityManager.getRealms().iterator().next();
+			myRealm.clearCachedAuthenticationInfo(username);
+		}
+	}
+
+	/**
 	 * @功能: 清除用户权限缓存信息
 	 * @作者: yangc
 	 * @创建日期: 2014年5月21日 上午10:24:18

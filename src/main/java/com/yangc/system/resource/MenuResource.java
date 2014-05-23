@@ -43,7 +43,7 @@ public class MenuResource {
 			List<TSysMenu> menus = this.menuService.getTopFrame(0L, userId);
 			return Response.ok(menus).build();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return WebApplicationException.build();
 		}
 	}
@@ -64,7 +64,7 @@ public class MenuResource {
 			List<TSysMenu> menus = this.menuService.getMainFrame(parentMenuId, userId);
 			return Response.ok(menus).build();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return WebApplicationException.build();
 		}
 	}
@@ -85,7 +85,7 @@ public class MenuResource {
 			List<MenuTree> menuTreeList = this.menuService.getMenuListByParentMenuId(parentMenuId);
 			return Response.ok(menuTreeList).build();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return WebApplicationException.build();
 		}
 	}
@@ -107,7 +107,7 @@ public class MenuResource {
 			this.menuService.addOrUpdateMenu(null, menuName, menuUrl, parentMenuId, serialNum, isshow, description);
 			return Response.ok(new ResultBean(true, "添加成功，请授权进行查看")).build();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return WebApplicationException.build();
 		}
 	}
@@ -130,7 +130,7 @@ public class MenuResource {
 			this.menuService.addOrUpdateMenu(id, menuName, menuUrl, parentMenuId, serialNum, isshow, description);
 			return Response.ok(new ResultBean(true, "修改成功，请刷新页面进行查看")).build();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return WebApplicationException.build();
 		}
 	}
@@ -151,7 +151,7 @@ public class MenuResource {
 			this.menuService.updParentMenuId(id, parentMenuId);
 			return Response.ok(new ResultBean(true, "修改成功")).build();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return WebApplicationException.build();
 		}
 	}
@@ -179,7 +179,7 @@ public class MenuResource {
 			resultBean.setMessage(e.getMessage());
 			return Response.ok(resultBean).build();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return WebApplicationException.build();
 		}
 	}

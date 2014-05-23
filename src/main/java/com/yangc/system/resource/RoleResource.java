@@ -37,7 +37,7 @@ public class RoleResource {
 			List<TSysRole> roleList = this.roleService.getRoleList();
 			return Response.ok(roleList).build();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return WebApplicationException.build();
 		}
 	}
@@ -60,7 +60,7 @@ public class RoleResource {
 			dataGridBean.setDataGrid(roleList);
 			return Response.ok(dataGridBean).build();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return WebApplicationException.build();
 		}
 	}
@@ -75,7 +75,7 @@ public class RoleResource {
 			this.roleService.addOrUpdateRole(null, roleName);
 			return Response.ok(new ResultBean(true, "添加成功")).build();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return WebApplicationException.build();
 		}
 	}
@@ -90,7 +90,7 @@ public class RoleResource {
 			this.roleService.addOrUpdateRole(id, roleName);
 			return Response.ok(new ResultBean(true, "修改成功")).build();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return WebApplicationException.build();
 		}
 	}
@@ -107,7 +107,7 @@ public class RoleResource {
 			ShiroUtils.clearAllCachedAuthorizationInfo();
 			return Response.ok(new ResultBean(true, "删除成功")).build();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return WebApplicationException.build();
 		}
 	}

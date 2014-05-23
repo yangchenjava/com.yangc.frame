@@ -48,7 +48,7 @@ public class PersonResource {
 			List<TSysPerson> personList = this.personService.getPersonList();
 			return Response.ok(personList).build();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return WebApplicationException.build();
 		}
 	}
@@ -74,7 +74,7 @@ public class PersonResource {
 			dataGridBean.setDataGrid(personList);
 			return Response.ok(dataGridBean).build();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return WebApplicationException.build();
 		}
 	}
@@ -105,7 +105,7 @@ public class PersonResource {
 			}
 			return Response.ok(person).build();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return WebApplicationException.build();
 		}
 	}
@@ -134,7 +134,7 @@ public class PersonResource {
 			resultBean.setMessage(e.getMessage());
 			return Response.ok(resultBean).build();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return WebApplicationException.build();
 		}
 	}
@@ -166,7 +166,7 @@ public class PersonResource {
 			resultBean.setMessage(e.getMessage());
 			return Response.ok(resultBean).build();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return WebApplicationException.build();
 		}
 	}
@@ -189,7 +189,7 @@ public class PersonResource {
 			ShiroUtils.clearCachedAuthorizationInfo(username);
 			return Response.ok(new ResultBean(true, "删除成功")).build();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return WebApplicationException.build();
 		}
 	}

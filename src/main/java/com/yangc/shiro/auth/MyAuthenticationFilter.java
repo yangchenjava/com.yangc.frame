@@ -13,7 +13,7 @@ import org.apache.shiro.web.filter.authc.AuthenticationFilter;
 import com.yangc.bean.ResultBean;
 import com.yangc.utils.json.JsonUtils;
 
-public class MyAuthc extends AuthenticationFilter {
+public class MyAuthenticationFilter extends AuthenticationFilter {
 
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
@@ -40,7 +40,7 @@ public class MyAuthc extends AuthenticationFilter {
 			if (StringUtils.isNotBlank(header) && header.equals("X-Requested-With")) {
 				resp.setContentType("application/json;charset=UTF-8");
 				PrintWriter pw = resp.getWriter();
-				pw.write(JsonUtils.toJson(new ResultBean(false, "登录超时, 请刷新页面!")));
+				pw.write(JsonUtils.toJson(new ResultBean(false, "页面超时, 请刷新页面!")));
 				pw.flush();
 				pw.close();
 			}

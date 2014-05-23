@@ -42,7 +42,7 @@ public class AclResource {
 			List<AuthTree> authTreeList = this.aclService.getAclListByRoleIdAndParentMenuId(roleId, parentMenuId);
 			return Response.ok(authTreeList).build();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return WebApplicationException.build();
 		}
 	}
@@ -65,7 +65,7 @@ public class AclResource {
 			ShiroUtils.clearAllCachedAuthorizationInfo();
 			return Response.ok(new ResultBean(true, "")).build();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			e.printStackTrace();
 			return WebApplicationException.build();
 		}
 	}
