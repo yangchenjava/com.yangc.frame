@@ -1,5 +1,6 @@
 package com.yangc.shiro.auth;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -16,6 +17,7 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
+import org.apache.shiro.subject.support.DefaultSubjectContext;
 
 import com.yangc.shiro.utils.ShiroUtils;
 import com.yangc.system.bean.oracle.Permission;
@@ -66,22 +68,22 @@ public class MyRealm extends AuthorizingRealm {
 				throw new AuthenticationException("用户重复");
 			} else {
 				Session currentSession = SecurityUtils.getSubject().getSession();
-				// Session existSession = null;
-				// Collection<Session> sessions = this.sessionDAO.getActiveSessions();
-				// for (Session session : sessions) {
-				// if (session != null && StringUtils.equals((String) session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY), username)) {
-				// existSession = session;
-				// break;
-				// }
-				// }
-				// if (existSession != null && !StringUtils.equals(existSession.getId().toString(), currentSession.getId().toString())) {
-				// existSession.stop();
-				// this.sessionDAO.delete(existSession);
-				// }
-				// this.clearCachedAuthenticationInfo(username);
-				// if (existSession != null) {
-				// System.out.println(existSession.getId().toString() + "   =========    " + currentSession.getId().toString());
-				// }
+				Session existSession = null;
+				Collection<Session> sessions = this.sessionDAO.getActiveSessions();
+				for (Session session : sessions) {
+					if (session != null) {
+						SimplePrincipalCollection principals = (SimplePrincipalCollection) session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
+						if (principals != null && StringUtils.equals((String) principals.getPrimaryPrincipal(), username)) {
+							existSession = session;
+							break;
+						}
+					}
+				}
+				if (existSession != null && !StringUtils.equals(existSession.getId().toString(), currentSession.getId().toString())) {
+					existSession.stop();
+					this.sessionDAO.delete(existSession);
+					this.clearCachedAuthenticationInfo(username);
+				}
 
 				currentSession.setAttribute(Constants.CURRENT_USER, users.get(0));
 				return new SimpleAuthenticationInfo(username, password, this.getName());

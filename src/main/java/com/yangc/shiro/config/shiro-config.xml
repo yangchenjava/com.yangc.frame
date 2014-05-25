@@ -10,11 +10,13 @@
 	<bean id="myRealm" class="com.yangc.shiro.auth.MyRealm">
 		<property name="userService" ref="userService" />
 		<property name="aclService" ref="aclService" />
+		<!-- 
 		<property name="cachingEnabled" value="true"/>
 	    <property name="authenticationCachingEnabled" value="true" />
 	    <property name="authenticationCacheName" value="authenticationCache" />
 	    <property name="authorizationCachingEnabled" value="true" />
 	    <property name="authorizationCacheName" value="authorizationCache" />
+	     -->
 	    <property name="sessionDAO" ref="sessionDAO" />
 	</bean>
 
