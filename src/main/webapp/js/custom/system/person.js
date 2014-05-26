@@ -158,7 +158,8 @@ Ext.onReady(function() {
 			        }
 		        },
 		        {width: 150, id: "search_dept", xtype: "combobox", emptyText: "部门", store: store_deptList, forceSelection: true, editable: false, valueField: "id", displayField: "deptName"},
-		        {width: 55, text: "搜索", handler: refreshPersonGrid, icon: basePath + "js/lib/ext4.2/icons/search.png"}
+		        {width: 55, text: "搜索", handler: refreshPersonGrid, icon: basePath + "js/lib/ext4.2/icons/search.png"},
+		        {width: 55, text: "清空", handler: resetPersonGrid, icon: basePath + "js/lib/ext4.2/icons/refresh.png"}
 		    ]
         }),
         bbar: Ext.create("Ext.PagingToolbar", {
@@ -243,6 +244,12 @@ Ext.onReady(function() {
     	store_personGrid.currentPage = 1;
     	store_personGrid.proxy.extraParams = {"name": encodeURIComponent(name), "deptId": deptId};
 		store_personGrid.load();
+    }
+    
+    function resetPersonGrid(){
+    	Ext.getCmp("search_name").reset();
+    	Ext.getCmp("search_dept").reset();
+    	refreshPersonGrid();
     }
     
 	function createPerson(){

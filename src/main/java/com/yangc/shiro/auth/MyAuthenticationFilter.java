@@ -37,7 +37,7 @@ public class MyAuthenticationFilter extends AuthenticationFilter {
 			HttpServletResponse resp = (HttpServletResponse) response;
 			String header = req.getHeader("X-Requested-With");
 			// 异步
-			if (StringUtils.isNotBlank(header) && header.equals("X-Requested-With")) {
+			if (StringUtils.isNotBlank(header) && (header.equals("X-Requested-With") || header.equals("XMLHttpRequest"))) {
 				resp.setContentType("application/json;charset=UTF-8");
 				PrintWriter pw = resp.getWriter();
 				pw.write(JsonUtils.toJson(new ResultBean(false, "页面超时, 请刷新页面!")));

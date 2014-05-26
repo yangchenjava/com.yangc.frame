@@ -42,6 +42,7 @@
 	</bean>
 
 	<!-- resource -->
+	<bean id="pingResource" class="com.yangc.system.resource.PingResource" />
 	<bean id="userResource" class="com.yangc.system.resource.UserResource">
 		<property name="userService" ref="userService" />
 	</bean>

@@ -131,10 +131,6 @@
 					<groupId>org.springframework</groupId>
 					<artifactId>spring-aop</artifactId>
 				</exclusion>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring</artifactId>
-				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
@@ -168,9 +164,9 @@
 			<version>${shiro.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>commons-dbcp</groupId>
-			<artifactId>commons-dbcp</artifactId>
-			<version>1.4</version>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>1.0.5</version>
 		</dependency>
 		<dependency>
 			<groupId>org.aspectj</groupId>

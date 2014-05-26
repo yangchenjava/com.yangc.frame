@@ -13,7 +13,6 @@ import javax.ws.rs.ext.Provider;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.shiro.authz.UnauthorizedException;
-import org.apache.shiro.session.InvalidSessionException;
 
 import com.yangc.bean.ResultBean;
 import com.yangc.utils.Constants;
@@ -43,8 +42,6 @@ public class GlobalExceptionHandler implements ExceptionMapper<Exception> {
 				URI uri = uriInfo.getBaseUriBuilder().path(Constants.EXCEPTION_PAGE).build();
 				return Response.seeOther(uri).type(MediaType.APPLICATION_FORM_URLENCODED).build();
 			}
-		} else if (exception instanceof InvalidSessionException) {
-
 		}
 		return WebApplicationException.build();
 	}

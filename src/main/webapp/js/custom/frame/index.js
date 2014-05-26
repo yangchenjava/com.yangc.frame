@@ -82,8 +82,14 @@ Ext.onReady(function() {
 		items: [],
 		listeners: {
     		tabchange: function(tabPanel, newCard, oldCard, eOpts){
-				parentMenuId = newCard.id;
-				newCard.loader.load();
+    			$.post(basePath + "resource/ping/system", function(data){
+    				if (data.success) {
+    					parentMenuId = newCard.id;
+    					newCard.loader.load();
+    				} else {
+    					message.error(data.message);
+    				}
+    			});
 			}
 		}
 	});

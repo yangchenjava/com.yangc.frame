@@ -26,6 +26,7 @@ import com.yangc.system.bean.oracle.TSysUser;
 import com.yangc.system.service.AclService;
 import com.yangc.system.service.UserService;
 import com.yangc.utils.Constants;
+import com.yangc.utils.Message;
 
 public class MyRealm extends AuthorizingRealm {
 
@@ -68,21 +69,23 @@ public class MyRealm extends AuthorizingRealm {
 				throw new AuthenticationException("用户重复");
 			} else {
 				Session currentSession = SecurityUtils.getSubject().getSession();
-				Session existSession = null;
-				Collection<Session> sessions = this.sessionDAO.getActiveSessions();
-				for (Session session : sessions) {
-					if (session != null) {
-						SimplePrincipalCollection principals = (SimplePrincipalCollection) session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
-						if (principals != null && StringUtils.equals((String) principals.getPrimaryPrincipal(), username)) {
-							existSession = session;
-							break;
+				if (StringUtils.equals(Message.getMessage("shiro.kickout"), "1")) {
+					Session existSession = null;
+					Collection<Session> sessions = this.sessionDAO.getActiveSessions();
+					for (Session session : sessions) {
+						if (session != null) {
+							SimplePrincipalCollection principals = (SimplePrincipalCollection) session.getAttribute(DefaultSubjectContext.PRINCIPALS_SESSION_KEY);
+							if (principals != null && StringUtils.equals((String) principals.getPrimaryPrincipal(), username)) {
+								existSession = session;
+								break;
+							}
 						}
 					}
-				}
-				if (existSession != null && !StringUtils.equals(existSession.getId().toString(), currentSession.getId().toString())) {
-					existSession.stop();
-					this.sessionDAO.delete(existSession);
-					this.clearCachedAuthenticationInfo(username);
+					if (existSession != null && !StringUtils.equals(existSession.getId().toString(), currentSession.getId().toString())) {
+						existSession.stop();
+						this.sessionDAO.delete(existSession);
+						this.clearCachedAuthenticationInfo(username);
+					}
 				}
 
 				currentSession.setAttribute(Constants.CURRENT_USER, users.get(0));
