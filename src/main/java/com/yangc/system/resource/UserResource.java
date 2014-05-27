@@ -1,7 +1,14 @@
 package com.yangc.system.resource;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.net.URI;
+import java.util.Date;
 
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -24,6 +31,8 @@ import com.yangc.shiro.utils.ShiroUtils;
 import com.yangc.system.bean.oracle.TSysUser;
 import com.yangc.system.service.UserService;
 import com.yangc.utils.Constants;
+import com.yangc.utils.lang.CaptchaUtils;
+import com.yangc.utils.lang.CaptchaUtils.CAPTCHA_TYPE;
 
 @Path("/user")
 public class UserResource {
@@ -78,6 +87,24 @@ public class UserResource {
 		// return Response.temporaryRedirect(uri).build();
 		// 这种方式下的跳转采用的是GET方法
 		return Response.seeOther(uri).build();
+	}
+
+	@GET
+	@Path("captcha")
+	@Produces({ "image/jpeg" })
+	public Response captcha(@Context HttpServletRequest request, @Context HttpServletResponse response) {
+		logger.info("logout");
+		String code = CaptchaUtils.getCode(4, CAPTCHA_TYPE.ALL);
+		BufferedImage bi = CaptchaUtils.getBufferedImage(100, 28, 4, CAPTCHA_TYPE.ALL, code);
+
+		request.getSession().setAttribute(CaptchaUtils.CAPTCHA, code);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try {
+			ImageIO.write(bi, "jpg", baos);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return Response.ok(baos.toByteArray()).header("Pragma", "no-cache").header("Cache-Control", "no-cache").expires(new Date(0)).build();
 	}
 
 	/**

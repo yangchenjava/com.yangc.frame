@@ -79,6 +79,7 @@
         </property>
         <property name="filterChainDefinitions">
         	<value>
+        		/resource/user/captcha = anon
         		/resource/user/login = anon
         		/resource/** = myAuthc
         		/jsp/** = myAuthc
