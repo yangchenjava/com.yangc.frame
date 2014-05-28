@@ -61,13 +61,17 @@ public class UserResource {
 			session = subject.getSession();
 			subject.login(new UsernamePasswordToken(username, password));
 			session.removeAttribute(Constants.ENTER_COUNT);
+			session.removeAttribute(Constants.NEED_CAPTCHA);
 			resultBean.setSuccess(true);
 			resultBean.setMessage(Constants.INDEX_PAGE);
 			return Response.ok(resultBean).build();
 		} catch (AuthenticationException e) {
 			resultBean.setSuccess(false);
 			resultBean.setMessage(e.getMessage());
-			resultBean.setOther((Integer) session.getAttribute(Constants.ENTER_COUNT) > Integer.parseInt(Message.getMessage("shiro.captcha")) ? "captcha" : "");
+			if ((Integer) session.getAttribute(Constants.ENTER_COUNT) >= Integer.parseInt(Message.getMessage("shiro.captcha"))) {
+				session.setAttribute(Constants.NEED_CAPTCHA, "NEED_CAPTCHA");
+				resultBean.setOther("captcha");
+			}
 			return Response.ok(resultBean).build();
 		} catch (Exception e) {
 			e.printStackTrace();

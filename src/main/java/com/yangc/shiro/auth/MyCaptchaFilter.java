@@ -26,7 +26,7 @@ public class MyCaptchaFilter extends AuthenticationFilter {
 		if (enterCount == null) {
 			enterCount = 0;
 		}
-		if (enterCount <= Integer.parseInt(Message.getMessage("shiro.captcha"))) {
+		if (enterCount < Integer.parseInt(Message.getMessage("shiro.captcha"))) {
 			session.setAttribute(Constants.ENTER_COUNT, enterCount + 1);
 			return true;
 		}

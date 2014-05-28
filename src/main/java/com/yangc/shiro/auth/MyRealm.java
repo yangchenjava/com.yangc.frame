@@ -64,7 +64,7 @@ public class MyRealm extends AuthorizingRealm {
 		} else {
 			List<TSysUser> users = this.userService.getUserListByUsernameAndPassword(username, password);
 			if (users == null || users.isEmpty()) {
-				throw new AuthenticationException("用户不存在");
+				throw new AuthenticationException("用户名或密码错误");
 			} else if (users.size() > 1) {
 				throw new AuthenticationException("用户重复");
 			} else {

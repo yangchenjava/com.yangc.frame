@@ -60,7 +60,7 @@ Ext.onReady(function() {
 		
 		Ext.getCmp("username").focus();
 		
-		if (enterCount > 3) {
+		if (needCaptcha) {
 			refreshCaptcha();
 			Ext.getCmp("captcha").show();
 		}
