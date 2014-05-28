@@ -7,8 +7,6 @@ import java.net.URI;
 import java.util.Date;
 
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -24,6 +22,8 @@ import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 
 import com.yangc.bean.ResultBean;
 import com.yangc.exception.WebApplicationException;
@@ -31,6 +31,7 @@ import com.yangc.shiro.utils.ShiroUtils;
 import com.yangc.system.bean.oracle.TSysUser;
 import com.yangc.system.service.UserService;
 import com.yangc.utils.Constants;
+import com.yangc.utils.Message;
 import com.yangc.utils.lang.CaptchaUtils;
 import com.yangc.utils.lang.CaptchaUtils.CAPTCHA_TYPE;
 
@@ -53,15 +54,20 @@ public class UserResource {
 	public Response login(@FormParam("username") String username, @FormParam("password") String password) {
 		logger.info("login - username=" + username + ", password=" + password);
 		ResultBean resultBean = new ResultBean();
+		Subject subject = null;
+		Session session = null;
 		try {
-			UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-			SecurityUtils.getSubject().login(token);
+			subject = SecurityUtils.getSubject();
+			session = subject.getSession();
+			subject.login(new UsernamePasswordToken(username, password));
+			session.removeAttribute(Constants.ENTER_COUNT);
 			resultBean.setSuccess(true);
 			resultBean.setMessage(Constants.INDEX_PAGE);
 			return Response.ok(resultBean).build();
 		} catch (AuthenticationException e) {
 			resultBean.setSuccess(false);
 			resultBean.setMessage(e.getMessage());
+			resultBean.setOther((Integer) session.getAttribute(Constants.ENTER_COUNT) > Integer.parseInt(Message.getMessage("shiro.captcha")) ? "captcha" : "");
 			return Response.ok(resultBean).build();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -92,12 +98,12 @@ public class UserResource {
 	@GET
 	@Path("captcha")
 	@Produces({ "image/jpeg" })
-	public Response captcha(@Context HttpServletRequest request, @Context HttpServletResponse response) {
+	public Response captcha() {
 		logger.info("logout");
 		String code = CaptchaUtils.getCode(4, CAPTCHA_TYPE.ALL);
 		BufferedImage bi = CaptchaUtils.getBufferedImage(100, 28, 4, CAPTCHA_TYPE.ALL, code);
 
-		request.getSession().setAttribute(CaptchaUtils.CAPTCHA, code);
+		SecurityUtils.getSubject().getSession().setAttribute(CaptchaUtils.CAPTCHA, code);
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {
 			ImageIO.write(bi, "jpg", baos);

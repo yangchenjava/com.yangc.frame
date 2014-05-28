@@ -5,6 +5,7 @@ public class ResultBean {
 	private boolean success;
 	private String message;
 	private String msg;
+	private String other;
 
 	public ResultBean() {
 	}
@@ -13,6 +14,13 @@ public class ResultBean {
 		this.success = success;
 		this.message = message;
 		this.msg = message;
+	}
+
+	public ResultBean(boolean success, String message, String other) {
+		this.success = success;
+		this.message = message;
+		this.msg = message;
+		this.other = other;
 	}
 
 	public boolean getSuccess() {
@@ -39,6 +47,14 @@ public class ResultBean {
 	public void setMsg(String msg) {
 		this.message = msg;
 		this.msg = msg;
+	}
+
+	public String getOther() {
+		return other;
+	}
+
+	public void setOther(String other) {
+		this.other = other;
 	}
 
 }

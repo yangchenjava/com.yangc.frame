@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ehcache updateCheck="false">
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" updateCheck="false">
 
-    <diskStore path="java.io.tmpdir/shiro-ehcache"/>
+    <diskStore path="java.io.tmpdir/shiro-ehcache" />
 
     <defaultCache
     	maxElementsInMemory="10000"
       	eternal="false"
       	timeToIdleSeconds="120"
       	timeToLiveSeconds="120"
-      	overflowToDisk="false"
+      	overflowToDisk="true"
       	diskPersistent="false"
-	    diskExpiryThreadIntervalSeconds="120" />
+	    diskExpiryThreadIntervalSeconds="120"
+	    memoryStoreEvictionPolicy="LRU" />
 
 	<cache
     	name="authenticationCache"

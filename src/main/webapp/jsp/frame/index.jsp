@@ -4,7 +4,7 @@
 <script type="text/javascript" src="<%=js_custom%>frame/index.js"></script>
 <script type="text/javascript">
 var parentMenuId = 0;
-var personName = "${sessionScope.LOGIN_USER.personName}";
+var personName = "${sessionScope.CURRENT_USER.personName}";
 </script>
 </head>
 <body>

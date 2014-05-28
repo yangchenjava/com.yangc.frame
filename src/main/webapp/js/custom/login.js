@@ -18,12 +18,12 @@ Ext.onReady(function() {
         items: [
 			{id: "username", xtype: "textfield", minWidth: 300, maxWidth: 300, minHeight: 28, maxHeight: 28, fieldLabel: "用户名", allowBlank: false, invalidText: "请输入用户名！", enableKeyEvents: true, listeners: {keyup: keyupHandler}},
 			{id: "password", xtype: "textfield", minWidth: 300, maxWidth: 300, minHeight: 28, maxHeight: 28, fieldLabel: "密&nbsp;&nbsp;&nbsp;码", allowBlank: false, invalidText: "请输入密码！", inputType:"password", enableKeyEvents: true, listeners: {keyup: keyupHandler}},
-			{xtype: "container", layout:"column", items: [
+			{id: "captcha", xtype: "container", layout:"column", hidden: true, items: [
                 {xtype: "container", columnWidth:.5, layout: "anchor", items: [
-                    {id: "captcha", xtype: "textfield", minWidth: 190, maxWidth: 190, minHeight: 28, maxHeight: 28, fieldLabel: "验证码", allowBlank: false, invalidText: "请输入验证码！", enableKeyEvents: true, listeners: {keyup: keyupHandler}}
+                    {id: "captcha_code", xtype: "textfield", minWidth: 190, maxWidth: 190, minHeight: 28, maxHeight: 28, fieldLabel: "验证码", allowBlank: false, invalidText: "请输入验证码！", enableKeyEvents: true, listeners: {keyup: keyupHandler}}
                 ]},
                 {xtype: "container", columnWidth:.5, layout: "anchor", items: [
-                    {id: "captcha_image", xtype: "image", margin: "0 0 0 36", src: basePath + "resource/user/captcha", style: "cursor: pointer;"}
+                    {id: "captcha_image", xtype: "image", margin: "0 0 0 36", src: "", style: "cursor: pointer;"}
                 ]}
             ]},
 			{id: "remember", xtype: "checkbox", boxLabel: "记住我", padding: "0 0 0 39"}
@@ -60,18 +60,26 @@ Ext.onReady(function() {
 		
 		Ext.getCmp("username").focus();
 		
-		Ext.get("captcha_image").on("click", function(evt, el, o){
-			el.src = basePath + "resource/user/captcha?q=" + Math.random();
-		});
+		if (enterCount > 3) {
+			refreshCaptcha();
+			Ext.getCmp("captcha").show();
+		}
+		Ext.get("captcha_image").on("click", refreshCaptcha);
 	}
 	init();
+	
+	function refreshCaptcha(){
+		Ext.get("captcha_image").dom.src = basePath + "resource/user/captcha?q=" + Math.random();
+	}
 	
 	function keyupHandler(thiz, e, eOpts){
 		if (e.keyCode == 13) {
 			if (thiz.id == "username") {
 				Ext.getCmp("password").focus();
-			} else if (thiz.id == "password") {
-				Ext.getCmp("captcha").focus();
+			} else if (thiz.id == "password" && Ext.getCmp("captcha").isHidden()) {
+				login();
+			} else if (thiz.id == "password" && !Ext.getCmp("captcha").isHidden()) {
+				Ext.getCmp("captcha_code").focus();
 			} else {
 				login();
 			}
@@ -83,17 +91,16 @@ Ext.onReady(function() {
 			message.error(Ext.getCmp("username").invalidText);
 		} else if (!Ext.getCmp("password").isValid()) {
 			message.error(Ext.getCmp("password").invalidText);
-		} else if (!Ext.getCmp("captcha").isValid()) {
-			message.error(Ext.getCmp("captcha").invalidText);
+		} else if (!Ext.getCmp("captcha").isHidden() && !Ext.getCmp("captcha_code").isValid()) {
+			message.error(Ext.getCmp("captcha_code").invalidText);
 		} else {
 			var username = Ext.getCmp("username").getValue();
 			var password = Ext.getCmp("password").getValue();
-			var captcha = Ext.getCmp("captcha").getValue();
+			var captcha_code = Ext.getCmp("captcha_code").getValue();
 			// 登录
-			$.post(basePath + "resource/user/login", {
+			$.post(basePath + "resource/user/login?captcha=" + encodeURIComponent(captcha_code), {
 				username: username,
-				password: password,
-				captcha: captcha
+				password: password
 			}, function(data){
 				if (data.success) {
 					// 保存cookie
@@ -103,6 +110,10 @@ Ext.onReady(function() {
 					}
 					window.location.href = basePath + data.message;
 				} else {
+					if (data.other) {
+						refreshCaptcha();
+						Ext.getCmp("captcha").show();
+					}
 					message.error(data.message);
 				}
 			});

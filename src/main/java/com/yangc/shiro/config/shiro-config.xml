@@ -65,6 +65,7 @@
 		<property name="sessionManager" ref="sessionManager" />
 	</bean>
 
+	<bean id="myCaptchaFilter" class="com.yangc.shiro.auth.MyCaptchaFilter" />
 	<bean id="myAuthenticationFilter" class="com.yangc.shiro.auth.MyAuthenticationFilter" />
 
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
@@ -74,13 +75,14 @@
         <property name="unauthorizedUrl" value="/jsp/error/exception.jsp" />
         <property name="filters">
         	<map>
+        		<entry key="myCaptc" value-ref="myCaptchaFilter" />
         		<entry key="myAuthc" value-ref="myAuthenticationFilter" />
         	</map>
         </property>
         <property name="filterChainDefinitions">
         	<value>
         		/resource/user/captcha = anon
-        		/resource/user/login = anon
+        		/resource/user/login = myCaptc
         		/resource/** = myAuthc
         		/jsp/** = myAuthc
         		/ = myAuthc
