@@ -22,7 +22,7 @@ import com.yangc.system.service.AclService;
 @Path("/acl")
 public class AclResource {
 
-	public static final Logger logger = Logger.getLogger(AclResource.class);
+	private static final Logger logger = Logger.getLogger(AclResource.class);
 
 	private AclService aclService;
 

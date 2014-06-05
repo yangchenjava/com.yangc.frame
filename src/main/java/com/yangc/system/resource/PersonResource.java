@@ -27,7 +27,7 @@ import com.yangc.system.service.UsersrolesService;
 @Path("/person")
 public class PersonResource {
 
-	public static final Logger logger = Logger.getLogger(PersonResource.class);
+	private static final Logger logger = Logger.getLogger(PersonResource.class);
 
 	private PersonService personService;
 	private UsersrolesService usersrolesService;

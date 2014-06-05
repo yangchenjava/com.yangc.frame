@@ -20,7 +20,7 @@ import com.yangc.common.PaginationThreadUtils;
 @SuppressWarnings("unchecked")
 public class PaginationFilter implements Filter {
 
-	public static final Logger logger = Logger.getLogger(PaginationFilter.class);
+	private static final Logger logger = Logger.getLogger(PaginationFilter.class);
 
 	// 前端js对分页请求的名字
 	private static final String PAGE_SIZE = "limit";

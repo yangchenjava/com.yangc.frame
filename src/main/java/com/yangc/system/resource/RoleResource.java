@@ -23,7 +23,7 @@ import com.yangc.system.service.RoleService;
 @Path("/role")
 public class RoleResource {
 
-	public static final Logger logger = Logger.getLogger(RoleResource.class);
+	private static final Logger logger = Logger.getLogger(RoleResource.class);
 
 	private RoleService roleService;
 

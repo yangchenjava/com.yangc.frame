@@ -22,7 +22,7 @@ import com.yangc.system.service.DeptService;
 @Path("/dept")
 public class DeptResource {
 
-	public static final Logger logger = Logger.getLogger(DeptResource.class);
+	private static final Logger logger = Logger.getLogger(DeptResource.class);
 
 	private DeptService deptService;
 

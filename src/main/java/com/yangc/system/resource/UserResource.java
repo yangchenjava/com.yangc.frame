@@ -38,7 +38,7 @@ import com.yangc.utils.lang.CaptchaUtils.CAPTCHA_TYPE;
 @Path("/user")
 public class UserResource {
 
-	public static final Logger logger = Logger.getLogger(UserResource.class);
+	private static final Logger logger = Logger.getLogger(UserResource.class);
 
 	private UserService userService;
 

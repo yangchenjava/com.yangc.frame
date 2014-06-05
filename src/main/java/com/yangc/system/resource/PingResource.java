@@ -14,7 +14,7 @@ import com.yangc.exception.WebApplicationException;
 @Path("/ping")
 public class PingResource {
 
-	public static final Logger logger = Logger.getLogger(PingResource.class);
+	private static final Logger logger = Logger.getLogger(PingResource.class);
 
 	/**
 	 * @功能: 检查是否通畅

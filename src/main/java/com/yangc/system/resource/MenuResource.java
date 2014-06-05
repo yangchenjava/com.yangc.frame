@@ -23,7 +23,7 @@ import com.yangc.system.service.MenuService;
 @Path("/menu")
 public class MenuResource {
 
-	public static final Logger logger = Logger.getLogger(MenuResource.class);
+	private static final Logger logger = Logger.getLogger(MenuResource.class);
 
 	private MenuService menuService;
 
