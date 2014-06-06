@@ -13,8 +13,8 @@ import org.apache.shiro.web.filter.authc.AuthenticationFilter;
 import com.yangc.bean.ResultBean;
 import com.yangc.utils.Constants;
 import com.yangc.utils.Message;
+import com.yangc.utils.image.CaptchaUtils;
 import com.yangc.utils.json.JsonUtils;
-import com.yangc.utils.lang.CaptchaUtils;
 
 public class MyCaptchaFilter extends AuthenticationFilter {
 

@@ -32,8 +32,8 @@ import com.yangc.system.bean.oracle.TSysUser;
 import com.yangc.system.service.UserService;
 import com.yangc.utils.Constants;
 import com.yangc.utils.Message;
-import com.yangc.utils.lang.CaptchaUtils;
-import com.yangc.utils.lang.CaptchaUtils.CAPTCHA_TYPE;
+import com.yangc.utils.image.CaptchaUtils;
+import com.yangc.utils.image.CaptchaUtils.CAPTCHA_TYPE;
 
 @Path("/user")
 public class UserResource {
