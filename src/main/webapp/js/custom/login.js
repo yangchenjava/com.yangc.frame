@@ -2,7 +2,7 @@ Ext.Loader.setConfig({enabled: true});
 Ext.Loader.setPath("Ext.ux", basePath + "js/lib/ext4.2/ux");
 Ext.require(["*"]);
 
-Ext.onReady(function() {
+Ext.onReady(function(){
 	/** ------------------------------------- view ------------------------------------- */
 	var panel = Ext.create("Ext.form.Panel", {
         bodyPadding: 30,

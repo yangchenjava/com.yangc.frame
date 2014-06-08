@@ -18,6 +18,7 @@
 	<script type="text/javascript" src="<%=js_lib%>ext4.2/ext-all.js"></script>
 	<script type="text/javascript" src="<%=js_lib%>ext4.2/locale/ext-lang-zh_CN.js"></script>
 	<script type="text/javascript" src="<%=js_lib%>ext4.2/ext-custom.js"></script>
+	<script type="text/javascript" src="<%=js_lib%>ext4.2/ext-validate.js"></script>
 	<script type="text/javascript" src="<%=js_lib%>jquery/jquery-1.8.3.min.js"></script>
 	<script type="text/javascript">
     var basePath = "<%=basePath%>";

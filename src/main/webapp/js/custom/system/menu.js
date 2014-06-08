@@ -14,7 +14,7 @@ Ext.define("MenuTree", {
     ]
 });
 
-Ext.onReady(function() {
+Ext.onReady(function(){
 	/** ------------------------------------- store ------------------------------------- */
 	var store_menuTree = Ext.create("Ext.data.TreeStore", {
         model: "MenuTree",

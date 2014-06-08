@@ -8,7 +8,7 @@ Ext.define("MainFrame", {
     ]
 });
 
-Ext.onReady(function() {
+Ext.onReady(function(){
 	/** ------------------------------------- store ------------------------------------- */
 	Ext.create("Ext.data.Store", {
 		model: "MainFrame",

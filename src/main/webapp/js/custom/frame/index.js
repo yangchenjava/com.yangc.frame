@@ -15,7 +15,7 @@ Ext.define("TopFrame", {
     ]
 });
 
-Ext.onReady(function() {
+Ext.onReady(function(){
 	/** ------------------------------------- store ------------------------------------- */
 	Ext.create("Ext.data.Store", {
 		model: "TopFrame",

@@ -8,7 +8,7 @@ Ext.define("Dept", {
     ]
 });
 
-Ext.onReady(function() {
+Ext.onReady(function(){
 	/** ------------------------------------- store ------------------------------------- */
 	var store_deptGrid = Ext.create("Ext.data.Store", {
 		model: "Dept",
