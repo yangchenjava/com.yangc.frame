@@ -128,9 +128,9 @@ Ext.onReady(function(){
             anchor: "100%"
         },
         items: [
-			{id: "password", xtype: "textfield", inputType:"password", fieldLabel: "原密码", allowBlank: false, invalidText: "请输入原密码！"},
-			{id: "newPassword_1", xtype: "textfield", inputType:"password", fieldLabel: "新密码", allowBlank: false, invalidText: "请输入新密码！"},
-			{id: "newPassword_2", xtype: "textfield", inputType:"password", fieldLabel: "确认密码", allowBlank: false, invalidText: "请输入确认密码！"}
+			{id: "password", xtype: "textfield", inputType:"password", fieldLabel: "原密码", allowBlank: false, invalidText: "请输入原密码！", vtype: "password"},
+			{id: "newPassword_1", xtype: "textfield", inputType:"password", fieldLabel: "新密码", allowBlank: false, invalidText: "请输入新密码！", vtype: "password"},
+			{id: "newPassword_2", xtype: "textfield", inputType:"password", fieldLabel: "确认密码", allowBlank: false, invalidText: "请输入确认密码！", vtype: "password"}
 		]
 	});
     var window_changePassword = Ext.create("Ext.window.Window", {

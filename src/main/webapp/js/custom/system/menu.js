@@ -117,14 +117,14 @@ Ext.onReady(function(){
 		items: [
 		    {id: "addOrUpdate_menuId", name: "id", xtype: "hidden"},
 		    {id: "addOrUpdate_parentMenuId", name: "parentMenuId", xtype: "hidden"},
-			{id: "addOrUpdate_menuName", name: "menuName", xtype: "textfield", fieldLabel: "菜单名称"},
-			{id: "addOrUpdate_menuUrl", name: "menuUrl", xtype: "textfield", fieldLabel: "菜单地址"},
+			{id: "addOrUpdate_menuName", name: "menuName", xtype: "textfield", fieldLabel: "菜单名称", vtype: "basic_chinese"},
+			{id: "addOrUpdate_menuUrl", name: "menuUrl", xtype: "textfield", fieldLabel: "菜单地址", vtype: "basic"},
 			{id: "addOrUpdate_serialNum", name: "serialNum", xtype: "numberfield", fieldLabel: "顺序", minValue: 1},
 			{xtype: "radiogroup", fieldLabel: "是否显示", items: [
                 {id: "addOrUpdate_isshow_yes", boxLabel: "是", name: "isshow", inputValue: 1, checked: true},
                 {id: "addOrUpdate_isshow_no", boxLabel: "否", name: "isshow", inputValue: 0}
             ]},
-            {id: "addOrUpdate_description", name: "description", xtype: "textarea", fieldLabel: "描述"},
+            {id: "addOrUpdate_description", name: "description", xtype: "textarea", fieldLabel: "描述", vtype: "basic_chinese"},
             {id: "addOrUpdate_button", xtype: "button", margin: "0 0 0 300", maxWidth: 70, text: "确定", handler: addOrUpdateMenuHandler}
 		]
 	});

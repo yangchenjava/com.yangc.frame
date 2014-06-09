@@ -17,7 +17,6 @@ import org.apache.log4j.Logger;
 import com.yangc.common.Pagination;
 import com.yangc.common.PaginationThreadUtils;
 
-@SuppressWarnings("unchecked")
 public class PaginationFilter implements Filter {
 
 	private static final Logger logger = Logger.getLogger(PaginationFilter.class);
@@ -31,6 +30,7 @@ public class PaginationFilter implements Filter {
 	}
 
 	@Override
+	@SuppressWarnings("unchecked")
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest req = (HttpServletRequest) request;
 		String uri = req.getRequestURI();
@@ -40,12 +40,12 @@ public class PaginationFilter implements Filter {
 				pagination = new Pagination();
 				PaginationThreadUtils.set(pagination);
 			}
-			Map<String, Object> params = req.getParameterMap();
+			Map<String, String[]> params = req.getParameterMap();
 			// 设置要跳转到的页数
 			if (params.get(PAGE_NOW) == null) {
 				pagination.setPageNow(1);
 			} else {
-				String pageNow = ((String[]) params.get(PAGE_NOW))[0];
+				String pageNow = params.get(PAGE_NOW)[0];
 				if (StringUtils.isBlank(pageNow)) {
 					pagination.setPageNow(1);
 				} else {
@@ -54,7 +54,7 @@ public class PaginationFilter implements Filter {
 			}
 			// 设置每页的行数
 			if (params.get(PAGE_SIZE) != null) {
-				String pageSize = ((String[]) params.get(PAGE_SIZE))[0];
+				String pageSize = params.get(PAGE_SIZE)[0];
 				if (StringUtils.isNotBlank(pageSize)) {
 					pagination.setPageSize(Integer.parseInt(pageSize));
 				}

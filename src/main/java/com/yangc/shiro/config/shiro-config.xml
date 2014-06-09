@@ -24,6 +24,7 @@
 	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
 		<property name="cacheManagerConfigFile" value="classpath:ehcache.xml" />
 	</bean>
+	<!-- <bean id="cacheManager" class="com.yangc.shiro.cache.RedisCacheManager" /> -->
 
 	<!-- 会话验证调度器 -->
 	<bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.quartz.QuartzSessionValidationScheduler">
@@ -36,6 +37,7 @@
 
 	<!-- 会话DAO -->
 	<bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
+		<property name="cacheManager" ref="cacheManager" />
 	    <property name="activeSessionsCacheName" value="shiro-activeSessionCache" />
 	    <property name="sessionIdGenerator" ref="sessionIdGenerator" />
 	</bean>

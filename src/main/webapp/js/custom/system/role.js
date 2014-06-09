@@ -111,7 +111,7 @@ Ext.onReady(function(){
         },
         items: [
 			{id: "addOrUpdate_roleId", name: "id", xtype: "hidden"},
-			{id: "addOrUpdate_roleName", name: "roleName", xtype: "textfield", fieldLabel: "角色名称", allowBlank: false, invalidText: "请输入角色名称！"}
+			{id: "addOrUpdate_roleName", name: "roleName", xtype: "textfield", fieldLabel: "角色名称", allowBlank: false, invalidText: "请输入角色名称！", vtype: "basic_chinese"}
 		]
 	});
     Ext.define("window_addOrUpdate_role", {

@@ -186,18 +186,18 @@ Ext.onReady(function(){
 			{id: "addOrUpdate_userId", name: "userId", xtype: "hidden"},
 			{xtype: "container", layout:"column", items: [
                 {xtype: "container", columnWidth:.5, layout: "anchor", items: [
-                    {id: "addOrUpdate_username", name: "username", xtype: "textfield", fieldLabel: "用户名", allowBlank: false, invalidText: "请输入用户名！"}
+                    {id: "addOrUpdate_username", name: "username", xtype: "textfield", fieldLabel: "用户名", allowBlank: false, invalidText: "请输入用户名！", vtype: "basic"}
                 ]},
                 {xtype: "container", columnWidth:.5, layout: "anchor", items: [
-                    {id: "addOrUpdate_name", name: "name", xtype: "textfield", fieldLabel: "昵称", allowBlank: false, invalidText: "请输入昵称！"}
+                    {id: "addOrUpdate_name", name: "name", xtype: "textfield", fieldLabel: "昵称", allowBlank: false, invalidText: "请输入昵称！", vtype: "basic_chinese"}
                 ]}
             ]},
             {xtype: "container", layout:"column", items: [
                 {xtype: "container", columnWidth:.5, layout: "anchor", items: [
-                    {id: "addOrUpdate_password_1", name: "password", xtype: "textfield", inputType:"password", fieldLabel: "密码", allowBlank: false, invalidText: "请输入密码！"}
+                    {id: "addOrUpdate_password_1", name: "password", xtype: "textfield", inputType:"password", fieldLabel: "密码", allowBlank: false, invalidText: "请输入密码！", vtype: "password"}
                 ]},
                 {xtype: "container", columnWidth:.5, layout: "anchor", items: [
-                    {id: "addOrUpdate_password_2", xtype: "textfield", inputType:"password", fieldLabel: "确认密码", allowBlank: false, invalidText: "请输入确认密码！", validator: validatorPasswordRepeatHandler}
+                    {id: "addOrUpdate_password_2", xtype: "textfield", inputType:"password", fieldLabel: "确认密码", allowBlank: false, invalidText: "请输入确认密码！", vtype: "password", validator: validatorPasswordRepeatHandler}
                 ]}
             ]},
             {id: "addOrUpdate_sex", xtype: "radiogroup", fieldLabel: "性别", allowBlank: false, invalidText: "请选择性别！", items: [
@@ -206,7 +206,7 @@ Ext.onReady(function(){
             ]},
             {xtype: "container", layout:"column", items: [
                 {xtype: "container", columnWidth:.5, layout: "anchor", items: [
-                    {id: "addOrUpdate_phone", name: "phone", xtype: "textfield", fieldLabel: "电话", allowBlank: false, invalidText: "请输入电话！"}
+                    {id: "addOrUpdate_phone", name: "phone", xtype: "textfield", fieldLabel: "电话", allowBlank: false, invalidText: "请输入电话！", vtype: "mobile"}
                 ]},
                 {xtype: "container", columnWidth:.5, layout: "anchor", items: [
                     {id: "addOrUpdate_dept", name: "deptId", xtype: "combobox", fieldLabel: "部门", allowBlank: false, invalidText: "请选择部门！", store: store_deptList, forceSelection: true, editable: false, valueField: "id", displayField: "deptName"}

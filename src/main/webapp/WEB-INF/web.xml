@@ -41,6 +41,16 @@
 		<url-pattern>/resource/*</url-pattern>
 	</filter-mapping>
 
+	<!-- html标签过滤 -->
+	<filter>
+		<filter-name>HTMLCharacterFilter</filter-name>
+		<filter-class>com.yangc.filter.HTMLCharacterFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>HTMLCharacterFilter</filter-name>
+		<url-pattern>/resource/*</url-pattern>
+	</filter-mapping>
+
 	<!-- 设置编码 -->
 	<filter>
 		<description>处理编码的过滤器</description>
