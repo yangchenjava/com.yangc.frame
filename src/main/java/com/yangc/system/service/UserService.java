@@ -10,7 +10,7 @@ public interface UserService {
 
 	public void delUser(Long userId);
 
-	public void updPassword(Long userId, String password);
+	public void updatePassword(Long userId, String password);
 
 	public TSysUser getUserByUsername(String username);
 

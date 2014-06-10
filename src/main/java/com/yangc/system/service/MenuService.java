@@ -9,7 +9,7 @@ public interface MenuService {
 
 	public void addOrUpdateMenu(Long menuId, String menuName, String menuUrl, Long parentMenuId, Long serialNum, Long isshow, String description);
 
-	public void updParentMenuId(Long menuId, Long parentMenuId);
+	public void updateParentMenuId(Long menuId, Long parentMenuId);
 
 	public void delMenu(Long menuId) throws IllegalStateException;
 

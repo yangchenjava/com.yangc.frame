@@ -16,6 +16,7 @@ import com.yangc.system.service.AclService;
 import com.yangc.system.service.MenuService;
 import com.yangc.utils.Constants;
 import com.yangc.utils.cache.RedisUtils;
+import com.yangc.utils.json.JsonUtils;
 
 public class MenuServiceImpl implements MenuService {
 
@@ -35,15 +36,15 @@ public class MenuServiceImpl implements MenuService {
 		this.baseDao.saveOrUpdate(menu);
 
 		// 清空菜单缓存
-		this.clearMenuCache();
+		RedisUtils.getInstance().del(Constants.MENU);
 	}
 
 	@Override
-	public void updParentMenuId(Long menuId, Long parentMenuId) {
+	public void updateParentMenuId(Long menuId, Long parentMenuId) {
 		this.baseDao.updateOrDelete("update TSysMenu set parentMenuId = ? where id = ?", new Object[] { parentMenuId, menuId });
 
 		// 清空菜单缓存
-		this.clearMenuCache();
+		RedisUtils.getInstance().del(Constants.MENU);
 	}
 
 	@Override
@@ -56,7 +57,7 @@ public class MenuServiceImpl implements MenuService {
 		this.baseDao.updateOrDelete("delete TSysMenu where id = ?", new Object[] { menuId });
 
 		// 清空菜单缓存
-		this.clearMenuCache();
+		RedisUtils.getInstance().del(Constants.MENU);
 	}
 
 	@Override
@@ -102,12 +103,12 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	public List<TSysMenu> getTopFrame(Long parentMenuId, Long userId) {
 		// 查询redis缓存
+		String field = Constants.MENU_TOP + "_" + parentMenuId + "_" + userId;
 		RedisUtils cache = RedisUtils.getInstance();
-		String key = Constants.MENU_TOP + "_" + parentMenuId + "_" + userId;
-		List<TSysMenu> menus = cache.get(key, new TypeToken<List<TSysMenu>>() {
-		});
-		if (menus != null && !menus.isEmpty()) {
-			return menus;
+		List<String> values = cache.getHashMap(Constants.MENU, field);
+		if (values != null && !values.isEmpty() && values.get(0) != null) {
+			return JsonUtils.fromJson(values.get(0), new TypeToken<List<TSysMenu>>() {
+			});
 		}
 
 		// 查询数据库
@@ -118,7 +119,7 @@ public class MenuServiceImpl implements MenuService {
 		List<Map<String, Object>> mapList = this.jdbcDao.findAll(sql, paramMap);
 		if (null == mapList || mapList.isEmpty()) return null;
 
-		menus = new ArrayList<TSysMenu>();
+		List<TSysMenu> menus = new ArrayList<TSysMenu>();
 		for (Map<String, Object> map : mapList) {
 			TSysMenu menu = new TSysMenu();
 			menu.setId(((Number) map.get("ID")).longValue());
@@ -128,7 +129,9 @@ public class MenuServiceImpl implements MenuService {
 		}
 
 		// 设置redis缓存
-		cache.set(key, menus);
+		Map<String, String> map = new HashMap<String, String>();
+		map.put(field, JsonUtils.toJson(menus));
+		cache.putHashMap(Constants.MENU, map);
 
 		return menus;
 	}
@@ -136,12 +139,12 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	public List<TSysMenu> getMainFrame(Long parentMenuId, Long userId) {
 		// 查询redis缓存
+		String field = Constants.MENU_MAIN + "_" + parentMenuId + "_" + userId;
 		RedisUtils cache = RedisUtils.getInstance();
-		String key = Constants.MENU_MAIN + "_" + parentMenuId + "_" + userId;
-		List<TSysMenu> menus = cache.get(key, new TypeToken<List<TSysMenu>>() {
-		});
-		if (menus != null && !menus.isEmpty()) {
-			return menus;
+		List<String> values = cache.getHashMap(Constants.MENU, field);
+		if (values != null && !values.isEmpty() && values.get(0) != null) {
+			return JsonUtils.fromJson(values.get(0), new TypeToken<List<TSysMenu>>() {
+			});
 		}
 
 		// 查询数据库
@@ -178,7 +181,7 @@ public class MenuServiceImpl implements MenuService {
 			}
 		}
 
-		menus = new ArrayList<TSysMenu>();
+		List<TSysMenu> menus = new ArrayList<TSysMenu>();
 		for (Entry<Long, Map<TSysMenu, List<TSysMenu>>> entry : tempMap.entrySet()) {
 			Entry<TSysMenu, List<TSysMenu>> en = entry.getValue().entrySet().iterator().next();
 			TSysMenu menu = en.getKey();
@@ -187,24 +190,11 @@ public class MenuServiceImpl implements MenuService {
 		}
 
 		// 设置redis缓存
-		cache.set(key, menus);
+		Map<String, String> map = new HashMap<String, String>();
+		map.put(field, JsonUtils.toJson(menus));
+		cache.putHashMap(Constants.MENU, map);
 
 		return menus;
-	}
-
-	/**
-	 * @功能: 清空菜单缓存
-	 * @作者: yangc
-	 * @创建日期: 2014年6月9日 下午3:44:02
-	 */
-	private void clearMenuCache() {
-		RedisUtils cache = RedisUtils.getInstance();
-		String[] menuTopKeys = cache.keys(Constants.MENU_TOP + "*").toArray(new String[] {});
-		String[] menuMainKeys = cache.keys(Constants.MENU_MAIN + "*").toArray(new String[] {});
-		String[] keys = new String[menuTopKeys.length + menuMainKeys.length];
-		System.arraycopy(menuTopKeys, 0, keys, 0, menuTopKeys.length);
-		System.arraycopy(menuMainKeys, 0, keys, menuTopKeys.length, menuMainKeys.length);
-		cache.del(keys);
 	}
 
 	public void setBaseDao(BaseDao baseDao) {

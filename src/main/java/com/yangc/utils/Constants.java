@@ -13,6 +13,7 @@ public class Constants {
 	public static final String EXCEPTION_PAGE = "jsp/error/exception.jsp";
 
 	/***************** redis key *****************/
+	public static final String MENU = "menu";
 	public static final String MENU_TOP = "menuTop";
 	public static final String MENU_MAIN = "menuMain";
 

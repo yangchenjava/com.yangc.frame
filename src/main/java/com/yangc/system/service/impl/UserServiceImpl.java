@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updPassword(Long userId, String password) {
+	public void updatePassword(Long userId, String password) {
 		this.baseDao.updateOrDelete("update TSysUser set password = ? where id = ?", new Object[] { password, userId });
 	}
 

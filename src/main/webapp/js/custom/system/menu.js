@@ -61,7 +61,7 @@ Ext.onReady(function(){
         			var srcModel = data.records[0];
         			if (srcModel.get("leaf")) {
         				var parentMenuId = dropPosition == "append" ? overModel.get("id") : overModel.get("parentMenuId");
-        				$.post(basePath + "resource/menu/updParentMenuId", {
+        				$.post(basePath + "resource/menu/updateParentMenuId", {
         					id: srcModel.get("id"),
         					parentMenuId: parentMenuId
         				}, function(data){

@@ -142,13 +142,13 @@ public class MenuResource {
 	 * @return
 	 */
 	@POST
-	@Path("updParentMenuId")
+	@Path("updateParentMenuId")
 	@Produces(MediaType.APPLICATION_JSON)
 	@RequiresPermissions("menu:" + Permission.UPD)
-	public Response updParentMenuId(@FormParam("id") Long id, @FormParam("parentMenuId") Long parentMenuId) {
-		logger.info("updParentMenuId - id=" + id + ", parentMenuId=" + parentMenuId);
+	public Response updateParentMenuId(@FormParam("id") Long id, @FormParam("parentMenuId") Long parentMenuId) {
+		logger.info("updateParentMenuId - id=" + id + ", parentMenuId=" + parentMenuId);
 		try {
-			this.menuService.updParentMenuId(id, parentMenuId);
+			this.menuService.updateParentMenuId(id, parentMenuId);
 			return Response.ok(new ResultBean(true, "修改成功")).build();
 		} catch (Exception e) {
 			e.printStackTrace();

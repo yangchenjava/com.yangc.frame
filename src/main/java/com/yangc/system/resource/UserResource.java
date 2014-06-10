@@ -139,7 +139,7 @@ public class UserResource {
 					resultBean.setSuccess(false);
 					resultBean.setMessage("原密码输入错误");
 				} else {
-					this.userService.updPassword(user.getId(), newPassword);
+					this.userService.updatePassword(user.getId(), newPassword);
 					resultBean.setSuccess(true);
 					resultBean.setMessage("修改成功");
 				}

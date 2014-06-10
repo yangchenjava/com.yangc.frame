@@ -21,10 +21,12 @@
 	</bean>
 
 	<!-- cache -->
+	<!-- 
 	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
 		<property name="cacheManagerConfigFile" value="classpath:ehcache.xml" />
 	</bean>
-	<!-- <bean id="cacheManager" class="com.yangc.shiro.cache.RedisCacheManager" /> -->
+	 -->
+	<bean id="cacheManager" class="com.yangc.shiro.cache.RedisCacheManager" />
 
 	<!-- 会话验证调度器 -->
 	<bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.quartz.QuartzSessionValidationScheduler">
@@ -53,7 +55,7 @@
 	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
 	    <property name="globalSessionTimeout" value="1800000" />
 	    <property name="deleteInvalidSessions" value="true" />
-	    <property name="sessionValidationSchedulerEnabled" value="true" />
+	    <property name="sessionValidationSchedulerEnabled" value="false" />
 	    <property name="sessionValidationScheduler" ref="sessionValidationScheduler" />
 	    <property name="sessionDAO" ref="sessionDAO" />
 	    <property name="sessionIdCookieEnabled" value="true" />
