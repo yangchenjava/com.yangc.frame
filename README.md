@@ -3,11 +3,9 @@ com.yangc.frame
 
 ###一个初级的权限框架
 
-使用jdk6，maven项目
-
-后台 hibernate3.6.10 + spring3.2.8 + jersey1.18.1 + shiro1.2.3
-
-前端 extjs4.2 + jquery1.8
+使用jdk6，maven项目<br />
+后台 hibernate3.6.10 + spring3.2.8 + jersey1.18.1 + shiro1.2.3<br />
+前端 extjs4.2 + jquery1.8<br />
 
 使用shiro实现登录认证和权限控制，将shiro默认的ehcache缓存改为使用redis缓存，通过配置文件，配置redis的分布式策略。
 
