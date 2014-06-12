@@ -40,6 +40,8 @@
 		<property name="baseDao" ref="baseDao" />
 		<property name="jdbcDao" ref="jdbcDao" />
 	</bean>
+	<!-- 文件上传下载 -->
+	<bean id="fileService" class="com.yangc.system.service.impl.FileServiceImpl" />
 
 	<!-- resource -->
 	<bean id="pingResource" class="com.yangc.system.resource.PingResource" />
@@ -61,5 +63,8 @@
 	</bean>
 	<bean id="aclResource" class="com.yangc.system.resource.AclResource">
 		<property name="aclService" ref="aclService" />
+	</bean>
+	<bean id="fileResource" class="com.yangc.system.resource.FileResource">
+		<property name="fileService" ref="fileService" />
 	</bean>
 </beans>

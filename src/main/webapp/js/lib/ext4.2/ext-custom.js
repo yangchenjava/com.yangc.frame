@@ -16,6 +16,22 @@ message.info = function(msg, resultHandler){
 	}
 };
 
+// 警告
+message.warn = function(msg, resultHandler){
+	if (window.self != window.top) {
+		window.top.message.warn(msg, resultHandler);
+	} else {
+		Ext.MessageBox.show({
+			title: "危险警告",
+			width: 300,
+			msg: msg,
+			icon: Ext.MessageBox.WARNING,
+			buttons: Ext.MessageBox.OK,
+			fn: resultHandler
+		});
+	}
+};
+
 // 错误
 message.error = function(msg, resultHandler){
 	if (window.self != window.top) {

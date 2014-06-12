@@ -53,7 +53,8 @@ Ext.onReady(function(){
 		        {width: 5,  disabled: true},
 		        {width: 55, text: "创建", handler: createDept, icon: basePath + "js/lib/ext4.2/icons/add.gif"}, "-",
 		        {width: 55, text: "修改", handler: updateDept, icon: basePath + "js/lib/ext4.2/icons/edit_task.png"}, "-",
-		        {width: 55, text: "删除", handler: deleteDept, icon: basePath + "js/lib/ext4.2/icons/delete.gif"}
+		        {width: 55, text: "删除", handler: deleteDept, icon: basePath + "js/lib/ext4.2/icons/delete.gif"}, "-",
+		        {width: 55, text: "打印", handler: printDept,  icon: basePath + "js/lib/ext4.2/icons/printer.png"}
 		    ]
         }),
         bbar: Ext.create("Ext.PagingToolbar", {
@@ -148,6 +149,15 @@ Ext.onReady(function(){
 			});
 		} else {
 			message.info("请先选择数据再操作！");
+		}
+	}
+	
+	function printDept(){
+		if (store_deptGrid.getCount() > 0) {
+			Ext.ux.grid.Printer.printAutomatically = false;
+			Ext.ux.grid.Printer.print(grid_dept);
+		} else {
+			message.info("没有发现要打印的数据！");
 		}
 	}
 	

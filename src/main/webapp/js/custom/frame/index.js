@@ -3,7 +3,8 @@ Ext.Loader.setPath("Ext.ux", basePath + "js/lib/ext4.2/ux");
 Ext.require([
     "*",
     "Ext.ux.form.MultiSelect",
-    "Ext.ux.form.ItemSelector"
+    "Ext.ux.form.ItemSelector",
+    "Ext.ux.grid.Printer"
 ]);
 
 Ext.define("TopFrame", {
