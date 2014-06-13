@@ -182,8 +182,8 @@ Ext.onReady(function(){
 				return;
 			}
 			$.post(basePath + "resource/user/changePassword", {
-				password: password,
-				newPassword: newPassword_1
+				password: $.md5(password),
+				newPassword: $.md5(newPassword_1)
 			}, function(data){
 				if (data.success) {
 					window_changePassword.hide();

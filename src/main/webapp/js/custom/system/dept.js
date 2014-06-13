@@ -51,10 +51,10 @@ Ext.onReady(function(){
         	height: 30,
 			items: [
 		        {width: 5,  disabled: true},
-		        {width: 55, text: "创建", handler: createDept, icon: basePath + "js/lib/ext4.2/icons/add.gif"}, "-",
-		        {width: 55, text: "修改", handler: updateDept, icon: basePath + "js/lib/ext4.2/icons/edit_task.png"}, "-",
-		        {width: 55, text: "删除", handler: deleteDept, icon: basePath + "js/lib/ext4.2/icons/delete.gif"}, "-",
-		        {width: 55, text: "打印", handler: printDept,  icon: basePath + "js/lib/ext4.2/icons/printer.png"}
+		        {width: 55, text: "创建", handler: createDept, disabled: !hasPermission("dept" + permission.ADD), icon: basePath + "js/lib/ext4.2/icons/add.gif"}, "-",
+		        {width: 55, text: "修改", handler: updateDept, disabled: !hasPermission("dept" + permission.UPD), icon: basePath + "js/lib/ext4.2/icons/edit_task.png"}, "-",
+		        {width: 55, text: "删除", handler: deleteDept, disabled: !hasPermission("dept" + permission.DEL), icon: basePath + "js/lib/ext4.2/icons/delete.gif"}, "-",
+		        {width: 55, text: "打印", handler: printDept,  disabled: !hasPermission("dept" + permission.SEL), icon: basePath + "js/lib/ext4.2/icons/printer.png"}
 		    ]
         }),
         bbar: Ext.create("Ext.PagingToolbar", {

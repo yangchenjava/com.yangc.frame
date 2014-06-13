@@ -1,14 +1,30 @@
 package com.yangc.shiro.utils;
 
+import java.util.Collection;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.mgt.RealmSecurityManager;
+import org.apache.shiro.subject.PrincipalCollection;
 
 import com.yangc.shiro.auth.MyRealm;
 import com.yangc.system.bean.oracle.TSysUser;
 import com.yangc.utils.Constants;
 
 public class ShiroUtils {
+
+	/**
+	 * @功能: 获取用户拥有的权限
+	 * @作者: yangc
+	 * @创建日期: 2014年6月13日 下午12:53:20
+	 * @param principals
+	 * @return
+	 */
+	public static Collection<String> getUserPermission(PrincipalCollection principals) {
+		RealmSecurityManager realmSecurityManager = (RealmSecurityManager) SecurityUtils.getSecurityManager();
+		MyRealm myRealm = (MyRealm) realmSecurityManager.getRealms().iterator().next();
+		return myRealm.getUserPermission(principals);
+	}
 
 	/**
 	 * @功能: 清除用户认证缓存信息

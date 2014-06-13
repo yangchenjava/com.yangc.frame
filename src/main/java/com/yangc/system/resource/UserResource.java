@@ -32,6 +32,7 @@ import com.yangc.system.bean.oracle.TSysUser;
 import com.yangc.system.service.UserService;
 import com.yangc.utils.Constants;
 import com.yangc.utils.Message;
+import com.yangc.utils.encryption.Md5Utils;
 import com.yangc.utils.image.CaptchaUtils;
 import com.yangc.utils.image.CaptchaUtils.CAPTCHA_TYPE;
 
@@ -54,12 +55,11 @@ public class UserResource {
 	public Response login(@FormParam("username") String username, @FormParam("password") String password) {
 		logger.info("login - username=" + username + ", password=" + password);
 		ResultBean resultBean = new ResultBean();
-		Subject subject = null;
 		Session session = null;
 		try {
-			subject = SecurityUtils.getSubject();
+			Subject subject = SecurityUtils.getSubject();
 			session = subject.getSession();
-			subject.login(new UsernamePasswordToken(username, password));
+			subject.login(new UsernamePasswordToken(username, Md5Utils.getMD5(password)));
 			session.removeAttribute(Constants.ENTER_COUNT);
 			session.removeAttribute(Constants.NEED_CAPTCHA);
 			resultBean.setSuccess(true);
@@ -130,6 +130,8 @@ public class UserResource {
 		ResultBean resultBean = new ResultBean();
 		try {
 			TSysUser user = ShiroUtils.getCurrentUser();
+			password = Md5Utils.getMD5(password);
+			newPassword = Md5Utils.getMD5(newPassword);
 			logger.info("changePassword - userId=" + user.getId() + ", password=" + password + ", newPassword=" + newPassword);
 			if (StringUtils.isBlank(password) || StringUtils.isBlank(newPassword)) {
 				resultBean.setSuccess(false);

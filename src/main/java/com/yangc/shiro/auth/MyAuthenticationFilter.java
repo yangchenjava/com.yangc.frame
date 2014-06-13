@@ -17,7 +17,9 @@ public class MyAuthenticationFilter extends AuthenticationFilter {
 
 	@Override
 	protected boolean isAccessAllowed(ServletRequest request, ServletResponse response, Object mappedValue) {
+		// 是否已经登录成功
 		boolean isAuthenticated = this.getSubject(request, response).isAuthenticated();
+		// 是否访问的是登录页面(保证了如果已经登录成功了, 再访问登录页面, 后台直接跳转到登录成功后的页面)
 		boolean isLoginRequest = this.isLoginRequest(request, response) || this.pathsMatch("/", request);
 		if (!isAuthenticated && isLoginRequest) {
 			return true;

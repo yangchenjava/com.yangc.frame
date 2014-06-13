@@ -36,8 +36,8 @@ Ext.define('Ext.ux.form.ItemSelector', {
     buttonsText: {
         top: "Move to Top",
         up: "Move Up",
-        add: "Add to Selected",
-        remove: "Remove from Selected",
+        add: "添加",
+        remove: "移除",
         down: "Move Down",
         bottom: "Move to Bottom"
     },

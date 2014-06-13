@@ -1,5 +1,6 @@
 package com.yangc.system.resource;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.ws.rs.FormParam;
@@ -10,6 +11,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 import com.yangc.bean.ResultBean;
@@ -25,6 +27,26 @@ public class AclResource {
 	private static final Logger logger = Logger.getLogger(AclResource.class);
 
 	private AclService aclService;
+
+	/**
+	 * @功能: 获取用户拥有的权限
+	 * @作者: yangc
+	 * @创建日期: 2014年6月13日 下午1:00:14
+	 * @return
+	 */
+	@POST
+	@Path("getUserPermission")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getUserPermission() {
+		logger.info("getUserPermission");
+		try {
+			Collection<String> userPermission = ShiroUtils.getUserPermission(SecurityUtils.getSubject().getPrincipals());
+			return Response.ok(userPermission).build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return WebApplicationException.build();
+		}
+	}
 
 	/**
 	 * @功能: 某个角色所拥有的权限

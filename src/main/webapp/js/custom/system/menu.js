@@ -59,7 +59,7 @@ Ext.onReady(function(){
         	listeners: {
         		beforedrop: function(node, data, overModel, dropPosition, dropHandlers){
         			var srcModel = data.records[0];
-        			if (srcModel.get("leaf")) {
+        			if (srcModel.get("leaf") && hasPermission("menu" + permission.UPD)) {
         				var parentMenuId = dropPosition == "append" ? overModel.get("id") : overModel.get("parentMenuId");
         				$.post(basePath + "resource/menu/updateParentMenuId", {
         					id: srcModel.get("id"),
@@ -79,14 +79,14 @@ Ext.onReady(function(){
         			if (record.get("depth") >= 3) {
         				Ext.getCmp("createMenu").setDisabled(true);
         			} else {
-        				Ext.getCmp("createMenu").setDisabled(false);
+        				Ext.getCmp("createMenu").setDisabled(!hasPermission("menu" + permission.ADD));
         			}
         			if (record.get("id") == 0) {
         				Ext.getCmp("updateMenu").setDisabled(true);
         				Ext.getCmp("deleteMenu").setDisabled(true);
         			} else {
-        				Ext.getCmp("updateMenu").setDisabled(false);
-        				Ext.getCmp("deleteMenu").setDisabled(false);
+        				Ext.getCmp("updateMenu").setDisabled(!hasPermission("menu" + permission.UPD));
+        				Ext.getCmp("deleteMenu").setDisabled(!hasPermission("menu" + permission.DEL));
         			}
         			e.stopEvent();
         			menu_menu.showAt(e.getXY());

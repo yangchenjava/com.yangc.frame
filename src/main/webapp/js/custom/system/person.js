@@ -129,9 +129,9 @@ Ext.onReady(function(){
         	height: 30,
 			items: [
 		        {width: 5,  disabled: true},
-		        {width: 55, text: "创建", handler: createPerson, icon: basePath + "js/lib/ext4.2/icons/add.gif"}, "-",
-		        {width: 55, text: "修改", handler: updatePerson, icon: basePath + "js/lib/ext4.2/icons/edit_task.png"}, "-",
-		        {width: 55, text: "删除", handler: deletePerson, icon: basePath + "js/lib/ext4.2/icons/delete.gif"},
+		        {width: 55, text: "创建", handler: createPerson, disabled: !hasPermission("person" + permission.ADD), icon: basePath + "js/lib/ext4.2/icons/add.gif"}, "-",
+		        {width: 55, text: "修改", handler: updatePerson, disabled: !hasPermission("person" + permission.UPD), icon: basePath + "js/lib/ext4.2/icons/edit_task.png"}, "-",
+		        {width: 55, text: "删除", handler: deletePerson, disabled: !hasPermission("person" + permission.DEL), icon: basePath + "js/lib/ext4.2/icons/delete.gif"},
 		        {width: 200,  disabled: true},
 		        {width: 180, id: "search_name", xtype: "combobox", emptyText: "昵称", store: store_spellList, forceSelection: true, editable: true, valueField: "name", displayField: "name", hideTrigger: true, queryMode: "local",
 		        	listConfig: {

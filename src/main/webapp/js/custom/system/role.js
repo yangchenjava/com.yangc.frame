@@ -84,10 +84,10 @@ Ext.onReady(function(){
         	height: 30,
 			items: [
 		        {width: 5,  disabled: true},
-		        {width: 55, text: "创建", handler: createRole, icon: basePath + "js/lib/ext4.2/icons/add.gif"}, "-",
-		        {width: 55, text: "修改", handler: updateRole, icon: basePath + "js/lib/ext4.2/icons/edit_task.png"}, "-",
-		        {width: 55, text: "删除", handler: deleteRole, icon: basePath + "js/lib/ext4.2/icons/delete.gif"}, "-",
-		        {width: 55, text: "授权", handler: authorizeRole, icon: basePath + "js/lib/ext4.2/icons/user_suit.png"}
+		        {width: 55, text: "创建", handler: createRole, disabled: !hasPermission("role" + permission.ADD), icon: basePath + "js/lib/ext4.2/icons/add.gif"}, "-",
+		        {width: 55, text: "修改", handler: updateRole, disabled: !hasPermission("role" + permission.UPD), icon: basePath + "js/lib/ext4.2/icons/edit_task.png"}, "-",
+		        {width: 55, text: "删除", handler: deleteRole, disabled: !hasPermission("role" + permission.DEL), icon: basePath + "js/lib/ext4.2/icons/delete.gif"}, "-",
+		        {width: 55, text: "授权", handler: authorizeRole, disabled: !hasPermission("role" + permission.ADD), icon: basePath + "js/lib/ext4.2/icons/user_suit.png"}
 		    ]
         }),
         bbar: Ext.create("Ext.PagingToolbar", {

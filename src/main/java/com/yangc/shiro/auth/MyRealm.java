@@ -18,6 +18,7 @@ import org.apache.shiro.session.mgt.eis.SessionDAO;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.subject.support.DefaultSubjectContext;
+import org.apache.shiro.util.CollectionUtils;
 
 import com.yangc.shiro.utils.ShiroUtils;
 import com.yangc.system.bean.oracle.Permission;
@@ -69,6 +70,7 @@ public class MyRealm extends AuthorizingRealm {
 				throw new AuthenticationException("用户重复");
 			} else {
 				Session currentSession = SecurityUtils.getSubject().getSession();
+				// 判断同一账号, 只允许一处登录, 后登录的会踢掉前面登录的
 				if (StringUtils.equals(Message.getMessage("shiro.kickout"), "1")) {
 					Session existSession = null;
 					Collection<Session> sessions = this.sessionDAO.getActiveSessions();
@@ -92,6 +94,20 @@ public class MyRealm extends AuthorizingRealm {
 				return new SimpleAuthenticationInfo(username, password, this.getName());
 			}
 		}
+	}
+
+	/**
+	 * @功能: 获取用户拥有的权限
+	 * @作者: yangc
+	 * @创建日期: 2014年6月13日 下午12:50:22
+	 * @param principals
+	 * @return
+	 */
+	public Collection<String> getUserPermission(PrincipalCollection principals) {
+		if (!CollectionUtils.isEmpty(principals)) {
+			return this.getAuthorizationInfo(principals).getStringPermissions();
+		}
+		return null;
 	}
 
 	/**

@@ -95,7 +95,7 @@ Ext.onReady(function(){
 			message.error(Ext.getCmp("captcha_code").invalidText);
 		} else {
 			var username = Ext.getCmp("username").getValue();
-			var password = Ext.getCmp("password").getValue();
+			var password = Ext.getCmp("password").getValue() == $.cookie(COOKIE_PASSWORD) ? Ext.getCmp("password").getValue() : $.md5(Ext.getCmp("password").getValue());
 			var captcha_code = Ext.getCmp("captcha_code").getValue();
 			// 登录
 			$.post(basePath + "resource/user/login?captcha=" + encodeURIComponent(captcha_code), {
