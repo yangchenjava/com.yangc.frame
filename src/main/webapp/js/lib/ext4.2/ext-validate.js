@@ -8,7 +8,7 @@ Ext.onReady(function(){
 		 * 英文数字下划线中划线正斜杠
 		 */
 		basic: function(val, field){
-			return /^[\w_\-\/]*$/.test(val);
+			return /^[\w\-\/\.]*$/.test(val);
 		},
 		basicText: "不能包含特殊字符",
 
@@ -16,7 +16,7 @@ Ext.onReady(function(){
 		 * 中英文数字下划线中划线正斜杠
 		 */
 		basic_chinese: function(val, field){
-			return /^[\w\u4E00-\u9FA5_\-\/]*$/.test(val);
+			return /^[\w\-\/\u4E00-\u9FA5（）！？。，《》{}【】“”·、：；‘’……]*$/.test(val);
 		},
 		basic_chineseText: "不能包含特殊字符",
 
@@ -24,7 +24,7 @@ Ext.onReady(function(){
 		 * 密码
 		 */
 		password: function(val, field){
-			return /^[\w_\-]{6,15}$/.test(val);
+			return /^[\w\-]{6,15}$/.test(val);
 		},
 		passwordText: "长度为6-15的英文数字下划线中划线",
 
