@@ -7,10 +7,9 @@ com.yangc.frame
 前端 extjs4.2 + jquery1.8<br />
 目前使用的是oracle数据库，可以使用不同的数据库，不同的数据库脚本放入不同的文件夹中<br />
 <br />
-登录账号<br />
-用户名    密码<br />
-yangchen    1<br />
-wangsheng   8888<br />
+登录账号（用户名 密码）<br />
+yangchen 1<br />
+wangsheng 8888<br />
 
 ### shiro
 使用shiro实现登录认证和权限控制，将shiro默认的ehcache缓存改为使用redis缓存，通过配置文件，配置redis的分布式策略。
