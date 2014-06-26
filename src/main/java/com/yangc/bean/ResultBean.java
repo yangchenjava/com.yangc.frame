@@ -11,9 +11,7 @@ public class ResultBean {
 	}
 
 	public ResultBean(boolean success, String message) {
-		this.success = success;
-		this.message = message;
-		this.msg = message;
+		this(success, message, null);
 	}
 
 	public ResultBean(boolean success, String message, String other) {

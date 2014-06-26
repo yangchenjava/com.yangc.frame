@@ -153,6 +153,25 @@ public class UserResource {
 		}
 	}
 
+	/**
+	 * @功能: 校验当前用户密码是否为初始密码
+	 * @作者: yangc
+	 * @创建日期: 2013年12月21日 下午4:24:12
+	 * @return
+	 */
+	@POST
+	@Path("checkPassword")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response checkPassword() {
+		try {
+			TSysUser user = ShiroUtils.getCurrentUser();
+			return Response.ok(new ResultBean(user.getPassword().equals(Constants.DEFAULT_PASSWORD), "当前密码为初始密码，建议修改！")).build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return WebApplicationException.build();
+		}
+	}
+
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}

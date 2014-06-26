@@ -121,11 +121,11 @@ public class PersonResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@RequiresPermissions("person:" + Permission.ADD)
 	public Response addPerson(@FormParam("name") String name, @FormParam("sex") Long sex, @FormParam("phone") String phone, @FormParam("deptId") Long deptId, @FormParam("username") String username,
-			@FormParam("password") String password, @FormParam("roleIds") String roleIds) {
-		logger.info("addPerson - name=" + name + ", sex=" + sex + ", phone=" + phone + ", deptId=" + deptId + ", username=" + username + ", password=" + password + ", roleIds=" + roleIds);
+			@FormParam("roleIds") String roleIds) {
+		logger.info("addPerson - name=" + name + ", sex=" + sex + ", phone=" + phone + ", deptId=" + deptId + ", username=" + username + ", roleIds=" + roleIds);
 		ResultBean resultBean = new ResultBean();
 		try {
-			this.personService.addOrUpdatePerson(null, name, sex, phone, deptId, null, username, password, roleIds);
+			this.personService.addOrUpdatePerson(null, name, sex, phone, deptId, null, username, roleIds);
 			resultBean.setSuccess(true);
 			resultBean.setMessage("添加成功");
 			return Response.ok(resultBean).build();
@@ -150,12 +150,12 @@ public class PersonResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	@RequiresPermissions("person:" + Permission.UPD)
 	public Response updatePerson(@FormParam("id") Long id, @FormParam("name") String name, @FormParam("sex") Long sex, @FormParam("phone") String phone, @FormParam("deptId") Long deptId,
-			@FormParam("userId") Long userId, @FormParam("username") String username, @FormParam("password") String password, @FormParam("roleIds") String roleIds) {
-		logger.info("updatePerson - id=" + id + ", name=" + name + ", sex=" + sex + ", phone=" + phone + ", deptId=" + deptId + ", userId=" + userId + ", username=" + username + ", password="
-				+ password + ", roleIds=" + roleIds);
+			@FormParam("userId") Long userId, @FormParam("username") String username, @FormParam("roleIds") String roleIds) {
+		logger.info("updatePerson - id=" + id + ", name=" + name + ", sex=" + sex + ", phone=" + phone + ", deptId=" + deptId + ", userId=" + userId + ", username=" + username + ", roleIds="
+				+ roleIds);
 		ResultBean resultBean = new ResultBean();
 		try {
-			this.personService.addOrUpdatePerson(id, name, sex, phone, deptId, userId, username, password, roleIds);
+			this.personService.addOrUpdatePerson(id, name, sex, phone, deptId, userId, username, roleIds);
 			// 清除用户权限缓存信息
 			ShiroUtils.clearCachedAuthorizationInfo(username);
 			resultBean.setSuccess(true);

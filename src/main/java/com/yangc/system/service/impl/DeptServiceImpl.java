@@ -16,7 +16,10 @@ public class DeptServiceImpl implements DeptService {
 
 	@Override
 	public void addOrUpdateDept(Long deptId, String deptName, Long serialNum) {
-		TSysDepartment dept = deptId == null ? new TSysDepartment() : (TSysDepartment) this.baseDao.get(TSysDepartment.class, deptId);
+		TSysDepartment dept = (TSysDepartment) this.baseDao.get(TSysDepartment.class, deptId);
+		if (dept == null) {
+			dept = new TSysDepartment();
+		}
 		dept.setDeptName(deptName);
 		dept.setSerialNum(serialNum);
 		this.baseDao.save(dept);

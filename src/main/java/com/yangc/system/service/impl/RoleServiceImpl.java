@@ -18,7 +18,10 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	public void addOrUpdateRole(Long roleId, String roleName) {
-		TSysRole role = roleId == null ? new TSysRole() : (TSysRole) this.baseDao.get(TSysRole.class, roleId);
+		TSysRole role = (TSysRole) this.baseDao.get(TSysRole.class, roleId);
+		if (role == null) {
+			role = new TSysRole();
+		}
 		role.setRoleName(roleName);
 		this.baseDao.saveOrUpdate(role);
 	}

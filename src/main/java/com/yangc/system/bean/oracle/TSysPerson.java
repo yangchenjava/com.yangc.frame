@@ -15,7 +15,6 @@ public class TSysPerson extends BaseBean {
 
 	private Long userId;
 	private String username;
-	private String password;
 
 	private String roleIds;
 
@@ -27,7 +26,7 @@ public class TSysPerson extends BaseBean {
 		this.spell = spell;
 	}
 
-	public TSysPerson(Long id, String name, Long sex, String phone, Long deptId, String deptName, String spell, Long userId, String username, String password) {
+	public TSysPerson(Long id, String name, Long sex, String phone, Long deptId, String deptName, String spell, Long userId, String username) {
 		this.setId(id);
 		this.name = name;
 		this.sex = sex;
@@ -37,13 +36,12 @@ public class TSysPerson extends BaseBean {
 		this.spell = spell;
 		this.userId = userId;
 		this.username = username;
-		this.password = password;
 	}
 
 	@Override
 	public String toString() {
 		return "TSysPerson [name=" + name + ", sex=" + sex + ", phone=" + phone + ", deptId=" + deptId + ", deptName=" + deptName + ", spell=" + spell + ", userId=" + userId + ", username="
-				+ username + ", password=" + password + ", roleIds=" + roleIds + "]";
+				+ username + ", roleIds=" + roleIds + "]";
 	}
 
 	public String getName() {
@@ -108,14 +106,6 @@ public class TSysPerson extends BaseBean {
 
 	public void setUsername(String username) {
 		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public String getRoleIds() {

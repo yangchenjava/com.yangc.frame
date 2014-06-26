@@ -12,7 +12,6 @@ Ext.define("Person", {
 		
 		{name: "userId",   type: "int"},
 		{name: "username", type: "string"},
-		{name: "password", type: "string"},
 		
 		{name: "roleIds",  type: "string"}
     ]
@@ -192,21 +191,13 @@ Ext.onReady(function(){
                     {id: "addOrUpdate_name", name: "name", xtype: "textfield", fieldLabel: "昵称", allowBlank: false, invalidText: "请输入昵称！", vtype: "basic_chinese"}
                 ]}
             ]},
-            {xtype: "container", layout:"column", items: [
-                {xtype: "container", columnWidth:.5, layout: "anchor", items: [
-                    {id: "addOrUpdate_password_1", name: "password", xtype: "textfield", inputType:"password", fieldLabel: "密码", allowBlank: false, invalidText: "请输入密码！", vtype: "password"}
-                ]},
-                {xtype: "container", columnWidth:.5, layout: "anchor", items: [
-                    {id: "addOrUpdate_password_2", xtype: "textfield", inputType:"password", fieldLabel: "确认密码", allowBlank: false, invalidText: "请输入确认密码！", vtype: "password", validator: validatorPasswordRepeatHandler}
-                ]}
-            ]},
             {id: "addOrUpdate_sex", xtype: "radiogroup", fieldLabel: "性别", allowBlank: false, invalidText: "请选择性别！", items: [
                 {boxLabel: "男", name: "sex", inputValue: 1, checked: true},
                 {boxLabel: "女", name: "sex", inputValue: 0}
             ]},
             {xtype: "container", layout:"column", items: [
                 {xtype: "container", columnWidth:.5, layout: "anchor", items: [
-                    {id: "addOrUpdate_phone", name: "phone", xtype: "textfield", fieldLabel: "电话", allowBlank: false, invalidText: "请输入电话！", vtype: "mobile"}
+                    {id: "addOrUpdate_phone", name: "phone", xtype: "textfield", fieldLabel: "手机", allowBlank: false, invalidText: "请输入手机！", vtype: "mobile"}
                 ]},
                 {xtype: "container", columnWidth:.5, layout: "anchor", items: [
                     {id: "addOrUpdate_dept", name: "deptId", xtype: "combobox", fieldLabel: "部门", allowBlank: false, invalidText: "请选择部门！", store: store_deptList, forceSelection: true, editable: false, valueField: "id", displayField: "deptName"}
@@ -255,12 +246,10 @@ Ext.onReady(function(){
 	function createPerson(){
 		var panel_addOrUpdate_person = Ext.create("panel_addOrUpdate_person");
 		store_roleList.load();
-		Ext.getCmp("addOrUpdate_password_1").show();
-		Ext.getCmp("addOrUpdate_password_2").show();
 		
 		var window_addOrUpdate_person = Ext.create("window_addOrUpdate_person");
 		window_addOrUpdate_person.add(panel_addOrUpdate_person);
-		window_addOrUpdate_person.setTitle("创建");
+		window_addOrUpdate_person.setTitle("创建<label style='color: #FF7256;'>（初始密码为123456）</label>");
 		window_addOrUpdate_person.show();
 	}
 	
@@ -271,9 +260,6 @@ Ext.onReady(function(){
 			var panel_addOrUpdate_person = Ext.create("panel_addOrUpdate_person");
 			store_roleList.load();
 			panel_addOrUpdate_person.getForm().loadRecord(record);
-			Ext.getCmp("addOrUpdate_password_1").hide();
-			Ext.getCmp("addOrUpdate_password_2").setValue(record.get("password"));
-			Ext.getCmp("addOrUpdate_password_2").hide();
 			store_roleIdsList.load({
 				params: {"userId": record.get("userId")},
 		   	 	scope: this,
@@ -314,8 +300,6 @@ Ext.onReady(function(){
 	function addOrUpdatePersonHandler(){
 		var username = Ext.getCmp("addOrUpdate_username");
 		var name = Ext.getCmp("addOrUpdate_name");
-		var password_1 = Ext.getCmp("addOrUpdate_password_1");
-		var password_2 = Ext.getCmp("addOrUpdate_password_2");
 		var sex = Ext.getCmp("addOrUpdate_sex");
 		var phone = Ext.getCmp("addOrUpdate_phone");
 		var dept = Ext.getCmp("addOrUpdate_dept");
@@ -324,10 +308,6 @@ Ext.onReady(function(){
 			message.error(username.invalidText);
 		} else if (!name.isValid()) {
 			message.error(name.invalidText);
-		} else if (!password_1.isValid()) {
-			message.error(password_1.invalidText);
-		} else if (!password_2.isValid()) {
-			message.error(password_2.invalidText);
 		} else if (!sex.isValid()) {
 			message.error(sex.invalidText);
 		} else if (!phone.isValid()) {
@@ -358,14 +338,4 @@ Ext.onReady(function(){
 			});
 		}
 	}
-	
-	function validatorPasswordRepeatHandler(){
-		var password_1 = Ext.getCmp("addOrUpdate_password_1");
-		var password_2 = Ext.getCmp("addOrUpdate_password_2");
-    	if (password_2.getValue().length > 0 && password_1.getValue() != password_2.getValue()) {
-    		password_2.invalidText = "两次输入的密码不相同！";
-			return password_2.invalidText;
-		}
-    	return true;
-    }
 });

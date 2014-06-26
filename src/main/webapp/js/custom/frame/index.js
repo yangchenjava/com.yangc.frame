@@ -4,7 +4,8 @@ Ext.require([
     "*",
     "Ext.ux.form.MultiSelect",
     "Ext.ux.form.ItemSelector",
-    "Ext.ux.grid.Printer"
+    "Ext.ux.grid.Printer",
+    "Ext.ux.window.Notification"
 ]);
 
 Ext.define("TopFrame", {
@@ -131,7 +132,7 @@ Ext.onReady(function(){
         items: [
 			{id: "password", xtype: "textfield", inputType:"password", fieldLabel: "原密码", allowBlank: false, invalidText: "请输入原密码！", vtype: "password"},
 			{id: "newPassword_1", xtype: "textfield", inputType:"password", fieldLabel: "新密码", allowBlank: false, invalidText: "请输入新密码！", vtype: "password"},
-			{id: "newPassword_2", xtype: "textfield", inputType:"password", fieldLabel: "确认密码", allowBlank: false, invalidText: "请输入确认密码！", vtype: "password"}
+			{id: "newPassword_2", xtype: "textfield", inputType:"password", fieldLabel: "确认密码", allowBlank: false, invalidText: "请输入确认密码！", vtype: "password", validator: validatorPasswordRepeatHandler}
 		]
 	});
     var window_changePassword = Ext.create("Ext.window.Window", {
@@ -174,16 +175,9 @@ Ext.onReady(function(){
 		} else if (!Ext.getCmp("newPassword_2").isValid()) {
 			message.error(Ext.getCmp("newPassword_2").invalidText);
 		} else {
-			var password = Ext.getCmp("password").getValue();
-			var newPassword_1 = Ext.getCmp("newPassword_1").getValue();
-			var newPassword_2 = Ext.getCmp("newPassword_2").getValue();
-			if (newPassword_1 != newPassword_2) {
-				message.error("两次密码输入不同！");
-				return;
-			}
 			$.post(basePath + "resource/user/changePassword", {
-				password: $.md5(password),
-				newPassword: $.md5(newPassword_1)
+				password: $.md5(Ext.getCmp("password").getValue()),
+				newPassword: $.md5(Ext.getCmp("newPassword_1").getValue())
 			}, function(data){
 				if (data.success) {
 					window_changePassword.hide();
@@ -196,4 +190,30 @@ Ext.onReady(function(){
 			});
 		}
 	}
+	
+	function validatorPasswordRepeatHandler(){
+		var newPassword_1 = Ext.getCmp("newPassword_1");
+		var newPassword_2 = Ext.getCmp("newPassword_2");
+    	if (newPassword_2.getValue().length > 0 && newPassword_1.getValue() != newPassword_2.getValue()) {
+    		newPassword_2.invalidText = "两次输入的密码不相同！";
+			return newPassword_2.invalidText;
+		}
+    	return true;
+    }
+	
+	// 校验当前用户密码是否为初始密码
+	$.post(basePath + "resource/user/checkPassword", function(data){
+		if (data.success) {
+			Ext.create("widget.uxNotification", {
+				title: "提示",
+				width: 280,
+				height: 200,
+				position: "br",
+				stickOnClick: false,
+				iconCls: "ux-notification-icon-information",
+				autoCloseDelay: 10000,
+				html: data.message
+			}).show();
+		}
+	});
 });

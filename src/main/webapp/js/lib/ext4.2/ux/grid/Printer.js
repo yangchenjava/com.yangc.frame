@@ -202,7 +202,7 @@ Ext.define("Ext.ux.grid.Printer", {
             //get Styles file relative location, if not supplied
             if (this.stylesheetPath === null) {
                 var scriptPath = Ext.Loader.getPath('Ext.ux.grid.Printer');
-                this.stylesheetPath = scriptPath.substring(0, scriptPath.indexOf('Printer.js')) + 'gridPrinterCss/print.css';
+                this.stylesheetPath = scriptPath.substring(0, scriptPath.indexOf('Printer.js')) + 'css/Print.css';
             }
 
             //use the headerTpl and bodyTpl markups to create the main XTemplate below

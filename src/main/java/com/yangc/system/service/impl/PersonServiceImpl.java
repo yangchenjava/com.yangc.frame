@@ -20,7 +20,7 @@ public class PersonServiceImpl implements PersonService {
 	private UserService userService;
 
 	@Override
-	public void addOrUpdatePerson(Long personId, String name, Long sex, String phone, Long deptId, Long userId, String username, String password, String roleIds) throws IllegalStateException {
+	public void addOrUpdatePerson(Long personId, String name, Long sex, String phone, Long deptId, Long userId, String username, String roleIds) throws IllegalStateException {
 		TSysUser user = this.userService.getUserByUsername(username);
 		if (user != null) {
 			if (userId == null) {
@@ -31,7 +31,10 @@ public class PersonServiceImpl implements PersonService {
 		}
 
 		// 保存person
-		TSysPerson person = personId == null ? new TSysPerson() : (TSysPerson) this.baseDao.get(TSysPerson.class, personId);
+		TSysPerson person = (TSysPerson) this.baseDao.get(TSysPerson.class, personId);
+		if (person == null) {
+			person = new TSysPerson();
+		}
 		person.setName(name);
 		person.setSex(sex);
 		person.setPhone(phone);
@@ -40,7 +43,7 @@ public class PersonServiceImpl implements PersonService {
 		this.baseDao.saveOrUpdate(person);
 
 		// 保存user
-		this.userService.addOrUpdateUser(userId, username, password, person.getId(), roleIds);
+		this.userService.addOrUpdateUser(userId, username, person.getId(), roleIds);
 	}
 
 	@Override
@@ -68,7 +71,7 @@ public class PersonServiceImpl implements PersonService {
 	@Override
 	public List<TSysPerson> getPersonListByPersonNameAndDeptId_page(String personName, Long deptId) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("select new TSysPerson(p.id, p.name, p.sex, p.phone, p.deptId, d.deptName, p.spell, u.id as userId, u.username, u.password)");
+		sb.append("select new TSysPerson(p.id, p.name, p.sex, p.phone, p.deptId, d.deptName, p.spell, u.id as userId, u.username)");
 		sb.append(" from TSysPerson p, TSysDepartment d, TSysUser u where p.deptId = d.id and p.id = u.personId");
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 

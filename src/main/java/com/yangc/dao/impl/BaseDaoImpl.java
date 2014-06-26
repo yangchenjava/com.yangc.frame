@@ -56,12 +56,18 @@ public class BaseDaoImpl extends HibernateDaoSupport implements BaseDao {
 
 	@Override
 	public BaseBean get(Class<? extends BaseBean> clazz, Serializable id) {
-		return (BaseBean) this.getHibernateTemplate().get(clazz, id);
+		if (id != null) {
+			return (BaseBean) this.getHibernateTemplate().get(clazz, id);
+		}
+		return null;
 	}
 
 	@Override
 	public BaseBean get(String className, Serializable id) {
-		return (BaseBean) this.getHibernateTemplate().get(className, id);
+		if (id != null) {
+			return (BaseBean) this.getHibernateTemplate().get(className, id);
+		}
+		return null;
 	}
 
 	@Override

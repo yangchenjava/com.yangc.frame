@@ -8,6 +8,7 @@ import com.yangc.dao.BaseDao;
 import com.yangc.system.bean.oracle.TSysUser;
 import com.yangc.system.service.UserService;
 import com.yangc.system.service.UsersrolesService;
+import com.yangc.utils.Constants;
 import com.yangc.utils.lang.NumberUtils;
 
 @SuppressWarnings("unchecked")
@@ -17,10 +18,13 @@ public class UserServiceImpl implements UserService {
 	private UsersrolesService usersrolesService;
 
 	@Override
-	public void addOrUpdateUser(Long userId, String username, String password, Long personId, String roleIds) {
-		TSysUser user = userId == null ? new TSysUser() : (TSysUser) this.baseDao.get(TSysUser.class, userId);
+	public void addOrUpdateUser(Long userId, String username, Long personId, String roleIds) {
+		TSysUser user = (TSysUser) this.baseDao.get(TSysUser.class, userId);
+		if (user == null) {
+			user = new TSysUser();
+			user.setPassword(Constants.DEFAULT_PASSWORD);
+		}
 		user.setUsername(username);
-		user.setPassword(password);
 		user.setPersonId(personId);
 		this.baseDao.saveOrUpdate(user);
 

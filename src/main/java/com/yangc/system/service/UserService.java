@@ -6,7 +6,7 @@ import com.yangc.system.bean.oracle.TSysUser;
 
 public interface UserService {
 
-	public void addOrUpdateUser(Long userId, String username, String password, Long personId, String roleIds);
+	public void addOrUpdateUser(Long userId, String username, Long personId, String roleIds);
 
 	public void delUser(Long userId);
 

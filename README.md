@@ -9,7 +9,7 @@ com.yangc.frame
 <br />
 登录账号（用户名 密码）<br />
 yangchen 1<br />
-wangsheng 8888<br />
+wangsheng 123456<br />
 
 ### shiro
 使用shiro实现登录认证和权限控制，将shiro默认的ehcache缓存改为使用redis缓存，通过配置文件，配置redis的分布式策略。

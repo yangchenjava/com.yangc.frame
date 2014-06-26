@@ -13,6 +13,7 @@
   	<title>yangc</title>
   	<link rel="stylesheet" type="text/css" href="<%=js_lib%>ext4.2/resources/css/ext-all.css" />
   	<link rel="stylesheet" type="text/css" href="<%=js_lib%>ext4.2/ux/css/ItemSelector.css" />
+  	<link rel="stylesheet" type="text/css" href="<%=js_lib%>ext4.2/ux/css/Notification.css" />
   	<link rel="stylesheet" type="text/css" href="<%=js_lib%>ext4.2/tab-bar.css" />
   	<link rel="stylesheet" type="text/css" href="<%=js_lib%>ext4.2/ext-custom.css" />
 	<script type="text/javascript" src="<%=js_lib%>ext4.2/ext-all.js"></script>

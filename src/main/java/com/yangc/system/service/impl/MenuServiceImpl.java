@@ -26,7 +26,10 @@ public class MenuServiceImpl implements MenuService {
 
 	@Override
 	public void addOrUpdateMenu(Long menuId, String menuName, String menuUrl, Long parentMenuId, Long serialNum, Long isshow, String description) {
-		TSysMenu menu = menuId == null ? new TSysMenu() : (TSysMenu) this.baseDao.get(TSysMenu.class, menuId);
+		TSysMenu menu = (TSysMenu) this.baseDao.get(TSysMenu.class, menuId);
+		if (menu == null) {
+			menu = new TSysMenu();
+		}
 		menu.setMenuName(menuName);
 		menu.setMenuUrl(menuUrl);
 		menu.setParentMenuId(parentMenuId);
