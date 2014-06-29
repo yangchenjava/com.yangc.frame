@@ -99,11 +99,17 @@ public class UserResource {
 		return Response.seeOther(uri).build();
 	}
 
+	/**
+	 * @功能: 生成验证码
+	 * @作者: yangc
+	 * @创建日期: 2012-9-10 上午12:04:33
+	 * @return
+	 */
 	@GET
 	@Path("captcha")
 	@Produces({ "image/jpeg" })
 	public Response captcha() {
-		logger.info("logout");
+		logger.info("captcha");
 		String code = CaptchaUtils.getCode(4, CAPTCHA_TYPE.ALL);
 		BufferedImage bi = CaptchaUtils.getBufferedImage(100, 28, 4, CAPTCHA_TYPE.ALL, code);
 

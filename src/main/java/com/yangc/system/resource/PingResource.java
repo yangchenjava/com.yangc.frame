@@ -1,6 +1,6 @@
 package com.yangc.system.resource;
 
-import javax.ws.rs.POST;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -22,7 +22,7 @@ public class PingResource {
 	 * @创建日期: 2013年12月23日 下午2:13:04
 	 * @return
 	 */
-	@POST
+	@GET
 	@Path("system")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response system() {

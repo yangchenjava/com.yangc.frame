@@ -59,7 +59,7 @@ public class PaginationFilter implements Filter {
 					pagination.setPageSize(Integer.parseInt(pageSize));
 				}
 			}
-			logger.info("PaginationInterceptor - pageNow=" + pagination.getPageNow() + ", pageSize=" + pagination.getPageSize());
+			logger.info("PaginationFilter - pageNow=" + pagination.getPageNow() + ", pageSize=" + pagination.getPageSize());
 		}
 		chain.doFilter(request, response);
 		PaginationThreadUtils.clear();

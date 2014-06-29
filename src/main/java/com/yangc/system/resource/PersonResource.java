@@ -70,9 +70,7 @@ public class PersonResource {
 			}
 			logger.info("getPersonListByPersonNameAndDeptId_page - name=" + name + ", deptId=" + deptId);
 			List<TSysPerson> personList = this.personService.getPersonListByPersonNameAndDeptId_page(name, deptId);
-			DataGridBean dataGridBean = new DataGridBean();
-			dataGridBean.setDataGrid(personList);
-			return Response.ok(dataGridBean).build();
+			return Response.ok(new DataGridBean(personList)).build();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return WebApplicationException.build();

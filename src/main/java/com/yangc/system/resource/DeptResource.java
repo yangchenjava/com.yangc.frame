@@ -61,9 +61,7 @@ public class DeptResource {
 		logger.info("getDeptList_page");
 		try {
 			List<TSysDepartment> deptList = this.deptService.getDeptList_page();
-			DataGridBean dataGridBean = new DataGridBean();
-			dataGridBean.setDataGrid(deptList);
-			return Response.ok(dataGridBean).build();
+			return Response.ok(new DataGridBean(deptList)).build();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return WebApplicationException.build();

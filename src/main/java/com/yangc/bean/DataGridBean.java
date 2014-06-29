@@ -11,6 +11,11 @@ public class DataGridBean {
 	private int totalCount;
 
 	public DataGridBean() {
+		this(null);
+	}
+
+	public DataGridBean(List<?> dataGrid) {
+		this.dataGrid = dataGrid;
 		Pagination pagination = PaginationThreadUtils.get();
 		this.totalCount = pagination.getTotalCount();
 	}

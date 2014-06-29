@@ -56,9 +56,7 @@ public class RoleResource {
 		logger.info("getRoleList_page");
 		try {
 			List<TSysRole> roleList = this.roleService.getRoleList_page();
-			DataGridBean dataGridBean = new DataGridBean();
-			dataGridBean.setDataGrid(roleList);
-			return Response.ok(dataGridBean).build();
+			return Response.ok(new DataGridBean(roleList)).build();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return WebApplicationException.build();
