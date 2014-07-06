@@ -7,16 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.google.gson.reflect.TypeToken;
 import com.yangc.dao.BaseDao;
 import com.yangc.dao.JdbcDao;
 import com.yangc.system.bean.oracle.MenuTree;
 import com.yangc.system.bean.oracle.TSysMenu;
 import com.yangc.system.service.AclService;
 import com.yangc.system.service.MenuService;
-import com.yangc.utils.Constants;
-import com.yangc.utils.cache.RedisUtils;
-import com.yangc.utils.json.JsonUtils;
 
 public class MenuServiceImpl implements MenuService {
 
@@ -37,17 +33,11 @@ public class MenuServiceImpl implements MenuService {
 		menu.setIsshow(isshow);
 		menu.setDescription(description);
 		this.baseDao.saveOrUpdate(menu);
-
-		// 清空菜单缓存
-		RedisUtils.getInstance().del(Constants.MENU);
 	}
 
 	@Override
 	public void updateParentMenuId(Long menuId, Long parentMenuId) {
 		this.baseDao.updateOrDelete("update TSysMenu set parentMenuId = ? where id = ?", new Object[] { parentMenuId, menuId });
-
-		// 清空菜单缓存
-		RedisUtils.getInstance().del(Constants.MENU);
 	}
 
 	@Override
@@ -58,9 +48,6 @@ public class MenuServiceImpl implements MenuService {
 		}
 		this.aclService.delAcl(menuId, 1);
 		this.baseDao.updateOrDelete("delete TSysMenu where id = ?", new Object[] { menuId });
-
-		// 清空菜单缓存
-		RedisUtils.getInstance().del(Constants.MENU);
 	}
 
 	@Override
@@ -105,16 +92,6 @@ public class MenuServiceImpl implements MenuService {
 
 	@Override
 	public List<TSysMenu> getTopFrame(Long parentMenuId, Long userId) {
-		// 查询redis缓存
-		String field = Constants.MENU_TOP + "_" + parentMenuId + "_" + userId;
-		RedisUtils cache = RedisUtils.getInstance();
-		List<String> values = cache.getHashMap(Constants.MENU, field);
-		if (values != null && !values.isEmpty() && values.get(0) != null) {
-			return JsonUtils.fromJson(values.get(0), new TypeToken<List<TSysMenu>>() {
-			});
-		}
-
-		// 查询数据库
 		String sql = JdbcDao.SQL_MAPPING.get("system.menu.getTopFrame");
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("parentMenuId", parentMenuId);
@@ -130,27 +107,11 @@ public class MenuServiceImpl implements MenuService {
 			menu.setMenuUrl((String) map.get("MENU_URL"));
 			menus.add(menu);
 		}
-
-		// 设置redis缓存
-		Map<String, String> map = new HashMap<String, String>();
-		map.put(field, JsonUtils.toJson(menus));
-		cache.putHashMap(Constants.MENU, map);
-
 		return menus;
 	}
 
 	@Override
 	public List<TSysMenu> getMainFrame(Long parentMenuId, Long userId) {
-		// 查询redis缓存
-		String field = Constants.MENU_MAIN + "_" + parentMenuId + "_" + userId;
-		RedisUtils cache = RedisUtils.getInstance();
-		List<String> values = cache.getHashMap(Constants.MENU, field);
-		if (values != null && !values.isEmpty() && values.get(0) != null) {
-			return JsonUtils.fromJson(values.get(0), new TypeToken<List<TSysMenu>>() {
-			});
-		}
-
-		// 查询数据库
 		String sql = JdbcDao.SQL_MAPPING.get("system.menu.getMainFrame");
 		Map<String, Object> paramMap = new HashMap<String, Object>();
 		paramMap.put("parentMenuId", parentMenuId);
@@ -191,12 +152,6 @@ public class MenuServiceImpl implements MenuService {
 			menu.setChildRenMenu(en.getValue());
 			menus.add(menu);
 		}
-
-		// 设置redis缓存
-		Map<String, String> map = new HashMap<String, String>();
-		map.put(field, JsonUtils.toJson(menus));
-		cache.putHashMap(Constants.MENU, map);
-
 		return menus;
 	}
 
