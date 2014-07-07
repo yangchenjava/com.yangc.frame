@@ -51,11 +51,11 @@
 
 	<aop:config>
 		<aop:aspect id="menuAspect" ref="menuAop">
-			<aop:pointcut id="addOrUpdateMenu" expression="execution(* com.*.system.service.impl.MenuServiceImpl.addOrUpdateMenu(..))" />
-			<aop:pointcut id="updateParentMenuId" expression="execution(* com.*.system.service.impl.MenuServiceImpl.updateParentMenuId(..))" />
-			<aop:pointcut id="delMenu" expression="execution(* com.*.system.service.impl.MenuServiceImpl.delMenu(..))" />
-			<aop:pointcut id="getTopFrame" expression="execution(* com.*.system.service.impl.MenuServiceImpl.getTopFrame(..))" />
-			<aop:pointcut id="getMainFrame" expression="execution(* com.*.system.service.impl.MenuServiceImpl.getMainFrame(..))" />
+			<aop:pointcut id="addOrUpdateMenu" expression="execution(* com.*.system.service.MenuService.addOrUpdateMenu(..))" />
+			<aop:pointcut id="updateParentMenuId" expression="execution(* com.*.system.service.MenuService.updateParentMenuId(..))" />
+			<aop:pointcut id="delMenu" expression="execution(* com.*.system.service.MenuService.delMenu(..))" />
+			<aop:pointcut id="getTopFrame" expression="execution(* com.*.system.service.MenuService.getTopFrame(..))" />
+			<aop:pointcut id="getMainFrame" expression="execution(* com.*.system.service.MenuService.getMainFrame(..))" />
 
 			<aop:before method="cleanMenuCacheAfterMethod" pointcut-ref="addOrUpdateMenu" />
 			<aop:before method="cleanMenuCacheAfterMethod" pointcut-ref="updateParentMenuId" />
