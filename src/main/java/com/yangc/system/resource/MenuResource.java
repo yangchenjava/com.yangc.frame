@@ -100,11 +100,12 @@ public class MenuResource {
 	@Path("addMenu")
 	@Produces(MediaType.APPLICATION_JSON)
 	@RequiresPermissions("menu:" + Permission.ADD)
-	public Response addMenu(@FormParam("menuName") String menuName, @FormParam("menuUrl") String menuUrl, @FormParam("parentMenuId") Long parentMenuId, @FormParam("serialNum") Long serialNum,
-			@FormParam("isshow") Long isshow, @FormParam("description") String description) {
-		logger.info("addMenu - menuName=" + menuName + ", menuUrl=" + menuUrl + ", parentMenuId=" + parentMenuId + ", serialNum=" + serialNum + ", isshow=" + isshow + ", description=" + description);
+	public Response addMenu(@FormParam("menuName") String menuName, @FormParam("menuAlias") String menuAlias, @FormParam("menuUrl") String menuUrl, @FormParam("parentMenuId") Long parentMenuId,
+			@FormParam("serialNum") Long serialNum, @FormParam("isshow") Long isshow, @FormParam("description") String description) {
+		logger.info("addMenu - menuName=" + menuName + ", menuAlias=" + menuAlias + ", menuUrl=" + menuUrl + ", parentMenuId=" + parentMenuId + ", serialNum=" + serialNum + ", isshow=" + isshow
+				+ ", description=" + description);
 		try {
-			this.menuService.addOrUpdateMenu(null, menuName, menuUrl, parentMenuId, serialNum, isshow, description);
+			this.menuService.addOrUpdateMenu(null, menuName, menuAlias, menuUrl, parentMenuId, serialNum, isshow, description);
 			return Response.ok(new ResultBean(true, "添加成功，请授权后进行查看")).build();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -122,12 +123,12 @@ public class MenuResource {
 	@Path("updateMenu")
 	@Produces(MediaType.APPLICATION_JSON)
 	@RequiresPermissions("menu:" + Permission.UPD)
-	public Response updateMenu(@FormParam("id") Long id, @FormParam("menuName") String menuName, @FormParam("menuUrl") String menuUrl, @FormParam("parentMenuId") Long parentMenuId,
-			@FormParam("serialNum") Long serialNum, @FormParam("isshow") Long isshow, @FormParam("description") String description) {
-		logger.info("updateMenu - id=" + id + ", menuName=" + menuName + ", menuUrl=" + menuUrl + ", parentMenuId=" + parentMenuId + ", serialNum=" + serialNum + ", isshow=" + isshow
-				+ ", description=" + description);
+	public Response updateMenu(@FormParam("id") Long id, @FormParam("menuName") String menuName, @FormParam("menuAlias") String menuAlias, @FormParam("menuUrl") String menuUrl,
+			@FormParam("parentMenuId") Long parentMenuId, @FormParam("serialNum") Long serialNum, @FormParam("isshow") Long isshow, @FormParam("description") String description) {
+		logger.info("updateMenu - id=" + id + ", menuName=" + menuName + ", menuAlias=" + menuAlias + ", menuUrl=" + menuUrl + ", parentMenuId=" + parentMenuId + ", serialNum=" + serialNum
+				+ ", isshow=" + isshow + ", description=" + description);
 		try {
-			this.menuService.addOrUpdateMenu(id, menuName, menuUrl, parentMenuId, serialNum, isshow, description);
+			this.menuService.addOrUpdateMenu(id, menuName, menuAlias, menuUrl, parentMenuId, serialNum, isshow, description);
 			return Response.ok(new ResultBean(true, "修改成功，请刷新页面进行查看")).build();
 		} catch (Exception e) {
 			e.printStackTrace();
