@@ -3,6 +3,7 @@ Ext.define("MainFrame", {
     fields: [
 		{name: "id",   	       type: "int"},
 		{name: "menuName",     type: "string"},
+		{name: "menuAlias",    type: "string"},
 		{name: "menuUrl",  	   type: "string"},
 		{name: "childRenMenu", type: "object"}
     ]
@@ -18,7 +19,7 @@ Ext.onReady(function(){
 				create: "POST", read: "POST", update: "POST", destroy: "POST"
 			},
 			url: basePath + "resource/menu/showMainFrame",
-			extraParams: {"parentMenuId": parentMenuId}
+			extraParams: {"parentMenuId": index.parentMenuId}
 		},
 		autoLoad: true,
 		listeners: {
@@ -29,6 +30,10 @@ Ext.onReady(function(){
 					for (var j = 0, childRenMenuLen = childRenMenu.length; j < childRenMenuLen; j++) {
 						var id = childRenMenu[j].id;
 						var title = childRenMenu[j].menuName;
+						var menuAlias = childRenMenu[j].menuAlias;
+						if (menuAlias) {
+							index.menuAliasMap[menuAlias] = childRenMenu[j];
+						}
 						var url = basePath + childRenMenu[j].menuUrl;
 						html += "<div class='menu' onclick='addTab(\"" + id + "\", \"" + title + "\", \"" + url + "\")'>" + title + "</div>";
 					}
@@ -43,7 +48,7 @@ Ext.onReady(function(){
 	
 	/** ------------------------------------- view ------------------------------------- */
 	var left = Ext.create("Ext.panel.Panel", {
-		title: "你好，" + personName,
+		title: "你好，" + index.personName,
 		region: "west",
 		layout: "accordion",
 		width: "20%",
@@ -83,7 +88,7 @@ Ext.onReady(function(){
 	});
 
     Ext.create("Ext.panel.Panel", {
-    	renderTo: "main_" + parentMenuId,
+    	renderTo: "main_" + index.parentMenuId,
 		layout: "border",
 		border: 0,
 		width: "100%",
@@ -122,10 +127,27 @@ Ext.onReady(function(){
 		right.setActiveTab(id);
 	};
 	
-	removeTab = function(id){
-		var tab = right.queryById(id);
-		if (tab) {
-			right.remove(tab);
+	addTabByMenuAlias = function(menuAlias){
+		var menu = index.menuAliasMap[menuAlias];
+		if (menu) {
+			addTab("" + menu.id, menu.menuName, basePath + menu.menuUrl);
+		}
+	};
+	
+	removeCurrentTab = function(){
+		var currentTab = right.getActiveTab();
+		if (currentTab) {
+			right.remove(currentTab);
+		}
+	};
+	
+	removeTabByMenuAlias = function(menuAlias){
+		var menu = index.menuAliasMap[menuAlias];
+		if (menu) {
+			var tab = right.queryById("" + menu.id);
+			if (tab) {
+				right.remove(tab);
+			}
 		}
 	};
 });

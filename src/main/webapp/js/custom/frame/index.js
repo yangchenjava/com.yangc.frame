@@ -18,6 +18,14 @@ Ext.define("TopFrame", {
     ]
 });
 
+//全局参数
+var index = {
+	parentMenuId: 0,
+	personName: "",
+	userPermission: [],
+	menuAliasMap: {}
+};
+
 Ext.onReady(function(){
 	/** ------------------------------------- store ------------------------------------- */
 	Ext.create("Ext.data.Store", {
@@ -31,7 +39,7 @@ Ext.onReady(function(){
 		},
 		autoLoad: true,
 		listeners: {
-    		load: function(thiz, records, successful, eOpts){
+ 		load: function(thiz, records, successful, eOpts){
 				for (var i = 0, len = records.length; i < len; i++) {
 					body.add({
 						id: records[i].get("id"),
@@ -46,8 +54,8 @@ Ext.onReady(function(){
 					});
 				}
 				body.setActiveTab(0);
-    		}
-    	}
+ 		}
+ 	}
 	});
 	
 	/** ------------------------------------- view ------------------------------------- */
@@ -84,15 +92,15 @@ Ext.onReady(function(){
 		},
 		items: [],
 		listeners: {
-    		tabchange: function(tabPanel, newCard, oldCard, eOpts){
-    			$.get(basePath + "resource/ping/system", function(data){
-    				if (data.success) {
-    					parentMenuId = newCard.id;
-    					newCard.loader.load();
-    				} else {
-    					message.error(data.message);
-    				}
-    			});
+ 		tabchange: function(tabPanel, newCard, oldCard, eOpts){
+ 			$.get(basePath + "resource/ping/system", function(data){
+ 				if (data.success) {
+ 					index.parentMenuId = newCard.id;
+ 					newCard.loader.load();
+ 				} else {
+ 					message.error(data.message);
+ 				}
+ 			});
 			}
 		}
 	});
@@ -101,7 +109,7 @@ Ext.onReady(function(){
 		region: "south",
 		layout: "anchor",
 		border: 0,
-        height: 25,
+     height: 25,
 		tbar: new Ext.Toolbar({
 			style: {
 				"background": "#B3DFDA",
@@ -114,29 +122,29 @@ Ext.onReady(function(){
 	
 	Ext.create("Ext.Viewport", {
 		layout: {
-            type: "border",
-            padding: 1
-        },
-        items: [head, body, foot]
-    });
+         type: "border",
+         padding: 1
+     },
+     items: [head, body, foot]
+ });
 	
 	var panel_changePassword = Ext.create("Ext.form.Panel", {
-        bodyPadding: 20,
-        bodyBorder: false,
-        frame: false,
+     bodyPadding: 20,
+     bodyBorder: false,
+     frame: false,
 		header: false,
-        fieldDefaults: {
-            labelAlign: "right",
-            labelWidth: 60,
-            anchor: "100%"
-        },
-        items: [
+     fieldDefaults: {
+         labelAlign: "right",
+         labelWidth: 60,
+         anchor: "100%"
+     },
+     items: [
 			{id: "password", xtype: "textfield", inputType:"password", fieldLabel: "原密码", allowBlank: false, invalidText: "请输入原密码！", vtype: "password"},
 			{id: "newPassword_1", xtype: "textfield", inputType:"password", fieldLabel: "新密码", allowBlank: false, invalidText: "请输入新密码！", vtype: "password"},
 			{id: "newPassword_2", xtype: "textfield", inputType:"password", fieldLabel: "确认密码", allowBlank: false, invalidText: "请输入确认密码！", vtype: "password", validator: validatorPasswordRepeatHandler}
 		]
 	});
-    var window_changePassword = Ext.create("Ext.window.Window", {
+ var window_changePassword = Ext.create("Ext.window.Window", {
 		title: "修改密码",
 		layout: "fit",
 		width: 350,
@@ -150,13 +158,13 @@ Ext.onReady(function(){
 		resizable: false,
 		items: [panel_changePassword],
 		buttonAlign: "right",
-        buttons: [
-            {text: "确定", handler: changePasswordHandler}, "-",
+     buttons: [
+         {text: "确定", handler: changePasswordHandler}, "-",
 			{text: "取消", handler: function(){window_changePassword.hide();}}
-        ]
+     ]
 	});
-    
-    /** ------------------------------------- handler ------------------------------------- */
+ 
+ /** ------------------------------------- handler ------------------------------------- */
 	function changePassword(){
 		panel_changePassword.getForm().reset();
 		window_changePassword.show();
@@ -195,12 +203,17 @@ Ext.onReady(function(){
 	function validatorPasswordRepeatHandler(){
 		var newPassword_1 = Ext.getCmp("newPassword_1");
 		var newPassword_2 = Ext.getCmp("newPassword_2");
-    	if (newPassword_2.getValue().length > 0 && newPassword_1.getValue() != newPassword_2.getValue()) {
-    		newPassword_2.invalidText = "两次输入的密码不相同！";
+ 	if (newPassword_2.getValue().length > 0 && newPassword_1.getValue() != newPassword_2.getValue()) {
+ 		newPassword_2.invalidText = "两次输入的密码不相同！";
 			return newPassword_2.invalidText;
 		}
-    	return true;
-    }
+ 	return true;
+ }
+	
+	// 查询用户权限
+	$.post(basePath + "resource/acl/getUserPermission", function(data){
+		index.userPermission = data;
+	});
 	
 	// 校验当前用户密码是否为初始密码
 	$.post(basePath + "resource/user/checkPassword", function(data){
@@ -217,4 +230,8 @@ Ext.onReady(function(){
 			}).show();
 		}
 	});
+	
+	hasPermission = function(permission){
+		return $.inArray(permission, index.userPermission) == -1 ? false : true;
+	};
 });
