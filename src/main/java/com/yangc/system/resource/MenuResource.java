@@ -82,7 +82,7 @@ public class MenuResource {
 	public Response getMenuTreeList(@FormParam("parentMenuId") Long parentMenuId) {
 		logger.info("getMenuTreeList - parentMenuId=" + parentMenuId);
 		try {
-			List<MenuTree> menuTreeList = this.menuService.getMenuListByParentMenuId(parentMenuId);
+			List<MenuTree> menuTreeList = this.menuService.getMenuTreeListByParentMenuId(parentMenuId);
 			return Response.ok(menuTreeList).build();
 		} catch (Exception e) {
 			e.printStackTrace();
