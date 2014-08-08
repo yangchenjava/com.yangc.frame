@@ -28,7 +28,7 @@ import org.apache.shiro.subject.Subject;
 import com.yangc.bean.ResultBean;
 import com.yangc.exception.WebApplicationException;
 import com.yangc.shiro.utils.ShiroUtils;
-import com.yangc.system.bean.oracle.TSysUser;
+import com.yangc.system.bean.TSysUser;
 import com.yangc.system.service.UserService;
 import com.yangc.utils.Constants;
 import com.yangc.utils.Message;

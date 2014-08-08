@@ -3,7 +3,7 @@ package com.yangc.system.service.impl;
 import java.util.List;
 
 import com.yangc.dao.BaseDao;
-import com.yangc.system.bean.oracle.TSysRole;
+import com.yangc.system.bean.TSysRole;
 import com.yangc.system.service.AclService;
 import com.yangc.system.service.RoleService;
 import com.yangc.system.service.UsersrolesService;

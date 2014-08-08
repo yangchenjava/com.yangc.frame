@@ -7,8 +7,8 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
 import com.yangc.dao.BaseDao;
-import com.yangc.system.bean.oracle.TSysPerson;
-import com.yangc.system.bean.oracle.TSysUser;
+import com.yangc.system.bean.TSysPerson;
+import com.yangc.system.bean.TSysUser;
 import com.yangc.system.service.PersonService;
 import com.yangc.system.service.UserService;
 import com.yangc.utils.lang.PinyinUtils;

@@ -5,7 +5,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 
 import com.yangc.dao.BaseDao;
-import com.yangc.system.bean.oracle.TSysUser;
+import com.yangc.system.bean.TSysUser;
 import com.yangc.system.service.UserService;
 import com.yangc.system.service.UsersrolesService;
 import com.yangc.utils.Constants;

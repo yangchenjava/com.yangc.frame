@@ -3,7 +3,7 @@ package com.yangc.system.service.impl;
 import java.util.List;
 
 import com.yangc.dao.BaseDao;
-import com.yangc.system.bean.oracle.TSysUsersroles;
+import com.yangc.system.bean.TSysUsersroles;
 import com.yangc.system.service.UsersrolesService;
 
 @SuppressWarnings("unchecked")

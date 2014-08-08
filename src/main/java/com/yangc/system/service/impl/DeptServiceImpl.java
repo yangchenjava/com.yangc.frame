@@ -3,7 +3,7 @@ package com.yangc.system.service.impl;
 import java.util.List;
 
 import com.yangc.dao.BaseDao;
-import com.yangc.system.bean.oracle.TSysDepartment;
+import com.yangc.system.bean.TSysDepartment;
 import com.yangc.system.service.DeptService;
 import com.yangc.system.service.PersonService;
 import com.yangc.utils.BeanUtils;

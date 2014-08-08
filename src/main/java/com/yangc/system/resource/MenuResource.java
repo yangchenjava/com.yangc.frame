@@ -15,9 +15,9 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.yangc.bean.ResultBean;
 import com.yangc.exception.WebApplicationException;
 import com.yangc.shiro.utils.ShiroUtils;
-import com.yangc.system.bean.oracle.MenuTree;
-import com.yangc.system.bean.oracle.Permission;
-import com.yangc.system.bean.oracle.TSysMenu;
+import com.yangc.system.bean.MenuTree;
+import com.yangc.system.bean.Permission;
+import com.yangc.system.bean.TSysMenu;
 import com.yangc.system.service.MenuService;
 
 @Path("/menu")

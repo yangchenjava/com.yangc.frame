@@ -8,9 +8,9 @@ import java.util.Map.Entry;
 
 import com.yangc.dao.BaseDao;
 import com.yangc.dao.JdbcDao;
-import com.yangc.system.bean.oracle.AuthTree;
-import com.yangc.system.bean.oracle.Permission;
-import com.yangc.system.bean.oracle.TSysAcl;
+import com.yangc.system.bean.AuthTree;
+import com.yangc.system.bean.Permission;
+import com.yangc.system.bean.TSysAcl;
 import com.yangc.system.service.AclService;
 
 public class AclServiceImpl implements AclService {
