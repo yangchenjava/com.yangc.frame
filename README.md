@@ -12,7 +12,7 @@ yangchen 1<br />
 wangsheng 123456<br />
 
 ### shiro
-使用shiro实现登录认证和权限控制，将shiro默认的ehcache缓存改为使用redis缓存，通过配置文件，配置redis的分布式策略。
+使用shiro实现登录认证和权限控制，将shiro默认的ehcache缓存改为使用redis缓存，通过配置文件，配置redis的集群策略。
 
 ### jersey
 通过jersey实现标准的rest请求格式。（所谓rest，无非是一种思维方式。rest面向的重点是服务、资源，访问者可以是浏览器或者手机app，重点在于给消费者提供怎样的服务。传统的请求方式，消费者是浏览器，受用者是web页面）
