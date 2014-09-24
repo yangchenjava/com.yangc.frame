@@ -2,7 +2,7 @@ package com.yangc.system.service.impl;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.yangc.dao.BaseDao;
 import com.yangc.system.bean.TSysUser;
