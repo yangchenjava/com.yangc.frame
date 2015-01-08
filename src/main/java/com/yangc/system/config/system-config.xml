@@ -47,6 +47,7 @@
 	<bean id="fileService" class="com.yangc.system.service.impl.FileServiceImpl" />
 
 	<!-- aop -->
+	<!-- 
 	<bean id="menuAop" class="com.yangc.system.aop.MenuAop" />
 
 	<aop:config>
@@ -68,6 +69,7 @@
 			<aop:around method="mainMenuCacheAroundMethod" pointcut-ref="getMainFrame" />
 		</aop:aspect>
 	</aop:config>
+	 -->
 
 	<!-- resource -->
 	<bean id="pingResource" class="com.yangc.system.resource.PingResource" />
