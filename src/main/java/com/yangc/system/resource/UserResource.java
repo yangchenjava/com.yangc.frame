@@ -26,6 +26,7 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
 import com.yangc.bean.ResultBean;
+import com.yangc.common.StatusCode;
 import com.yangc.exception.WebApplicationException;
 import com.yangc.shiro.utils.ShiroUtils;
 import com.yangc.system.bean.TSysUser;
@@ -70,7 +71,7 @@ public class UserResource {
 			resultBean.setMessage(e.getMessage());
 			if ((Integer) session.getAttribute(Constants.ENTER_COUNT) >= Integer.parseInt(Message.getMessage("shiro.captcha"))) {
 				session.setAttribute(Constants.NEED_CAPTCHA, "NEED_CAPTCHA");
-				resultBean.setOther("captcha");
+				resultBean.setStatusCode(StatusCode.CAPTCHA_ERROR);
 			}
 			return Response.ok(resultBean).build();
 		} catch (Exception e) {
