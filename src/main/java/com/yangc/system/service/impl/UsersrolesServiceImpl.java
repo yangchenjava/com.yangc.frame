@@ -6,7 +6,6 @@ import com.yangc.dao.BaseDao;
 import com.yangc.system.bean.TSysUsersroles;
 import com.yangc.system.service.UsersrolesService;
 
-@SuppressWarnings("unchecked")
 public class UsersrolesServiceImpl implements UsersrolesService {
 
 	private BaseDao baseDao;

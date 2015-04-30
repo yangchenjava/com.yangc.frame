@@ -8,7 +8,6 @@ import com.yangc.system.service.DeptService;
 import com.yangc.system.service.PersonService;
 import com.yangc.utils.BeanUtils;
 
-@SuppressWarnings("unchecked")
 public class DeptServiceImpl implements DeptService {
 
 	private BaseDao baseDao;
@@ -16,7 +15,7 @@ public class DeptServiceImpl implements DeptService {
 
 	@Override
 	public void addOrUpdateDept(Long deptId, String deptName, Long serialNum) {
-		TSysDepartment dept = (TSysDepartment) this.baseDao.get(TSysDepartment.class, deptId);
+		TSysDepartment dept = this.baseDao.get(TSysDepartment.class, deptId);
 		if (dept == null) {
 			dept = new TSysDepartment();
 		}

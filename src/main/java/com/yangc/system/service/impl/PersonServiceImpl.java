@@ -13,7 +13,6 @@ import com.yangc.system.service.PersonService;
 import com.yangc.system.service.UserService;
 import com.yangc.utils.lang.PinyinUtils;
 
-@SuppressWarnings("unchecked")
 public class PersonServiceImpl implements PersonService {
 
 	private BaseDao baseDao;
@@ -31,7 +30,7 @@ public class PersonServiceImpl implements PersonService {
 		}
 
 		// 保存person
-		TSysPerson person = (TSysPerson) this.baseDao.get(TSysPerson.class, personId);
+		TSysPerson person = this.baseDao.get(TSysPerson.class, personId);
 		if (person == null) {
 			person = new TSysPerson();
 		}
@@ -60,7 +59,7 @@ public class PersonServiceImpl implements PersonService {
 
 	@Override
 	public TSysPerson getPersonByPersonId(Long personId) {
-		return (TSysPerson) this.baseDao.get("from TSysPerson where id = ?", new Object[] { personId });
+		return this.baseDao.get("from TSysPerson where id = ?", new Object[] { personId });
 	}
 
 	@Override

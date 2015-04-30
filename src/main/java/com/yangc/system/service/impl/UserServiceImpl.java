@@ -11,7 +11,6 @@ import com.yangc.system.service.UsersrolesService;
 import com.yangc.utils.Constants;
 import com.yangc.utils.lang.NumberUtils;
 
-@SuppressWarnings("unchecked")
 public class UserServiceImpl implements UserService {
 
 	private BaseDao baseDao;
@@ -19,7 +18,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void addOrUpdateUser(Long userId, String username, Long personId, String roleIds) {
-		TSysUser user = (TSysUser) this.baseDao.get(TSysUser.class, userId);
+		TSysUser user = this.baseDao.get(TSysUser.class, userId);
 		if (user == null) {
 			user = new TSysUser();
 			user.setPassword(Constants.DEFAULT_PASSWORD);
@@ -51,12 +50,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public TSysUser getUserByUsername(String username) {
-		return (TSysUser) this.baseDao.get("from TSysUser where username = ?", new Object[] { username });
+		return this.baseDao.get("from TSysUser where username = ?", new Object[] { username });
 	}
 
 	@Override
 	public TSysUser getUserByPersonId(Long personId) {
-		return (TSysUser) this.baseDao.get("from TSysUser where personId = ?", new Object[] { personId });
+		return this.baseDao.get("from TSysUser where personId = ?", new Object[] { personId });
 	}
 
 	@Override
