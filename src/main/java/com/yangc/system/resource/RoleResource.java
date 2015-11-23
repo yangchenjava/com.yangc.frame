@@ -9,7 +9,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 import com.yangc.bean.DataGridBean;
@@ -23,7 +24,7 @@ import com.yangc.system.service.RoleService;
 @Path("/role")
 public class RoleResource {
 
-	private static final Logger logger = Logger.getLogger(RoleResource.class);
+	private static final Logger logger = LogManager.getLogger(RoleResource.class);
 
 	private RoleService roleService;
 

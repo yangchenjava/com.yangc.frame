@@ -11,7 +11,8 @@ import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.shiro.authz.UnauthorizedException;
 
 import com.yangc.bean.ResultBean;
@@ -20,7 +21,7 @@ import com.yangc.utils.Constants;
 @Provider
 public class GlobalExceptionHandler implements ExceptionMapper<Exception> {
 
-	public static final Logger logger = Logger.getLogger(GlobalExceptionHandler.class);
+	public static final Logger logger = LogManager.getLogger(GlobalExceptionHandler.class);
 
 	@Context
 	private UriInfo uriInfo;

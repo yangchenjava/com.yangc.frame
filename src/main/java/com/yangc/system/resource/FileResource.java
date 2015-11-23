@@ -9,7 +9,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.sun.jersey.core.header.ContentDisposition;
 import com.sun.jersey.multipart.FormDataBodyPart;
@@ -21,7 +22,7 @@ import com.yangc.system.service.FileService;
 @Path("/file")
 public class FileResource {
 
-	private static final Logger logger = Logger.getLogger(FileResource.class);
+	private static final Logger logger = LogManager.getLogger(FileResource.class);
 
 	private FileService fileService;
 

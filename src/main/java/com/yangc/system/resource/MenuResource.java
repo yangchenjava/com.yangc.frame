@@ -9,7 +9,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 
 import com.yangc.bean.ResultBean;
@@ -23,7 +24,7 @@ import com.yangc.system.service.MenuService;
 @Path("/menu")
 public class MenuResource {
 
-	private static final Logger logger = Logger.getLogger(MenuResource.class);
+	private static final Logger logger = LogManager.getLogger(MenuResource.class);
 
 	private MenuService menuService;
 

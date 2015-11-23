@@ -12,14 +12,15 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.yangc.common.Pagination;
 import com.yangc.common.PaginationThreadUtils;
 
 public class PaginationFilter implements Filter {
 
-	private static final Logger logger = Logger.getLogger(PaginationFilter.class);
+	private static final Logger logger = LogManager.getLogger(PaginationFilter.class);
 
 	// 前端js对分页请求的名字
 	private static final String PAGE_SIZE = "limit";
