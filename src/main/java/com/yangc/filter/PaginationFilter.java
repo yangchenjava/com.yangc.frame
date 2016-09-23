@@ -12,6 +12,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -50,17 +51,17 @@ public class PaginationFilter implements Filter {
 				if (StringUtils.isBlank(pageNow)) {
 					pagination.setPageNow(1);
 				} else {
-					pagination.setPageNow(Integer.parseInt(pageNow));
+					pagination.setPageNow(NumberUtils.toInt(pageNow, 1));
 				}
 			}
 			// 设置每页的行数
 			if (params.get(PAGE_SIZE) != null) {
 				String pageSize = params.get(PAGE_SIZE)[0];
 				if (StringUtils.isNotBlank(pageSize)) {
-					pagination.setPageSize(Integer.parseInt(pageSize));
+					pagination.setPageSize(NumberUtils.toInt(pageSize));
 				}
 			}
-			logger.info("PaginationFilter - pageNow=" + pagination.getPageNow() + ", pageSize=" + pagination.getPageSize());
+			logger.info("PaginationFilter - pageNow={}, pageSize={}", pagination.getPageNow(), pagination.getPageSize());
 		}
 		chain.doFilter(request, response);
 		PaginationThreadUtils.clear();
