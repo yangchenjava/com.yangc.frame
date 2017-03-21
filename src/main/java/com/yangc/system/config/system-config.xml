@@ -50,7 +50,7 @@
 	<!-- 
 	<bean id="menuAop" class="com.yangc.system.aop.MenuAop" />
 
-	<aop:config>
+	<aop:config proxy-target-class="true">
 		<aop:aspect id="menuAspect" ref="menuAop">
 			<aop:pointcut id="addOrUpdateAcl" expression="execution(* com.*.system.service.AclService.addOrUpdateAcl(..))" />
 			<aop:pointcut id="delAcl" expression="execution(* com.*.system.service.AclService.delAcl(..))" />
