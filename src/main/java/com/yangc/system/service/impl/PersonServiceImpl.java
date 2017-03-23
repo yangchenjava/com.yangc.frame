@@ -37,7 +37,7 @@ public class PersonServiceImpl implements PersonService {
 		person.setName(name);
 		person.setSex(sex);
 		person.setPhone(phone);
-		person.setSpell(PinyinUtils.getPinyin(name) + " " + PinyinUtils.getPinyinHead(name));
+		person.setSpell(PinyinUtils.getPinyin(name) + " " + PinyinUtils.getPinyinFirst(name));
 		person.setDeptId(deptId);
 		this.baseDao.saveOrUpdate(person);
 
